@@ -1,0 +1,5 @@
+1. Instalar IIS
+    --> https://enterprise.arcgis.com/es/web-adaptor/latest/install/iis/enable-iis-10-components-server.htm
+
+2. Publicar react
+    --> https://dev.to/sumitkharche/how-to-deploy-react-application-on-iis-server-1ied
