@@ -15,6 +15,10 @@
     padding: 1rem;
 }
 
+.menu_principal__item__manual{
+    background-color: rgb(76, 128, 61);
+}
+
 .menu_principal__item span{
     color: white;
     text-decoration: none;

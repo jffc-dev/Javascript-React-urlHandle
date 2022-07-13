@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Constants from '../../constants';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import axios from 'axios';
 import './random_db.css';
@@ -16,7 +17,7 @@ function Random() {
     }, []);
 
     React.useEffect(() => {
-        axios.get('http://localhost:3000/api/urls/')
+        axios.get(Constants.urlBackend+'/api/urls/')
         .then(res => {
             setCadenas(arrayObjectsToString(res.data.urls));
         })

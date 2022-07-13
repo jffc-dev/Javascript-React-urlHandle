@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container} from 'react-bootstrap';
+import Constants from '../../constants';
 import { ReactNotifications, Store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import axios from 'axios';
@@ -23,7 +24,7 @@ function Random() {
     }
 
     const crearCadenas = () => {
-        axios.post('http://localhost:3000/api/urls/', {
+        axios.post(Constants.urlBackend+'/api/urls/', {
             urls: cadenas
         })
         .then(function (response) {

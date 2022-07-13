@@ -1,0 +1,36 @@
+table{
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    table-layout: fixed;
+  width: 100%;
+}
+
+table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table td {
+    padding: 8px;
+    overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+}
+
+table td.url {
+    max-width: 10%;
+}
+
+table td.date {
+    max-width: 20%;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+
+th{
+    background-color: rgb(116, 189, 94);
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: white;
+}
