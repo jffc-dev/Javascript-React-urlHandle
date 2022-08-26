@@ -54,8 +54,8 @@ function Random() {
         <>
             <ReactNotifications style={{ marginRight: '100px' }}/>
             <Container style={{paddingTop: '80px'}}>
-                <div className='random__contenedor'>
-                    <div className='random__contenedor__textarea'>
+                <div className='creacion'>
+                    <div className='creacion__textarea'>
                         <textarea 
                             style={{ width: '100%', height: '100%' }} 
                             value={cadenas} 
@@ -64,7 +64,7 @@ function Random() {
                         </textarea>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div className='random__contenedor__parte'>
+                        <div className='creacion__parte'>
                             <button onClick={() => { crearCadenas() }}>Crear cadenas</button>
                         </div>
                     </div>

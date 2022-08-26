@@ -24,30 +24,41 @@ function ListDB() {
         setCadenasFiltro(cadenas.filter(cadena=>cadena.url.toLowerCase().includes(event.target.value.toLowerCase())))
     }
 
-    const cargarUrl = (idCadena) => {
-        axios.post(Constants.urlBackend+'/api/urls/cargar/', {
+    const cargarUrl = async(idCadena) => {
+        await axios.post(Constants.urlBackend+'/api/urls/cargar/', {
             id: idCadena
         })
         .then(async(response) => {
             if(response.status === 201){
-                console.log(response.data);
                 const { value: formValues } = await Swal.fire({
-                    title: 'Multiple inputs',
+                    title: 'Obtención de título',
                     html:
                         `<span><b>Para la url:</b> ${response.data.contenido.url}</span>`+
                         `<br/><span><b>Se encontró el título:</b></span>`+
-                        `<input id="swal-input1" class="swal2-input" value="${response.data.contenido.titulo.toString()}"}>`,
+                        `<br/><textarea id="swal-input1" style="width: 100%">${response.data.contenido.titulo.toString()}</textarea>`,
                     focusConfirm: false,
-                    preConfirm: () => {
-                        return [
-                        document.getElementById('swal-input1').value,
-                        document.getElementById('swal-input2').value
-                        ]
+                    preConfirm: async() => {
+                        const titulo = document.getElementById('swal-input1').value
+
+                        const data = await axios.patch(Constants.urlBackend+'/api/urls/add-title/'+idCadena, {
+                            title: titulo
+                        })
+                        .then((response) => {
+                            if(response.status === 201){
+                                return response.data
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                        console.log(data);
+                        return data
                     }
                 })
                 
                 if (formValues) {
-                    Swal.fire(JSON.stringify(formValues))
+                    Swal.fire(formValues.msg)
                 }
             };
         })

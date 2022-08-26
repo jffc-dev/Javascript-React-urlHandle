@@ -1,31 +1,20 @@
 import React, { useState } from 'react';
 import Constants from '../../constants';
-import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import axios from 'axios';
 import './random_db.css';
 
 function Random() {
-    const [cadenas, setCadenas] = useState("")
+    const [cadenas, setCadenas] = useState([])
     const [nroResultados, setnroResultados] = useState(1)
-    const [cadenasResultado, setCadenasResultado] = useState("")
-    const [cadenasResultadoArray, setCadenasResultadoArray] = useState("")
     const [linkCount, setLinkCount] = useState(-1)
+    const [currentLink, setCurrentLink] = useState(-1)
     const intervalRef = React.useRef(null);
   
     React.useEffect(() => {
       return () => stopCounter();
     }, []);
 
-    React.useEffect(() => {
-        axios.get(Constants.urlBackend+'/api/urls/')
-        .then(res => {
-            setCadenas(arrayObjectsToString(res.data.urls));
-        })
-    }, []);
-
-    const handleChangeCadenas = (event) => {
-        setCadenas(event.target.value);
-    }
     const handleChangeResultados = (event) => {
         setnroResultados(event.target.value);
     }
@@ -44,72 +33,88 @@ function Random() {
         }, 100);
       };
     
-      const stopCounter = () => {
+    const stopCounter = () => {
         if (intervalRef.current) {
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
         }
-      };
+    };
 
-    const arrayToString = (array) => {
-        let cadena = ""
-        array.forEach((item) => {
-            if (cadena !== "")
-                cadena += "\n"
-            cadena += `${item}`
+    const obtenerCadenas = async() => {
+        await axios.get(Constants.urlBackend+'/api/urls-random/'+nroResultados)
+        .then(res => {
+            setCadenas(res.data.urls);
+            setLinkCount(res.data.urls.length)
+            setCurrentLink(0)
         })
-        return cadena;
-    }
-
-    const arrayObjectsToString = (array) => {
-        let cadena = ""
-        array.forEach((item) => {
-            if (cadena !== "")
-                cadena += "\n"
-            cadena += `${item.url}`
-        })
-        return cadena;
-    }
-
-    const obtenerCadenas = () => {
-        let arrayCadenas = cadenas.split("\n")
-        let cadenasResultado = []
-        while (cadenasResultado.length < nroResultados) {
-            let item = arrayCadenas[Math.floor(Math.random() * arrayCadenas.length)];
-            if (!cadenasResultado.includes(item)) {
-                cadenasResultado.push(item)
-            }
-        }
-        setCadenasResultado(arrayToString(cadenasResultado));
-        setCadenasResultadoArray(cadenasResultado);
-        setLinkCount(0);
     }
     const abrirUrls = () => {
         Object.assign(document.createElement('a'), {
             target: '_blank',
-            href: cadenasResultadoArray.at(linkCount),
+            href: cadenas.at(currentLink).url,
         }).click();
-        setLinkCount((linkCount === cadenasResultadoArray.length - 1) ? -1 : linkCount + 1);
+        setLinkCount((currentLink === cadenas.length - 1) ? -1 : linkCount + 1);
+        setCurrentLink(currentLink + 1);
     }
+
+    const abrirUrlEspecifica = (cadena) => {
+        console.log(cadena)
+        Object.assign(document.createElement('a'), {
+            target: '_blank',
+            href: cadena.url,
+        }).click();
+    }
+
     return (
         <Container style={{paddingTop: '80px'}}>
-            <div className='random__contenedor'>
-                <div className='random__contenedor__textarea'>
-                    <textarea style={{ width: '100%', height: '100%' }} value={cadenas} onChange={handleChangeCadenas}></textarea>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div className='random__contenedor__parte'>
-                        <div className='random__contenedor__parte__contador'>
-                            <button onClick={()=>{handleContador("-")}} onMouseDown={()=>{startCounter("-")}} onMouseUp={stopCounter} onMouseLeave={stopCounter}>-</button>
-                            <input value={nroResultados} onChange={handleChangeResultados}></input>
-                            <button onClick={()=>{handleContador("+")}} onMouseDown={()=>{startCounter("+")}} onMouseUp={stopCounter} onMouseLeave={stopCounter}>+</button>
+            <div>
+                <div className='random__contenedor'>
+                    <div className='random__contenedor__contador'>
+                        <button onClick={()=>{handleContador("-")}} onMouseDown={()=>{startCounter("-")}} onMouseUp={stopCounter} onMouseLeave={stopCounter}>-</button>
+                        <input value={nroResultados} onChange={handleChangeResultados}></input>
+                        <button onClick={()=>{handleContador("+")}} onMouseDown={()=>{startCounter("+")}} onMouseUp={stopCounter} onMouseLeave={stopCounter}>+</button>
+                    </div>
+                    <div className='random__contenedor__botones'>
+                        <div className='random__contenedor__botones_btn'>
+                            <button onClick={() => { obtenerCadenas() }}>Obtener cadenas</button>
                         </div>
-                        <button onClick={() => { obtenerCadenas() }}>Obtener cadenas</button>
-                        <button disabled={linkCount === -1} onClick={() => { abrirUrls() }}>Abrir URL</button>
+                        <div className='random__contenedor__botones_btn'>
+                            <button disabled={linkCount === -1} onClick={() => { abrirUrls() }}>Abrir URL</button>
+                            <div className='random__contenedor__botones_div'>{(currentLink === -1) ? '' : currentLink + 1}</div>
+                        </div>
                     </div>
                 </div>
-                <div className='random__contenedor__textarea'>
-                    <textarea style={{ width: '100%', height: '100%' }} value={cadenasResultado} onChange={() => {  }} disabled></textarea>
+                <div className='random__tabla'>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style={{width: '5%'}}></th>
+                                <th style={{width: '10%'}}>NRO</th>
+                                <th>URL</th>
+                                <th style={{width: '20%'}}>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cadenas.length ? cadenas.map((cadena,index)=>(
+                                <tr key={index}>
+                                    <td className='url'>
+                                        {(currentLink === index) && '->'}
+                                    </td>
+                                    <td style={{width: '10%'}}>
+                                        {index+1}
+                                    </td>
+                                    <td className='url'>
+                                        {cadena.url}
+                                    </td>
+                                    <td>
+                                        <button onClick={()=>{abrirUrlEspecifica(cadena)}}>Ver</button>
+                                    </td>
+                                </tr>
+                            )) : 
+                                <tr><td colSpan={4} style={{textAlign: 'center'}}>No se cargaron registros</td></tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </Container>

@@ -28,14 +28,14 @@
   color: #61dafb;
 }
 
-.random__contenedor{
+.random__contenedor_old{
   display: flex;
   width: 100%;
   height: 100%;
   justify-content: center;
 }
 
-.random__contenedor__parte{
+.random__contenedor_old__parte{
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -43,19 +43,19 @@
   gap: 10px;
 }
 
-.random__contenedor__textarea{
+.random__contenedor_old__textarea{
   flex-grow: 3;
 }
 
-.random__contenedor__parte__contador{
+.random__contenedor_old__parte__contador{
   display: flex;
 }
 
-.random__contenedor__parte__contador button{
+.random__contenedor_old__parte__contador button{
   width: 15%;
 }
 
-.random__contenedor__parte__contador input{
+.random__contenedor_old__parte__contador input{
   width: 70%;
   text-align: center;
   
