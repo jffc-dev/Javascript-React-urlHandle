@@ -15,8 +15,9 @@ function Random() {
     const [busqueda, setBusqueda] = useState("")
 
     const UrlRandom = class {
-        constructor(_id, url, title) {
+        constructor(_id, index, url, title) {
             this._id = _id;
+            this.index = index;
             this.url = url;
             this.title = title;
         }
@@ -61,7 +62,7 @@ function Random() {
         .then(res => {
             const datos = res.data.urls;
             const cadenasClase = [];
-            datos.map((cadena)=>{
+            datos.map((cadena, index)=>{
                 let maxReset = null;
 
                 if(cadena.resets){
@@ -71,7 +72,7 @@ function Random() {
                     });
                 }
 
-                cadenasClase.push(new UrlRandom(cadena._id, cadena.resets ? maxReset.url : cadena.url, ''))
+                cadenasClase.push(new UrlRandom(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, ''))
             })
             setCadenas(cadenasClase);
             setCadenasFiltro(cadenasClase);
@@ -184,14 +185,14 @@ function Random() {
                             </tr>
                         </thead>
                         <tbody>
-                            {cadenasFiltro.length ? cadenasFiltro.map((cadena,index)=>
+                            {cadenasFiltro.length ? cadenasFiltro.map((cadena, index)=>
                                 (
                                     <tr key={index}>
                                         <td className='url'>
-                                            {(currentLink === index) && '->'}
+                                            {(currentLink === cadena.index) && '->'}
                                         </td>
                                         <td style={{width: '10%'}}>
-                                            {index+1}
+                                            {cadena.index}
                                         </td>
                                         <td className='url'>
                                             {cadena.url}
