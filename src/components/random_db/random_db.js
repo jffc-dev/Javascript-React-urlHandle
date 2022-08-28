@@ -7,10 +7,12 @@ import './random_db.css';
 
 function Random() {
     const [cadenas, setCadenas] = useState([])
+    const [cadenasFiltro, setCadenasFiltro] = useState([])
     const [nroResultados, setnroResultados] = useState(1)
     const [linkCount, setLinkCount] = useState(-1)
     const [currentLink, setCurrentLink] = useState(-1)
     const intervalRef = React.useRef(null);
+    const [busqueda, setBusqueda] = useState("")
 
     const UrlRandom = class {
         constructor(_id, url, title) {
@@ -26,6 +28,11 @@ function Random() {
 
     const handleChangeResultados = (event) => {
         setnroResultados(event.target.value);
+    }
+
+    const onChangeSearch = (event) => {
+        setBusqueda(event.target.value)
+        setCadenasFiltro(cadenas.filter(cadena=>cadena.url.toLowerCase().includes(event.target.value.toLowerCase())))
     }
 
     const handleContador = (operacion) => {
@@ -67,6 +74,7 @@ function Random() {
                 cadenasClase.push(new UrlRandom(cadena._id, cadena.resets ? maxReset.url : cadena.url, ''))
             })
             setCadenas(cadenasClase);
+            setCadenasFiltro(cadenasClase);
             setLinkCount(cadenasClase.length)
             setCurrentLink(0)
         })
@@ -165,17 +173,18 @@ function Random() {
                     </div>
                 </div>
                 <div className='random__tabla'>
+                    <input value={busqueda} onChange={onChangeSearch} style={{display: 'inline-block', width: '100%', marginBottom: '1rem'}}/>
                     <table>
                         <thead>
                             <tr>
-                                <th style={{width: '5%'}}></th>
-                                <th style={{width: '10%'}}>NRO</th>
+                                <th style={{width: '4%'}}></th>
+                                <th style={{width: '6%'}}>NRO</th>
                                 <th>URL</th>
                                 <th style={{width: '20%'}}>Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {cadenas.length ? cadenas.map((cadena,index)=>
+                            {cadenasFiltro.length ? cadenasFiltro.map((cadena,index)=>
                                 (
                                     <tr key={index}>
                                         <td className='url'>
