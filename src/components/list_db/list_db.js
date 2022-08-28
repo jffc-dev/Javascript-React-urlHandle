@@ -52,7 +52,6 @@ function ListDB() {
                             console.log(error);
                         });
 
-                        console.log(data);
                         return data
                     }
                 })

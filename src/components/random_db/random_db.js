@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Constants from '../../constants';
 import { Container } from 'react-bootstrap';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 import './random_db.css';
 
 function Random() {
@@ -10,6 +11,14 @@ function Random() {
     const [linkCount, setLinkCount] = useState(-1)
     const [currentLink, setCurrentLink] = useState(-1)
     const intervalRef = React.useRef(null);
+
+    const UrlRandom = class {
+        constructor(_id, url, title) {
+            this._id = _id;
+            this.url = url;
+            this.title = title;
+        }
+    }
   
     React.useEffect(() => {
       return () => stopCounter();
@@ -43,8 +52,22 @@ function Random() {
     const obtenerCadenas = async() => {
         await axios.get(Constants.urlBackend+'/api/urls-random/'+nroResultados)
         .then(res => {
-            setCadenas(res.data.urls);
-            setLinkCount(res.data.urls.length)
+            const datos = res.data.urls;
+            const cadenasClase = [];
+            datos.map((cadena)=>{
+                let maxReset = null;
+
+                if(cadena.resets){
+                    let idReset = Math.max(...cadena.resets.map(reset => reset._id))
+                    maxReset = cadena.resets.find(reset => {
+                        return reset._id === idReset;
+                    });
+                }
+
+                cadenasClase.push(new UrlRandom(cadena._id, cadena.resets ? maxReset.url : cadena.url, ''))
+            })
+            setCadenas(cadenasClase);
+            setLinkCount(cadenasClase.length)
             setCurrentLink(0)
         })
     }
@@ -58,11 +81,68 @@ function Random() {
     }
 
     const abrirUrlEspecifica = (cadena) => {
-        console.log(cadena)
         Object.assign(document.createElement('a'), {
             target: '_blank',
             href: cadena.url,
         }).click();
+    }
+
+    const reestablecerUrl = async(cadena) => {
+
+        await Swal.fire({
+            title: 'Reestablecer URL',
+            html:
+                `<span><b>Url actual:</b> <a href='${cadena.url}' target="_blank">Ver</a></span>`+
+                `<br/><textarea id="swal-input1" style="width: 100%"></textarea>`,
+            focusConfirm: false,
+            preConfirm: async() => {
+                const url = document.getElementById('swal-input1').value
+
+                await axios.patch(Constants.urlBackend+'/api/urls/add-reset/'+cadena._id, {
+                    newUrl: url
+                })
+                .then((response) => {
+                    if(response.status === 201){
+
+                        const {data} = response;
+
+                        if(data.status === 1){
+
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Se reestableció correctamente la url',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            
+                            let cadenasTemp = cadenas;
+
+                            const index = cadenasTemp.findIndex(object => {
+                                return object._id === cadena._id;
+                            });
+                            
+                            if (index !== -1) {
+                                cadenasTemp[index].url = data.rpta.url;
+                                setCadenas([])
+                                setCadenas(cadenasTemp)
+                            }
+
+                            
+                        }else{
+                            Swal.showValidationMessage(
+                                `<i class="fa fa-info-circle"></i>${data.msg}`
+                            )
+                        }
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+                
+            }
+        });
+        
     }
 
     return (
@@ -95,22 +175,24 @@ function Random() {
                             </tr>
                         </thead>
                         <tbody>
-                            {cadenas.length ? cadenas.map((cadena,index)=>(
-                                <tr key={index}>
-                                    <td className='url'>
-                                        {(currentLink === index) && '->'}
-                                    </td>
-                                    <td style={{width: '10%'}}>
-                                        {index+1}
-                                    </td>
-                                    <td className='url'>
-                                        {cadena.url}
-                                    </td>
-                                    <td>
-                                        <button onClick={()=>{abrirUrlEspecifica(cadena)}}>Ver</button>
-                                    </td>
-                                </tr>
-                            )) : 
+                            {cadenas.length ? cadenas.map((cadena,index)=>
+                                (
+                                    <tr key={index}>
+                                        <td className='url'>
+                                            {(currentLink === index) && '->'}
+                                        </td>
+                                        <td style={{width: '10%'}}>
+                                            {index+1}
+                                        </td>
+                                        <td className='url'>
+                                            {cadena.url}
+                                        </td>
+                                        <td>
+                                            <button onClick={()=>{abrirUrlEspecifica(cadena)}}>Ver</button>
+                                            <button onClick={()=>{reestablecerUrl(cadena)}}>Reestablecer</button>
+                                        </td>
+                                    </tr>
+                                )) : 
                                 <tr><td colSpan={4} style={{textAlign: 'center'}}>No se cargaron registros</td></tr>
                             }
                         </tbody>
