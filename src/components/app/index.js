@@ -9,8 +9,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
     return (
         <>
-            <Navbar></Navbar>
             <BrowserRouter>
+                <Navbar></Navbar>
                 <Routes>
                     <Route path='/' element={<MenuPrincipal/>} />
                     <Route path="mantenimiento">
