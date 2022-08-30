@@ -77,7 +77,7 @@ function Random() {
             setCadenas(cadenasClase);
             setCadenasFiltro(cadenasClase);
             setLinkCount(cadenasClase.length)
-            setCurrentLink(0)
+            setCurrentLink(1)
         })
     }
     const abrirUrls = () => {
@@ -169,7 +169,7 @@ function Random() {
                         </div>
                         <div className='random__contenedor__botones_btn'>
                             <button disabled={linkCount === -1} onClick={() => { abrirUrls() }}>Abrir URL</button>
-                            <div className='random__contenedor__botones_div'>{(currentLink === -1) ? '' : currentLink + 1}</div>
+                            <div className='random__contenedor__botones_div'>{(currentLink === -1) ? '' : currentLink - 1}</div>
                         </div>
                     </div>
                 </div>
