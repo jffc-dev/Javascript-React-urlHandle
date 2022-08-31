@@ -72,12 +72,13 @@ function Random() {
                     });
                 }
 
-                cadenasClase.push(new UrlRandom(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, ''))
+                cadenasClase.push(new UrlRandom(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, ''));
+                return null;
             })
             setCadenas(cadenasClase);
             setCadenasFiltro(cadenasClase);
             setLinkCount(cadenasClase.length)
-            setCurrentLink(1)
+            setCurrentLink(0)
         })
     }
     const abrirUrls = () => {
@@ -85,8 +86,9 @@ function Random() {
             target: '_blank',
             href: cadenas.at(currentLink).url,
         }).click();
-        setLinkCount((currentLink === cadenas.length - 1) ? -1 : linkCount + 1);
         setCurrentLink(currentLink + 1);
+        console.log(linkCount);
+        console.log(currentLink);
     }
 
     const abrirUrlEspecifica = (cadena) => {
@@ -168,7 +170,7 @@ function Random() {
                             <button onClick={() => { obtenerCadenas() }}>Obtener cadenas</button>
                         </div>
                         <div className='random__contenedor__botones_btn'>
-                            <button disabled={linkCount === -1} onClick={() => { abrirUrls() }}>Abrir URL</button>
+                            <button disabled={linkCount === currentLink} onClick={() => { abrirUrls() }}>Abrir URL</button>
                             <div className='random__contenedor__botones_div'>{(currentLink === -1) ? '' : currentLink - 1}</div>
                         </div>
                     </div>
