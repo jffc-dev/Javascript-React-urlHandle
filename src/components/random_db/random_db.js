@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Constants from '../../constants';
+import {abrirUrlEspecifica} from '../../utils/url.js'
 import { Container } from 'react-bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2'
@@ -89,13 +90,6 @@ function Random() {
         setCurrentLink(currentLink + 1);
         console.log(linkCount);
         console.log(currentLink);
-    }
-
-    const abrirUrlEspecifica = (cadena) => {
-        Object.assign(document.createElement('a'), {
-            target: '_blank',
-            href: cadena.url,
-        }).click();
     }
 
     const reestablecerUrl = async(cadena) => {

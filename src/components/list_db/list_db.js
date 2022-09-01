@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import Swal from 'sweetalert2'
 import Constants from '../../constants';
+import {abrirUrlEspecifica} from '../../utils/url.js'
 import axios from 'axios';
 import './list_db.css';
 
@@ -76,7 +77,7 @@ function ListDB() {
                             <tr>
                                 <th>URL</th>
                                 <th>Fecha</th>
-                                <th>Fecha</th>
+                                <th>Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,7 +90,7 @@ function ListDB() {
                                     {new Date(cadena.audi_createdDate).toLocaleString()}
                                 </td>
                                 <td>
-                                    <button disabled>Ver</button>
+                                    <button onClick={_ => abrirUrlEspecifica(cadena)}>Ver</button>
                                     <button onClick={_ => cargarUrl(cadena._id)}>Cargar</button>
                                 </td>
                             </tr>
