@@ -171,7 +171,7 @@ function Random() {
                         </div>
                         <div className='random__contenedor__botones_btn'>
                             <button disabled={linkCount === currentLink} onClick={() => { abrirUrls() }}>Abrir URL</button>
-                            <div className='random__contenedor__botones_div'>{(currentLink === -1) ? '' : currentLink - 1}</div>
+                            <div className='random__contenedor__botones_div'>{(currentLink === -1) ? '' : currentLink}</div>
                         </div>
                     </div>
                 </div>
