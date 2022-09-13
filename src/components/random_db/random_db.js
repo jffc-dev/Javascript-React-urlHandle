@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Constants from '../../constants';
-import {abrirUrlEspecifica} from '../../utils/url.js'
+import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
 import { Container } from 'react-bootstrap';
 import axios from 'axios';
-import Swal from 'sweetalert2'
 import './random_db.css';
+import { UrlRandom } from '../../models/Url';
 
 function Random() {
     const [cadenas, setCadenas] = useState([])
@@ -14,15 +14,6 @@ function Random() {
     const [currentLink, setCurrentLink] = useState(-1)
     const intervalRef = React.useRef(null);
     const [busqueda, setBusqueda] = useState("")
-
-    const UrlRandom = class {
-        constructor(_id, index, url, title) {
-            this._id = _id;
-            this.index = index;
-            this.url = url;
-            this.title = title;
-        }
-    }
   
     React.useEffect(() => {
       return () => stopCounter();
@@ -92,64 +83,6 @@ function Random() {
         console.log(currentLink);
     }
 
-    const reestablecerUrl = async(cadena) => {
-
-        await Swal.fire({
-            title: 'Reestablecer URL',
-            html:
-                `<span><b>Url actual:</b> <a href='${cadena.url}' target="_blank">Ver</a></span>`+
-                `<br/><textarea id="swal-input1" style="width: 100%"></textarea>`,
-            focusConfirm: false,
-            preConfirm: async() => {
-                const url = document.getElementById('swal-input1').value
-
-                await axios.patch(Constants.urlBackend+'/api/urls/add-reset/'+cadena._id, {
-                    newUrl: url
-                })
-                .then((response) => {
-                    if(response.status === 201){
-
-                        const {data} = response;
-
-                        if(data.status === 1){
-
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Se reestableció correctamente la url',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            
-                            let cadenasTemp = cadenas;
-
-                            const index = cadenasTemp.findIndex(object => {
-                                return object._id === cadena._id;
-                            });
-                            
-                            if (index !== -1) {
-                                cadenasTemp[index].url = data.rpta.url;
-                                setCadenas([])
-                                setCadenas(cadenasTemp)
-                            }
-
-                            
-                        }else{
-                            Swal.showValidationMessage(
-                                `<i class="fa fa-info-circle"></i>${data.msg}`
-                            )
-                        }
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-                
-            }
-        });
-        
-    }
-
     return (
         <Container style={{paddingTop: '80px'}}>
             <div>
@@ -195,7 +128,7 @@ function Random() {
                                         </td>
                                         <td>
                                             <button onClick={()=>{abrirUrlEspecifica(cadena)}}>Ver</button>
-                                            <button onClick={()=>{reestablecerUrl(cadena)}}>Reestablecer</button>
+                                            <button onClick={()=>{reestablecerUrl(cadena, cadenas, setCadenas)}}>Reestablecer</button>
                                         </td>
                                     </tr>
                                 )) : 
