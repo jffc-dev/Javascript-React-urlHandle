@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import Swal from 'sweetalert2'
 import Constants from '../../constants';
-import {abrirUrlEspecifica} from '../../utils/url.js'
+import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
 import axios from 'axios';
 import './list_db.css';
+import { Url } from '../../models/Url';
 
 function ListDB() {
 
@@ -15,8 +16,23 @@ function ListDB() {
     React.useEffect(() => {
         axios.get(Constants.urlBackend+'/api/urls/')
         .then(res => {
-            setCadenas(res.data.urls);
-            setCadenasFiltro(res.data.urls);
+            const datos = res.data.urls;
+            const cadenasClase = [];
+            datos.map((cadena, index)=>{
+                let maxReset = null;
+
+                if(cadena.resets){
+                    let idReset = Math.max(...cadena.resets.map(reset => reset._id))
+                    maxReset = cadena.resets.find(reset => {
+                        return reset._id === idReset;
+                    });
+                }
+
+                cadenasClase.push(new Url(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, '', cadena.audi_createdDate));
+                return null;
+            })
+            setCadenas(cadenasClase);
+            setCadenasFiltro(cadenasClase);
         })
     }, []);
 
@@ -87,11 +103,12 @@ function ListDB() {
                                     {cadena.url}
                                 </td>
                                 <td className='date'>
-                                    {new Date(cadena.audi_createdDate).toLocaleString()}
+                                    {new Date(cadena.dateCreated).toLocaleString()}
                                 </td>
                                 <td>
                                     <button onClick={_ => abrirUrlEspecifica(cadena)}>Ver</button>
                                     <button onClick={_ => cargarUrl(cadena._id)}>Cargar</button>
+                                    <button onClick={_ => reestablecerUrl(cadena, cadenas, setCadenas)}>Reestablecer</button>
                                 </td>
                             </tr>
                             ))}
