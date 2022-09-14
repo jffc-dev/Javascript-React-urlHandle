@@ -5,6 +5,7 @@ import { Container } from 'react-bootstrap';
 import axios from 'axios';
 import './random_db.css';
 import { UrlRandom } from '../../models/Url';
+import { KeyPressFilterComponent } from '../filters/KeyPressFilterComponent/KeyPressFilterComponent';
 
 function Random() {
     const [cadenas, setCadenas] = useState([])
@@ -13,7 +14,6 @@ function Random() {
     const [linkCount, setLinkCount] = useState(-1)
     const [currentLink, setCurrentLink] = useState(-1)
     const intervalRef = React.useRef(null);
-    const [busqueda, setBusqueda] = useState("")
   
     React.useEffect(() => {
       return () => stopCounter();
@@ -21,11 +21,6 @@ function Random() {
 
     const handleChangeResultados = (event) => {
         setnroResultados(event.target.value);
-    }
-
-    const onChangeSearch = (event) => {
-        setBusqueda(event.target.value)
-        setCadenasFiltro(cadenas.filter(cadena=>cadena.url.toLowerCase().includes(event.target.value.toLowerCase())))
     }
 
     const handleContador = (operacion) => {
@@ -103,7 +98,7 @@ function Random() {
                     </div>
                 </div>
                 <div className='random__tabla'>
-                    <input value={busqueda} onChange={onChangeSearch} style={{display: 'inline-block', width: '100%', marginBottom: '1rem'}}/>
+                    <KeyPressFilterComponent cadenas={cadenas} setCadenasFiltro={setCadenasFiltro}/>
                     <table>
                         <thead>
                             <tr>
