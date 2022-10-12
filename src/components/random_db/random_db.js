@@ -20,14 +20,17 @@ function Random() {
     }, []);
 
     const handleChangeResultados = (event) => {
-        setnroResultados(event.target.value);
+        let content = event.target.value;
+        if(parseInt(content.substr(content.length - 1))){
+            setnroResultados(content);
+        }
     }
 
     const handleContador = (operacion) => {
         if (operacion === "+")
-            setnroResultados((prevCounter) => prevCounter + 1);
+            setnroResultados((prevCounter) => parseInt(prevCounter) + 1);
         else
-            setnroResultados((prevCounter) => (prevCounter>1) ? prevCounter - 1 : prevCounter);
+            setnroResultados((prevCounter) => (parseInt(prevCounter)>1) ? parseInt(prevCounter) - 1 : parseInt(prevCounter));
     }
 
     const startCounter = (operacion) => {
