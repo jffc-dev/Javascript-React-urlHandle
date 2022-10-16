@@ -6,6 +6,7 @@ import axios from 'axios';
 import './random_db.css';
 import { UrlRandom } from '../../models/Url';
 import { KeyPressFilterComponent } from '../filters/KeyPressFilterComponent/KeyPressFilterComponent';
+import Swal from 'sweetalert2'
 
 function Random() {
     const [cadenas, setCadenas] = useState([])
@@ -48,6 +49,23 @@ function Random() {
     };
 
     const obtenerCadenas = async() => {
+
+        if(currentLink < linkCount){
+
+            const result = await Swal.fire({
+                title: 'No has terminado de recorrer la lista anterior. ¿Quieres generar una nueva?',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Generar',
+                denyButtonText: 'Volver',
+            });
+
+            if(!result.isConfirmed){
+                return;
+            }
+
+        } 
+
         await axios.get(Constants.urlBackend+'/api/urls-random/'+nroResultados)
         .then(res => {
             const datos = res.data.urls;
@@ -69,16 +87,17 @@ function Random() {
             setCadenasFiltro(cadenasClase);
             setLinkCount(cadenasClase.length)
             setCurrentLink(0)
-        })
+        });
+
     }
     const abrirUrls = () => {
+
         Object.assign(document.createElement('a'), {
             target: '_blank',
             href: cadenas.at(currentLink).url,
         }).click();
         setCurrentLink(currentLink + 1);
-        console.log(linkCount);
-        console.log(currentLink);
+        
     }
 
     return (

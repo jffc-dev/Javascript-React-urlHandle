@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import Constants from '../../constants';
 import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
 import axios from 'axios';
