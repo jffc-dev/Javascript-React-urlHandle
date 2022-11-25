@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
+import { faGlobe, faRotate, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+
 import Constants from '../../constants';
 import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
-import axios from 'axios';
 import './list_db.css';
 import { Url } from '../../models/Url';
+import GeneralTableButton from '../general/tableButton/tableButton';
 
 function ListDB() {
 
@@ -106,9 +109,15 @@ function ListDB() {
                                     {new Date(cadena.dateCreated).toLocaleString()}
                                 </td>
                                 <td>
-                                    <button onClick={_ => abrirUrlEspecifica(cadena)}>Ver</button>
-                                    <button onClick={_ => cargarUrl(cadena._id)}>Cargar</button>
-                                    <button onClick={_ => reestablecerUrl(cadena, cadenas, setCadenas)}>Reestablecer</button>
+                                    <GeneralTableButton faIcon={faGlobe} msgTooltip={"Ver"} 
+                                        action={_ => abrirUrlEspecifica(cadena)}
+                                    ></GeneralTableButton>
+                                    <GeneralTableButton faIcon={faSpinner} msgTooltip={"Cargar"} 
+                                        action={_ => cargarUrl(cadena._id)}
+                                    ></GeneralTableButton>
+                                    <GeneralTableButton faIcon={faRotate} msgTooltip={"Reestablecer"} 
+                                        action={_ => reestablecerUrl(cadena, cadenas, setCadenas)}
+                                    ></GeneralTableButton>
                                 </td>
                             </tr>
                             ))}

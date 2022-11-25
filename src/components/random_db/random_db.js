@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import Constants from '../../constants';
-import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
 import { Container } from 'react-bootstrap';
 import axios from 'axios';
-import './random_db.css';
+import Swal from 'sweetalert2'
+import { faGlobe, faRotate } from '@fortawesome/free-solid-svg-icons';
+
+import Constants from '../../constants';
+import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
 import { UrlRandom } from '../../models/Url';
 import { KeyPressFilterComponent } from '../filters/KeyPressFilterComponent/KeyPressFilterComponent';
-import Swal from 'sweetalert2'
+
+import './random_db.css';
+import GeneralTableButton from '../general/tableButton/tableButton';
 
 function Random() {
     const [cadenas, setCadenas] = useState([])
@@ -144,8 +148,12 @@ function Random() {
                                             {cadena.url}
                                         </td>
                                         <td>
-                                            <button onClick={()=>{abrirUrlEspecifica(cadena)}}>Ver</button>
-                                            <button onClick={()=>{reestablecerUrl(cadena, cadenas, setCadenas)}}>Reestablecer</button>
+                                            <GeneralTableButton faIcon={faGlobe} msgTooltip={"Ver"} 
+                                                action={()=>{abrirUrlEspecifica(cadena)}}
+                                            ></GeneralTableButton>
+                                            <GeneralTableButton faIcon={faRotate} msgTooltip={"Reestablecer"} 
+                                                action={()=>{reestablecerUrl(cadena, cadenas, setCadenas)}}
+                                            ></GeneralTableButton>
                                         </td>
                                     </tr>
                                 )) : 

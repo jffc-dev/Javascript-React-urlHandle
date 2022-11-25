@@ -1,0 +1,33 @@
+.faIcon{
+    display: inline-block;
+    width: 100%;
+}
+
+.table_button{
+    border: none;
+    background-color: rgb(0, 179, 89);
+    border-radius: 0.2rem;
+    cursor: pointer;
+    height: 100%;
+    margin-right: 0.2rem;
+}
+
+.tooltip .tooltip_text {
+    display:none;
+    position:absolute; 
+    z-index:100;
+    border:1px;
+    background-color:white;
+    border-style:solid;
+    border-width:1px;
+    border-color:red;
+    padding:3px;
+    color:red; 
+    top:20px; 
+    left:20px;
+}
+
+.tooltip:hover .tooltip_text {
+    visibility: visible;
+}
+  

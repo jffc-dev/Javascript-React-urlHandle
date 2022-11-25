@@ -1,9 +1,8 @@
-import { render } from '@testing-library/react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
-function NavbarComponent() {
+const NavbarComponent = () => {
     return (
         <Navbar collapseOnSelect expand="lg" bg="success" variant="dark" fixed='top'>
             <Container>
@@ -29,7 +28,5 @@ function NavbarComponent() {
         </Navbar>
     );
 }
-
-render(<Navbar></Navbar>)
 
 export default NavbarComponent;
