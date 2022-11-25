@@ -1,11 +1,12 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import './index.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faDatabase, faHand, faList, faAdd } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-function MenuPrincipal() {
+import './MenuPrincipalPage.css';
+
+const MenuPrincipalPage = () => {
   
     return (
         <Container style={{paddingTop: '80px'}}>
@@ -31,4 +32,4 @@ function MenuPrincipal() {
     );
 }
 
-export default MenuPrincipal;
+export default MenuPrincipalPage;

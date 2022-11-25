@@ -6,11 +6,11 @@ import axios from 'axios';
 
 import Constants from '../../constants';
 import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
-import './list_db.css';
+import './ListaUrlsBdPage.css';
 import { Url } from '../../models/Url';
-import GeneralTableButton from '../general/tableButton/tableButton';
+import GeneralTableButton from '../../components/General/TableButton/TableButton';
 
-function ListDB() {
+const ListaUrlsBdPage = () => {
 
     const [cadenas, setCadenas] = useState([])
     const [cadenasFiltro, setCadenasFiltro] = useState([])
@@ -130,4 +130,4 @@ function ListDB() {
 
 }
 
-export default ListDB;
+export default ListaUrlsBdPage;

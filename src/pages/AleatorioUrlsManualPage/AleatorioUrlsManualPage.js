@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import './index.css';
+import { Container } from 'react-bootstrap';
 
-function Random() {
+import './AleatorioUrlsManualPage.css';
+
+const AleatorioUrlsManualPage = () => {
     const [cadenas, setCadenas] = useState("")
     const [nroResultados, setnroResultados] = useState(1)
     const [cadenasResultado, setCadenasResultado] = useState("")
@@ -96,4 +97,4 @@ function Random() {
     );
 }
 
-export default Random;
+export default AleatorioUrlsManualPage;

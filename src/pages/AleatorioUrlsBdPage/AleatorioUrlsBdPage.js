@@ -7,12 +7,12 @@ import { faGlobe, faRotate } from '@fortawesome/free-solid-svg-icons';
 import Constants from '../../constants';
 import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
 import { UrlRandom } from '../../models/Url';
-import { KeyPressFilterComponent } from '../filters/KeyPressFilterComponent/KeyPressFilterComponent';
+import { KeyPressFilterComponent } from '../../components/Filtros/KeyPressFilterComponent/KeyPressFilterComponent';
 
-import './random_db.css';
-import GeneralTableButton from '../general/tableButton/tableButton';
+import './AleatorioUrlsBdPage.css';
+import GeneralTableButton from '../../components/General/TableButton/TableButton';
 
-function Random() {
+const AleatorioUrlsBdPage = () => {
     const [cadenas, setCadenas] = useState([])
     const [cadenasFiltro, setCadenasFiltro] = useState([])
     const [nroResultados, setnroResultados] = useState(1)
@@ -167,4 +167,4 @@ function Random() {
     );
 }
 
-export default Random;
+export default AleatorioUrlsBdPage;

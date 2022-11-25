@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Container} from 'react-bootstrap';
-import Constants from '../../constants';
 import { ReactNotifications, Store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import axios from 'axios';
-import './creacion_masiva.css';
 
-function Random() {
+import Constants from '../../constants';
+import './CreacionUrlsMasivaPage.css';
+
+const CreacionUrlsMasivaPage = () => {
     const [cadenas, setCadenas] = useState("");
     const [paste, setPaste] = useState(false)
 
@@ -74,4 +75,4 @@ function Random() {
     );
 }
 
-export default Random;
+export default CreacionUrlsMasivaPage;

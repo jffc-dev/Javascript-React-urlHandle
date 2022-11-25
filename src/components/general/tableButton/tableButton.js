@@ -3,9 +3,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
-import './tableButton.css';
+import './TableButton.css';
 
-const GeneralTableButton = ({faIcon, msgTooltip, action}) => {
+const TableButton = ({faIcon, msgTooltip, action}) => {
     
     const key = 'key';
 
@@ -27,4 +27,4 @@ const GeneralTableButton = ({faIcon, msgTooltip, action}) => {
 
 }
 
-export default GeneralTableButton;
+export default TableButton;
