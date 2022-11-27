@@ -34,7 +34,7 @@ const AleatorioUrlsBdPage = ({props}) => {
 
     const handleChangeResultados = (event) => {
         let content = event.target.value;
-        if(parseInt(content.substr(content.length - 1))){
+        if(parseInt(content.substr(content.length - 1)) !== null && parseInt(content.substr(content.length - 1)) !== undefined){
             setnroResultados(content);
         }
     }
@@ -76,30 +76,32 @@ const AleatorioUrlsBdPage = ({props}) => {
                 return;
             }
 
-        } 
+        }
 
-        await axios.get(Constants.urlBackend+'/api/urls-random/'+nroResultados)
-        .then(res => {
-            const datos = res.data.urls;
-            const cadenasClase = [];
-            datos.map((cadena, index)=>{
-                let maxReset = null;
+        if(nroResultados !== ''){
+            await axios.get(Constants.urlBackend+'/api/urls-random/'+nroResultados)
+            .then(res => {
+                const datos = res.data.urls;
+                const cadenasClase = [];
+                datos.map((cadena, index)=>{
+                    let maxReset = null;
 
-                if(cadena.resets){
-                    let idReset = Math.max(...cadena.resets.map(reset => reset._id))
-                    maxReset = cadena.resets.find(reset => {
-                        return reset._id === idReset;
-                    });
-                }
+                    if(cadena.resets){
+                        let idReset = Math.max(...cadena.resets.map(reset => reset._id))
+                        maxReset = cadena.resets.find(reset => {
+                            return reset._id === idReset;
+                        });
+                    }
 
-                cadenasClase.push(new UrlRandom(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, '', cadena.resets));
-                return null;
-            })
-            setCadenas(cadenasClase);
-            setCadenasFiltro(cadenasClase);
-            setLinkCount(cadenasClase.length)
-            setCurrentLink(0)
-        });
+                    cadenasClase.push(new UrlRandom(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, '', cadena.resets));
+                    return null;
+                })
+                setCadenas(cadenasClase);
+                setCadenasFiltro(cadenasClase);
+                setLinkCount(cadenasClase.length)
+                setCurrentLink(0)
+            });
+        }
 
     }
     const abrirUrls = () => {
