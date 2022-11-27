@@ -28,7 +28,7 @@ const CreacionUrlsMasivaPage = () => {
         axios.post(Constants.urlBackend+'/api/urls/', {
             urls: cadenas
         })
-        .then(function (response) {
+        .then((response) => {
             if(response.status === 201){
                 Store.addNotification({
                     title: "Operación exitosa!",
@@ -46,7 +46,7 @@ const CreacionUrlsMasivaPage = () => {
             };
             setCadenas('');
         })
-        .catch(function (error) {
+        .catch((error) => {
             console.log(error);
         });
     }

@@ -68,7 +68,7 @@ const ListaUrlsBdPage = () => {
                                 return response.data
                             }
                         })
-                        .catch(function (error) {
+                        .catch((error) => {
                             console.log(error);
                         });
 
@@ -81,7 +81,7 @@ const ListaUrlsBdPage = () => {
                 }
             };
         })
-        .catch(function (error) {
+        .catch((error) => {
             console.log(error);
         });
     }

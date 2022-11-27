@@ -6,9 +6,7 @@ export const useForm = (initialState = {}) => {
 
     useEffect(() => {
         if(!initialState.initial){
-            console.log(initialState);
             setValues(initialState);
-            console.log("test");
         }
     }, [initialState]);
 

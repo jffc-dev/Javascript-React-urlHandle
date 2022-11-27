@@ -31,7 +31,6 @@ const AleatorioUrlsBdModal = ({modalShow, setModalShow, cadenaId}) => {
         }
 
         getUrlByIdService(cadena);
-        console.log(cadenaId);
     }, [cadenaId]);    
 
     return (

@@ -47,7 +47,7 @@ export const reestablecerUrl = async(cadena, cadenas, setCadenas) => {
                     }
                 }
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.log(error);
             });
             
