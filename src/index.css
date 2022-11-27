@@ -25,3 +25,7 @@ body > #root > div {
 textarea {
   resize: none !important;
 }
+
+.form-group{
+  margin-bottom: 1rem;
+}

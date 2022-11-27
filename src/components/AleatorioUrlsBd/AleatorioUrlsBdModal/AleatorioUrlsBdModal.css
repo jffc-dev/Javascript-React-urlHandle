@@ -1,0 +1,19 @@
+.inputModal__button {
+    position: absolute;
+    top: 0;
+    border-radius: 5px;
+    right: 0px;
+    z-index: 2;
+    border: none;
+    top: 0px;
+    height: 100%;
+    width: 3rem;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(var(--green_btn_1));
+    transform: translateX(2px);
+}
+
+.inputModal__container{
+    position: relative;
+}

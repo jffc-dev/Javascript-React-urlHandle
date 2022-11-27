@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2'
-import { faGlobe, faRotate } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faGlobe, faRotate } from '@fortawesome/free-solid-svg-icons';
 
 import Constants from '../../constants';
 import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
@@ -11,14 +11,22 @@ import { KeyPressFilterComponent } from '../../components/Filtros/KeyPressFilter
 
 import './AleatorioUrlsBdPage.css';
 import GeneralTableButton from '../../components/General/TableButton/TableButton';
+import { useNavigate } from 'react-router-dom';
+import AleatorioUrlsBdModal from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModal';
 
-const AleatorioUrlsBdPage = () => {
+const AleatorioUrlsBdPage = ({props}) => {
     const [cadenas, setCadenas] = useState([])
     const [cadenasFiltro, setCadenasFiltro] = useState([])
     const [nroResultados, setnroResultados] = useState(1)
     const [linkCount, setLinkCount] = useState(-1)
     const [currentLink, setCurrentLink] = useState(-1)
     const intervalRef = React.useRef(null);
+
+    //States modal
+    const [modalDetailShow, setmodalDetailShow] = useState(false);
+    const [modalCadena, setmodalCadena] = useState(null);
+
+    const navigate = useNavigate();
   
     React.useEffect(() => {
       return () => stopCounter();
@@ -84,7 +92,7 @@ const AleatorioUrlsBdPage = () => {
                     });
                 }
 
-                cadenasClase.push(new UrlRandom(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, ''));
+                cadenasClase.push(new UrlRandom(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, '', cadena.resets));
                 return null;
             })
             setCadenas(cadenasClase);
@@ -104,8 +112,18 @@ const AleatorioUrlsBdPage = () => {
         
     }
 
+    const verDetalleUrl = (cadena) =>  {
+        setmodalCadena(cadena);
+        setmodalDetailShow(true);
+    }
+
     return (
         <Container style={{paddingTop: '80px'}}>
+            <AleatorioUrlsBdModal 
+                modalShow = {modalDetailShow}
+                setModalShow = {setmodalDetailShow}
+                cadenaId = {modalCadena ? modalCadena._id : null}
+            ></AleatorioUrlsBdModal>
             <div>
                 <div className='random__contenedor'>
                     <div className='random__contenedor__contador'>
@@ -153,6 +171,9 @@ const AleatorioUrlsBdPage = () => {
                                             ></GeneralTableButton>
                                             <GeneralTableButton faIcon={faRotate} msgTooltip={"Reestablecer"} 
                                                 action={()=>{reestablecerUrl(cadena, cadenas, setCadenas)}}
+                                            ></GeneralTableButton>
+                                            <GeneralTableButton faIcon={faEye} msgTooltip={"Detalle"} 
+                                                action={()=>{verDetalleUrl(cadena)}}
                                             ></GeneralTableButton>
                                         </td>
                                     </tr>
