@@ -1,6 +1,7 @@
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
+import ToggleDarkModeComponent from './ToggleDarkModeComponent/ToggleDarkModeComponent';
 
 const NavbarComponent = () => {
     return (
@@ -18,7 +19,7 @@ const NavbarComponent = () => {
                         <Nav.Link href="#features">Features</Nav.Link>
                     </Nav>
                     <Nav>
-                        <Nav.Link href="#deets">More deets</Nav.Link>
+                        {/* <ToggleDarkModeComponent></ToggleDarkModeComponent> */}
                         <Nav.Link eventKey={2} href="#memes">
                             Dank memes
                         </Nav.Link>
