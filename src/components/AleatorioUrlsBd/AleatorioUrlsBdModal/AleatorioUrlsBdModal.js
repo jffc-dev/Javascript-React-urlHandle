@@ -70,7 +70,7 @@ const AleatorioUrlsBdModal = ({modalShow, setModalShow, cadenaId}) => {
             </Modal.Header>
             <Modal.Body>
                 <Tabs
-                defaultActiveKey="general"
+                defaultActiveKey="titles"
                 id="uncontrolled-tab-example"
                 className="mb-3"
                 >
