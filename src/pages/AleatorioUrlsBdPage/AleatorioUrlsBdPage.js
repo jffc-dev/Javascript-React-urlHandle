@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2'
-import { faEye, faGlobe, faRotate } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard, faEye, faGlobe, faRotate } from '@fortawesome/free-solid-svg-icons';
 
 import Constants from '../../constants';
 import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
@@ -176,6 +176,9 @@ const AleatorioUrlsBdPage = ({props}) => {
                                             ></GeneralTableButton>
                                             <GeneralTableButton faIcon={faEye} msgTooltip={"Detalle"} 
                                                 action={()=>{verDetalleUrl(cadena)}}
+                                            ></GeneralTableButton>
+                                            <GeneralTableButton faIcon={faClipboard} msgTooltip={"Copiar URL"} 
+                                                action={()=>{navigator.clipboard.writeText(cadena.url)}}
                                             ></GeneralTableButton>
                                         </td>
                                     </tr>
