@@ -1,0 +1,16 @@
+.inputModal__formButton{
+    border-radius: 5px;
+    border: none;
+    height: 100%;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(var(--green_btn_1));
+    transform: translateX(2px);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.formbutton__icon{
+    margin-right: 10px;
+}
