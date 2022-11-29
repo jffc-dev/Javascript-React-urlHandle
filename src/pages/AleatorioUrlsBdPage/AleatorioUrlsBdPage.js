@@ -11,7 +11,7 @@ import { KeyPressFilterComponent } from '../../components/Filtros/KeyPressFilter
 
 import './AleatorioUrlsBdPage.css';
 import GeneralTableButton from '../../components/General/TableButton/TableButton';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import AleatorioUrlsBdModal from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModal';
 
 const AleatorioUrlsBdPage = ({props}) => {
@@ -25,8 +25,6 @@ const AleatorioUrlsBdPage = ({props}) => {
     //States modal
     const [modalDetailShow, setmodalDetailShow] = useState(false);
     const [modalCadena, setmodalCadena] = useState(null);
-
-    const navigate = useNavigate();
   
     React.useEffect(() => {
       return () => stopCounter();
