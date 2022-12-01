@@ -1,12 +1,11 @@
-import { faClipboard } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import { getUrlById } from '../../../services/urls/getUrlById';
-import GeneralTableButton from '../../General/TableButton/TableButton';
 import './AleatorioUrlsBdModal.css';
 import AleatorioUrlsBdModalTabTitles from './AleatorioUrlsBdModalTabTitles/AleatorioUrlsBdModalTabTitles';
 import AleatorioUrlsBdModalTabGeneral from './AleatorioUrlsBdModalTabGeneral/AleatorioUrlsBdModalTabGeneral';
+import AleatorioUrlsBdModalTabResets from './AleatorioUrlsBdModalTabResets/AleatorioUrlsBdModalTabResets';
 
 const AleatorioUrlsBdModal = ({modalShow, setModalShow, cadenaId}) => {
 
@@ -60,33 +59,9 @@ const AleatorioUrlsBdModal = ({modalShow, setModalShow, cadenaId}) => {
                         ></AleatorioUrlsBdModalTabTitles>
                     </Tab>
                     <Tab eventKey="resets" title="Urls">
-                        <div className="col-12">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>URL</th>
-                                        <th style={{width: '20%'}}>Opciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {resets.length ? resets.map((reset, index)=>
-                                    (
-                                        <tr key={index}>
-                                            <td className='url'>
-                                                {reset.url}
-                                            </td>
-                                            <td style={{width: '10%'}}>
-                                                <GeneralTableButton faIcon={faClipboard} msgTooltip={"Ver"} 
-                                                    action={()=>{navigator.clipboard.writeText(reset.url)}}
-                                                ></GeneralTableButton>
-                                            </td>
-                                        </tr>
-                                    )) : 
-                                    <tr><td colSpan={2} style={{textAlign: 'center'}}>No se cargaron registros</td></tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
+                        <AleatorioUrlsBdModalTabResets
+                            resets={resets}
+                        ></AleatorioUrlsBdModalTabResets>
                     </Tab>
                 </Tabs>
             </Modal.Body>
