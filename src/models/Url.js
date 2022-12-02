@@ -7,6 +7,21 @@ export const Url = class {
         this.dateCreated = dateCreated;
         this.resets = resets;
     }
+
+    get currentUrl() {
+
+        let maxReset = null;
+
+        if(this.resets){
+            let idReset = Math.max(...this.resets.map(reset => reset._id))
+            maxReset = this.resets.find(reset => {
+                return reset._id === idReset;
+            });
+        }
+
+        return this.resets ? maxReset.url : this.url;
+
+    }
 }
 
 export const UrlRandom = class {
