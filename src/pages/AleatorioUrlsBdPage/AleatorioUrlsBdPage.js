@@ -149,7 +149,8 @@ const AleatorioUrlsBdPage = ({props}) => {
                                 <th style={{width: '4%'}}></th>
                                 <th style={{width: '6%'}}>NRO</th>
                                 <th>URL</th>
-                                <th style={{width: '20%'}}>Opciones</th>
+                                <th style={{width: '6%'}}>RESETS</th>
+                                <th style={{width: '20%'}}>OPCIONES</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -164,6 +165,9 @@ const AleatorioUrlsBdPage = ({props}) => {
                                         </td>
                                         <td className='url'>
                                             {cadena.url}
+                                        </td>
+                                        <td>
+                                            {(cadena.resets) ? cadena.resets.length : 0}
                                         </td>
                                         <td>
                                             <GeneralTableButton faIcon={faGlobe} msgTooltip={"Ver"} 
