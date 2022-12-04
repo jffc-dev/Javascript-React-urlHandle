@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
-import axios from 'axios';
 import Swal from 'sweetalert2'
 import { faClipboard, faEye, faGlobe, faRotate } from '@fortawesome/free-solid-svg-icons';
 
-import Constants from '../../constants';
 import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
-import { UrlRandom } from '../../models/Url';
 import { KeyPressFilterComponent } from '../../components/Filtros/KeyPressFilterComponent/KeyPressFilterComponent';
 
 import './AleatorioUrlsBdPage.css';
 import GeneralTableButton from '../../components/General/TableButton/TableButton';
 // import { useNavigate } from 'react-router-dom';
 import AleatorioUrlsBdModal from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModal';
+import { getUrlsRandom } from '../../services/urls/getUrlsRandom';
 
 const AleatorioUrlsBdPage = ({props}) => {
     const [cadenas, setCadenas] = useState([])
@@ -77,28 +75,12 @@ const AleatorioUrlsBdPage = ({props}) => {
         }
 
         if(nroResultados !== ''){
-            await axios.get(Constants.urlBackend+'/api/urls-random/'+nroResultados)
-            .then(res => {
-                const datos = res.data.urls;
-                const cadenasClase = [];
-                datos.map((cadena, index)=>{
-                    let maxReset = null;
+            const cadenasClase = await getUrlsRandom(nroResultados);
 
-                    if(cadena.resets){
-                        let idReset = Math.max(...cadena.resets.map(reset => reset._id))
-                        maxReset = cadena.resets.find(reset => {
-                            return reset._id === idReset;
-                        });
-                    }
-
-                    cadenasClase.push(new UrlRandom(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, '', cadena.resets));
-                    return null;
-                })
-                setCadenas(cadenasClase);
-                setCadenasFiltro(cadenasClase);
-                setLinkCount(cadenasClase.length)
-                setCurrentLink(0)
-            });
+            setCadenas(cadenasClase);
+            setCadenasFiltro(cadenasClase);
+            setLinkCount(cadenasClase.length)
+            setCurrentLink(0)
         }
 
     }
