@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import Swal from 'sweetalert2'
-import { faClipboard, faEye, faGlobe, faRotate } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard, faEye, faGlobe, faRotate, faTrashRestore } from '@fortawesome/free-solid-svg-icons';
 
-import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
+import {abrirUrlEspecifica, reestablecerUrl, updateArrayObject} from '../../utils/url.js'
 import { KeyPressFilterComponent } from '../../components/Filtros/KeyPressFilterComponent/KeyPressFilterComponent';
 
 import './AleatorioUrlsBdPage.css';
@@ -11,6 +11,8 @@ import GeneralTableButton from '../../components/General/TableButton/TableButton
 // import { useNavigate } from 'react-router-dom';
 import AleatorioUrlsBdModal from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModal';
 import { getUrlsRandom } from '../../services/urls/getUrlsRandom';
+import { getNewUrlService } from '../../services/urls/getNewUrl';
+import ConfirmationModalComponent from '../../components/General/ConfirmationModal/ConfirmationModalComponent.js';
 
 const AleatorioUrlsBdPage = ({props}) => {
     const [cadenas, setCadenas] = useState([])
@@ -22,7 +24,12 @@ const AleatorioUrlsBdPage = ({props}) => {
 
     //States modal
     const [modalDetailShow, setmodalDetailShow] = useState(false);
+    const [modalConfirmationShow, setmodalConfirmationShow] = useState(false);
     const [modalCadena, setmodalCadena] = useState(null);
+
+    //States confirmation modal - replace
+    const [modalCadenaReplaceOld, setmodalCadenaReplaceOld] = useState(null);
+    const [modalCadenaReplaceNew, setmodalCadenaReplaceNew] = useState(null);
   
     React.useEffect(() => {
       return () => stopCounter();
@@ -99,6 +106,23 @@ const AleatorioUrlsBdPage = ({props}) => {
         setmodalDetailShow(true);
     }
 
+    const OpenConfirmModalReplace = async(cadena) => {
+        const excepts = cadenas.map(cadena => {return cadena._id})
+        const {data, status} = await getNewUrlService(excepts, 1, cadena.index)
+
+        if(status === 1){
+            const newUrl = data[0]
+            setmodalCadenaReplaceOld(cadena)
+            setmodalCadenaReplaceNew(newUrl)
+            setmodalConfirmationShow(true)
+        }
+    }
+
+    const pressOkModalReplace = async() => {
+        updateArrayObject(cadenas, setCadenas, modalCadenaReplaceOld, modalCadenaReplaceNew)
+        setmodalConfirmationShow(false);
+    }
+
     return (
         <Container style={{paddingTop: '80px'}}>
             <AleatorioUrlsBdModal 
@@ -106,6 +130,18 @@ const AleatorioUrlsBdPage = ({props}) => {
                 setModalShow = {setmodalDetailShow}
                 cadenaId = {modalCadena ? modalCadena._id : null}
             ></AleatorioUrlsBdModal>
+            <ConfirmationModalComponent 
+                modalShow = {modalConfirmationShow}
+                setModalShow = {setmodalConfirmationShow}
+                modalHeader = "URL Replace"
+                modalOkBtnAction={pressOkModalReplace}
+                modalBody = {(modalCadenaReplaceOld && modalCadenaReplaceNew) && 
+                    <div>
+                        You are goin to replace <a target="_blank" href={modalCadenaReplaceOld.url} rel="noreferrer">{modalCadenaReplaceOld.title || 'Current URL'}</a>
+                        &nbsp;by <a target="_blank" href={modalCadenaReplaceNew.url} rel="noreferrer">{modalCadenaReplaceNew.title || 'New URL'}</a>. Are you sure?
+                    </div>
+                }
+            ></ConfirmationModalComponent>
             <div>
                 <div className='random__contenedor'>
                     <div className='random__contenedor__contador'>
@@ -163,6 +199,9 @@ const AleatorioUrlsBdPage = ({props}) => {
                                             ></GeneralTableButton>
                                             <GeneralTableButton faIcon={faClipboard} msgTooltip={"Copiar URL"} 
                                                 action={()=>{navigator.clipboard.writeText(cadena.url)}}
+                                            ></GeneralTableButton>
+                                            <GeneralTableButton faIcon={faTrashRestore} msgTooltip={"Reemplazar"} color="red"
+                                                action={()=>{OpenConfirmModalReplace(cadena)}}
                                             ></GeneralTableButton>
                                         </td>
                                     </tr>
