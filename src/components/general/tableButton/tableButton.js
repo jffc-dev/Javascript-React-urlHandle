@@ -5,7 +5,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 import './TableButton.css';
 
-const TableButton = ({faIcon, msgTooltip, action}) => {
+const TableButton = ({faIcon, msgTooltip, action, color}) => {
     
     const key = 'key';
 
@@ -19,7 +19,7 @@ const TableButton = ({faIcon, msgTooltip, action}) => {
                 </Tooltip>
             }
         >
-            <button className='table_button' data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick={action}>
+            <button className={`table_button table_button_${color || 'green'}`} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick={action}>
                 <FontAwesomeIcon className='faIcon' icon={faIcon} size="1x" inverse />
             </button>
         </OverlayTrigger>

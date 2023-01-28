@@ -5,11 +5,18 @@
 
 .table_button{
     border: none;
-    background-color: rgb(0, 179, 89);
     border-radius: 0.2rem;
     cursor: pointer;
     height: 100%;
     margin-right: 0.2rem;
+}
+
+.table_button_red{
+    background-color: rgb(255, 30, 0);
+}
+
+.table_button_green{
+    background-color: rgb(0, 179, 89);
 }
 
 .tooltip .tooltip_text {
