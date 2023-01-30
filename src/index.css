@@ -18,8 +18,9 @@ code {
     monospace;
 }
 
-body > #root > div {
-  height: 90vh;
+html, 
+body, #root {
+  height: 100%;
 }
 
 textarea {
