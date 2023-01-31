@@ -1,20 +1,24 @@
-//Thirds
-import axios from 'axios';
+// Thirds
+import axios from 'axios'
 
-//Owns
-import Constants from '../../constants';
-import { Url } from '../../models/Url';
+// Owns
+import CONSTANTS from '../../constants'
+import { Url } from '../../models/Url'
 
-export const getUrlById = async(idUrl) => {
+export const getUrlById = async (idUrl) => {
+  let urlResult = null
 
-    let urlResult = null;
+  await axios.get(CONSTANTS.urlBackend + '/api/urls/' + idUrl).then((res) => {
+    const cadena = res.data.url
+    urlResult = new Url(
+      cadena._id,
+      1,
+      cadena.url,
+      cadena.titles,
+      cadena.audi_createdDate,
+      cadena.resets
+    )
+  })
 
-    await axios.get(Constants.urlBackend+'/api/urls/'+idUrl)
-    .then(res => {
-        const cadena = res.data.url;
-        urlResult = new Url(cadena._id, 1, cadena.url, cadena.titles,cadena.audi_createdDate ,cadena.resets);
-    });
-
-    return urlResult;
-
+  return urlResult
 }
