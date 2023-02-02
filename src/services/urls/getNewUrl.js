@@ -10,7 +10,7 @@ export const getNewUrlService = async (urls, size, indexOld) => {
   const cadenasClase = []
 
   const porceso = await axios
-    .post(CONSTANTS.urlBackend + '/api/urls/get-new-url/', {
+    .post(CONSTANTS.urlBackend + '/api/url/get-new-url/', {
       urls,
       size
     })

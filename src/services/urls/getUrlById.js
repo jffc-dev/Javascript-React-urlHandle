@@ -8,7 +8,7 @@ import { Url } from '../../models/Url'
 export const getUrlById = async (idUrl) => {
   let urlResult = null
 
-  await axios.get(CONSTANTS.urlBackend + '/api/urls/' + idUrl).then((res) => {
+  await axios.get(CONSTANTS.urlBackend + '/api/url/' + idUrl).then((res) => {
     const cadena = res.data.url
     urlResult = new Url(
       cadena._id,

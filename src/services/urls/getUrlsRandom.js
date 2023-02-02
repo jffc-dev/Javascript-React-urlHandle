@@ -8,7 +8,7 @@ import { Url } from '../../models/Url'
 export const getUrlsRandom = async (nroResultados) => {
   const cadenasClase = []
 
-  await axios.get(CONSTANTS.urlBackend + '/api/urls-random/' + nroResultados).then((res) => {
+  await axios.get(CONSTANTS.urlBackend + '/api/url/random/' + nroResultados).then((res) => {
     const datos = res.data.urls
 
     datos.map((cadena, index) => {
