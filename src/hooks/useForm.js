@@ -13,10 +13,12 @@ export const useForm = (initialState = {}) => {
     setValues(initialState)
   }
 
-  const handleInputChange = ({ target }) => {
+  const handleInputChange = ({ target, val }) => {
+    const valuesSet = val || values
+    const targetVal = val || target.value
     setValues({
-      ...values,
-      [target.name]: target.value
+      ...valuesSet,
+      [target.name]: targetVal
     })
   }
 
