@@ -2,17 +2,17 @@
 import axios from 'axios'
 
 // Owns
-import CONSTANTS from '../../constants'
+import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
 import { ServiceResponse } from '../../models/Response'
 import { Url } from '../../models/Url'
 
 export const getUrls = async () => {
   const cadenasClase = await axios
-    .get(CONSTANTS.urlBackend + '/api/url/')
+    .get(API_URL_BASE + API_URL_URLS)
     .then((response) => {
       const { data, message, status } = response.data
 
-      if (status === CONSTANTS.OK_STATUS) {
+      if (status === OK_STATUS) {
         const datosClass = data.map((cadena, index) => {
           return new Url(
             cadena._id,

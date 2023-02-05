@@ -2,16 +2,16 @@
 import axios from 'axios'
 
 // Owns
-import CONSTANTS from '../../constants'
+import { API_URL_BASE, OK_STATUS } from '../../constants'
 import { ServiceResponse } from '../../models/Response'
 
 export const deleteUrlById = async (idUrl) => {
   const urlResult = await axios
-    .delete(CONSTANTS.urlBackend + '/api/url/' + idUrl)
+    .delete(API_URL_BASE + '/api/url/' + idUrl)
     .then((response) => {
       const { data, message, status } = response.data
 
-      if (status === CONSTANTS.OK_STATUS) {
+      if (status === OK_STATUS) {
         return new ServiceResponse({
           status,
           message,

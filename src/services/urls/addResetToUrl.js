@@ -2,19 +2,19 @@
 import axios from 'axios'
 
 // Owns
-import CONSTANTS from '../../constants'
+import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
 import { ServiceResponse } from '../../models/Response'
 import { Url } from '../../models/Url'
 
 export const addResetToUrl = async (idUrl, url, index) => {
   const rpta = await axios
-    .patch(CONSTANTS.urlBackend + '/api/url/add-reset/' + idUrl, {
+    .patch(API_URL_BASE + API_URL_URLS + '/add-reset/' + idUrl, {
       newUrl: url
     })
     .then((response) => {
       const { data, message, status } = response.data
 
-      if (status === CONSTANTS.OK_STATUS) {
+      if (status === OK_STATUS) {
         const cadena = { ...data }
 
         return new ServiceResponse({
