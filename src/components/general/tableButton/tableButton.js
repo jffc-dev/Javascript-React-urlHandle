@@ -1,30 +1,24 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
-import './TableButton.css';
+import './TableButton.css'
 
-const TableButton = ({faIcon, msgTooltip, action, color}) => {
-    
-    const key = 'key';
+const TableButton = ({ faIcon, msgTooltip, action, color }) => {
+  const key = 'key'
 
-    return (
-        <OverlayTrigger
-            key={key}
-            placement='bottom'
-            overlay={
-                <Tooltip id={`tooltip-${key}`}>
-                    {msgTooltip}
-                </Tooltip>
-            }
-        >
-            <button className={`table_button table_button_${color || 'green'}`} data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" onClick={action}>
-                <FontAwesomeIcon className='faIcon' icon={faIcon} size="1x" inverse />
-            </button>
-        </OverlayTrigger>
-    );
-
+  return (
+    <OverlayTrigger
+      key={key}
+      placement="bottom"
+      overlay={<Tooltip id={`tooltip-${key}`}>{msgTooltip}</Tooltip>}>
+      <button className={`table_button table_button_${color || 'green'}`} onClick={action}>
+        <FontAwesomeIcon className="faIcon" icon={faIcon} size="1x" inverse />
+      </button>
+    </OverlayTrigger>
+  )
 }
 
-export default TableButton;
+export default TableButton
