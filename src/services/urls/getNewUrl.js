@@ -2,26 +2,23 @@
 import axios from 'axios'
 
 // Owns
-import CONSTANTS from '../../constants'
+import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
 import { ServiceResponse } from '../../models/Response'
 import { Url } from '../../models/Url'
 
 export const getNewUrlService = async (urls, size, indexOld) => {
-  const cadenasClase = []
-
-  const porceso = await axios
-    .post(CONSTANTS.urlBackend + '/api/url/get-new-url/', {
+  const cadenasClaseRsp = await axios
+    .post(API_URL_BASE + API_URL_URLS + '/get-new-url/', {
       urls,
       size
     })
-    .then((apiResponse) => {
-      const { data: apiResponseFormat } = apiResponse
-      const { data: urls, ...resp1 } = apiResponseFormat
+    .then((response) => {
+      const { data, message, status } = response.data
       let index = indexOld
 
-      urls.map((cadena) => {
-        cadenasClase.push(
-          new Url(
+      if (status === OK_STATUS) {
+        const cadenasClase = data.map((cadena) => {
+          const urlClass = new Url(
             cadena._id,
             index + 1,
             cadena.url,
@@ -29,15 +26,22 @@ export const getNewUrlService = async (urls, size, indexOld) => {
             cadena.audi_createdDate,
             cadena.resets
           )
-        )
-        index++
-        return null
-      })
+          index++
+          return urlClass
+        })
 
-      return new ServiceResponse({
-        ...resp1,
-        data: cadenasClase
-      })
+        return new ServiceResponse({
+          message,
+          status,
+          data: cadenasClase
+        })
+      } else {
+        return new ServiceResponse({
+          status,
+          message: 'Service error. ' + message,
+          data: null
+        })
+      }
     })
     .catch((error) => {
       return new ServiceResponse({
@@ -47,5 +51,5 @@ export const getNewUrlService = async (urls, size, indexOld) => {
       })
     })
 
-  return porceso
+  return cadenasClaseRsp
 }
