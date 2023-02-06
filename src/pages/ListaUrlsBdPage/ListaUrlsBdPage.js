@@ -1,133 +1,198 @@
-import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
-import { faGlobe, faRotate, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import Swal from 'sweetalert2';
-import axios from 'axios';
+import React, { useContext, useState } from 'react'
+import { Container } from 'react-bootstrap'
+import { faGlobe, faRotate, faSpinner, faTrash } from '@fortawesome/free-solid-svg-icons'
+import Swal from 'sweetalert2'
+import axios from 'axios'
 
-import Constants from '../../constants';
-import {abrirUrlEspecifica, reestablecerUrl} from '../../utils/url.js'
-import './ListaUrlsBdPage.css';
-import { Url } from '../../models/Url';
-import GeneralTableButton from '../../components/General/TableButton/TableButton';
+import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
+import { abrirUrlEspecifica, hanldeDeleteUrl, updateArrayObject } from '../../utils/url.js'
+import './ListaUrlsBdPage.css'
+import GeneralTableButton from '../../components/General/TableButton/TableButton'
+import { AppContext } from '../../utils/AppContext'
+import { getUrls } from '../../services/urls/getUrls'
+import AleatorioUrlsBdModalReset from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModalReset/AleatorioUrlsBdModalReset'
+import { addResetToUrl } from '../../services/urls/addResetToUrl'
 
 const ListaUrlsBdPage = () => {
+  const [cadenas, setCadenas] = useState([])
+  const [cadenasFiltro, setCadenasFiltro] = useState([])
+  const [busqueda, setBusqueda] = useState('')
 
-    const [cadenas, setCadenas] = useState([])
-    const [cadenasFiltro, setCadenasFiltro] = useState([])
-    const [busqueda, setBusqueda] = useState("")
+  // States confirmation modal - reset
+  const [modalResetShow, setmodalResetShow] = useState(false)
+  const [modalCadenaReset, setmodalCadenaReset] = useState(null)
 
-    React.useEffect(() => {
-        axios.get(Constants.urlBackend+'/api/urls/')
-        .then(res => {
-            const datos = res.data.urls;
-            const cadenasClase = [];
-            datos.map((cadena, index)=>{
-                let maxReset = null;
+  const { setShowLoaderApp, setToastAppProperties } = useContext(AppContext)
 
-                if(cadena.resets){
-                    let idReset = Math.max(...cadena.resets.map(reset => reset._id))
-                    maxReset = cadena.resets.find(reset => {
-                        return reset._id === idReset;
-                    });
-                }
+  React.useEffect(() => {
+    getData()
+  }, [])
 
-                cadenasClase.push(new Url(cadena._id, index+1, cadena.resets ? maxReset.url : cadena.url, '', cadena.audi_createdDate));
-                return null;
-            })
-            setCadenas(cadenasClase);
-            setCadenasFiltro(cadenasClase);
-        })
-    }, []);
+  const getData = async () => {
+    const { data, message, status } = await getUrls()
 
-    const onChangeSearch = (event) => {
-        setBusqueda(event.target.value)
-        setCadenasFiltro(cadenas.filter(cadena=>cadena.url.toLowerCase().includes(event.target.value.toLowerCase())))
+    if (status === OK_STATUS) {
+      setCadenas(data)
+      setCadenasFiltro(data)
+    } else {
+      setToastAppProperties({
+        title: 'ERROR',
+        message,
+        type: 'danger',
+        date: new Date()
+      })
     }
+  }
 
-    const cargarUrl = async(idCadena) => {
-        await axios.post(Constants.urlBackend+'/api/urls/cargar/', {
-            id: idCadena
-        })
-        .then(async(response) => {
-            if(response.status === 201){
-                const { value: formValues } = await Swal.fire({
-                    title: 'Obtención de título',
-                    html:
-                        `<span><b>Para la url:</b> ${response.data.contenido.url}</span>`+
-                        `<br/><span><b>Se encontró el título:</b></span>`+
-                        `<br/><textarea id="swal-input1" style="width: 100%">${response.data.contenido.titulo.toString()}</textarea>`,
-                    focusConfirm: false,
-                    preConfirm: async() => {
-                        const titulo = document.getElementById('swal-input1').value
+  const onChangeSearch = (event) => {
+    setBusqueda(event.target.value)
+    setCadenasFiltro(
+      cadenas.filter((cadena) =>
+        cadena.url.toLowerCase().includes(event.target.value.toLowerCase())
+      )
+    )
+  }
 
-                        const data = await axios.patch(Constants.urlBackend+'/api/urls/add-title/'+idCadena, {
-                            title: titulo
-                        })
-                        .then((response) => {
-                            if(response.status === 201){
-                                return response.data
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
+  const OpenConfirmModalReset = async (cadena) => {
+    setmodalCadenaReset(cadena)
+    setmodalResetShow(true)
+  }
 
-                        return data
-                    }
+  const PressOkModalReset = async (idUrl, newUrl, index) => {
+    const { data, status, message } = await addResetToUrl(idUrl, newUrl, index)
+    if (status === OK_STATUS) {
+      updateArrayObject(cadenas, setCadenas, modalCadenaReset, data)
+      setmodalResetShow(false)
+    } else {
+      setToastAppProperties({
+        title: 'ERROR',
+        message,
+        type: 'danger',
+        date: new Date()
+      })
+    }
+  }
+
+  const cargarUrl = async (idCadena) => {
+    setShowLoaderApp(true)
+    await axios
+      .post(API_URL_BASE + API_URL_URLS + 'load/', {
+        id: idCadena
+      })
+      .then(async (response) => {
+        const { data, message, status } = response.data
+        if (status === 1) {
+          setShowLoaderApp(false)
+          const { value: formValues } = await Swal.fire({
+            title: 'Obtención de título',
+            html:
+              `<span><b>Para la url:</b> ${data.url}</span>` +
+              `<br/><span><b>Se encontró el título:</b></span>` +
+              `<br/><textarea id="swal-input1" style="width: 100%">${data.titulo.toString()}</textarea>`,
+            focusConfirm: false,
+            preConfirm: async () => {
+              const titulo = document.getElementById('swal-input1').value
+
+              const data = await axios
+                .patch(API_URL_BASE + '/api/url/add-title/' + idCadena, {
+                  title: titulo
                 })
-                
-                if (formValues) {
-                    Swal.fire(formValues.msg)
-                }
-            };
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
+                .then((response) => {
+                  if (response.status === 201) {
+                    return response.data
+                  }
+                })
+                .catch((error) => {
+                  console.log(error)
+                })
 
-    return (
-        <Container style={{paddingTop: '80px'}}>
-            <div className='random__contenedor'>
-                <div>
-                    <input value={busqueda} onChange={onChangeSearch} style={{display: 'inline-block', width: '100%', marginBottom: '1rem'}}/>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>URL</th>
-                                <th>Fecha</th>
-                                <th>Opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {cadenasFiltro.map((cadena,index)=>(
-                            <tr key={index}>
-                                <td className='url'>
-                                    {cadena.url}
-                                </td>
-                                <td className='date'>
-                                    {new Date(cadena.dateCreated).toLocaleString()}
-                                </td>
-                                <td>
-                                    <GeneralTableButton faIcon={faGlobe} msgTooltip={"Ver"} 
-                                        action={_ => abrirUrlEspecifica(cadena)}
-                                    ></GeneralTableButton>
-                                    <GeneralTableButton faIcon={faSpinner} msgTooltip={"Cargar"} 
-                                        action={_ => cargarUrl(cadena._id)}
-                                    ></GeneralTableButton>
-                                    <GeneralTableButton faIcon={faRotate} msgTooltip={"Reestablecer"} 
-                                        action={_ => reestablecerUrl(cadena, cadenas, setCadenas)}
-                                    ></GeneralTableButton>
-                                </td>
-                            </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </Container>
-    );
+              return data
+            }
+          })
 
+          if (formValues) {
+            Swal.fire(formValues.msg)
+          }
+        } else {
+          setToastAppProperties({
+            title: 'ERROR',
+            message,
+            type: 'danger',
+            date: new Date()
+          })
+          setShowLoaderApp(false)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        setShowLoaderApp(false)
+      })
+  }
+
+  return (
+    <Container style={{ paddingTop: '80px' }}>
+      {/* Get new urls confirmation model */}
+      <AleatorioUrlsBdModalReset
+        modalShow={modalResetShow}
+        setModalShow={setmodalResetShow}
+        url={modalCadenaReset}
+        modalOkBtnAction={PressOkModalReset}
+        formData={{ newUrl: '' }}
+        modalCancelBtnAction={() => {
+          setmodalCadenaReset(false)
+        }}></AleatorioUrlsBdModalReset>
+
+      <div className="random__contenedor">
+        <div>
+          <input
+            value={busqueda}
+            onChange={onChangeSearch}
+            style={{ display: 'inline-block', width: '100%', marginBottom: '1rem' }}
+          />
+          <table className="mb-5">
+            <thead>
+              <tr>
+                <th>URL</th>
+                <th>Fecha</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cadenasFiltro.map((url, index) => (
+                <tr key={index}>
+                  <td className="url">{url.currentTitle || url.currentUrl}</td>
+                  <td className="date">{new Date(url.dateCreated).toLocaleString()}</td>
+                  <td>
+                    <GeneralTableButton
+                      faIcon={faGlobe}
+                      msgTooltip={'Go'}
+                      action={(_) => abrirUrlEspecifica(url)}></GeneralTableButton>
+                    <GeneralTableButton
+                      faIcon={faSpinner}
+                      msgTooltip={'Load'}
+                      action={(_) => cargarUrl(url._id)}></GeneralTableButton>
+                    <GeneralTableButton
+                      faIcon={faRotate}
+                      msgTooltip={'Reset'}
+                      action={() =>
+                        OpenConfirmModalReset(url, cadenas, setCadenas)
+                      }></GeneralTableButton>
+                    <GeneralTableButton
+                      faIcon={faTrash}
+                      msgTooltip={'Delete'}
+                      color="red"
+                      action={(_) =>
+                        hanldeDeleteUrl(url, cadenas, setCadenas, setToastAppProperties)
+                      }></GeneralTableButton>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </Container>
+  )
 }
 
-export default ListaUrlsBdPage;
+export default ListaUrlsBdPage
