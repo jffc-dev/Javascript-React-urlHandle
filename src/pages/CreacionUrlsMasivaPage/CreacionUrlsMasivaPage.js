@@ -1,78 +1,52 @@
-import React, { useState } from 'react';
-import { Container} from 'react-bootstrap';
-import { ReactNotifications, Store } from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
-import axios from 'axios';
+import React, { useContext, useState } from 'react'
+import { Container } from 'react-bootstrap'
+import 'react-notifications-component/dist/theme.css'
+import { AppContext } from '../../utils/AppContext'
+import { handleCreateMultipleUrl } from '../../utils/url'
 
-import Constants from '../../constants';
-import './CreacionUrlsMasivaPage.css';
+import './CreacionUrlsMasivaPage.css'
 
 const CreacionUrlsMasivaPage = () => {
-    const [cadenas, setCadenas] = useState("");
-    const [paste, setPaste] = useState(false)
+  const [cadenas, setCadenas] = useState('')
+  const [paste, setPaste] = useState(false)
+  const { setToastAppProperties } = useContext(AppContext)
 
-    const handleChangeCadenas = (event) => {
-        if(paste){
-            setPaste(false);
-        }else{
-            setCadenas(event.target.value);
-        }
+  const handleChangeCadenas = (event) => {
+    if (paste) {
+      setPaste(false)
+    } else {
+      setCadenas(event.target.value)
     }
+  }
 
-    const handlePasteCadenas = (event) => {
-        setPaste(true)
-        setCadenas(event.target.value + event.clipboardData.getData('Text') + '\n');
-    }
+  const handlePasteCadenas = (event) => {
+    setPaste(true)
+    setCadenas(event.target.value + event.clipboardData.getData('Text') + '\n')
+  }
 
-    const crearCadenas = () => {
-        axios.post(Constants.urlBackend+'/api/urls/', {
-            urls: cadenas
-        })
-        .then((response) => {
-            if(response.status === 201){
-                Store.addNotification({
-                    title: "Operación exitosa!",
-                    message: `Se crearon ${response.data.rpta.rpta.insertedCount} urls de forma correcta`,
-                    type: "success",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animate__animated", "animate__fadeIn"],
-                    animationOut: ["animate__animated", "animate__fadeOut"],
-                    dismiss: {
-                        duration: 3000,
-                        onScreen: true
-                    }
-                });
-            };
-            setCadenas('');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
-
-    return (
-        <>
-            <ReactNotifications style={{ marginRight: '100px' }}/>
-            <Container style={{paddingTop: '80px'}}>
-                <div className='creacion'>
-                    <div className='creacion__textarea'>
-                        <textarea 
-                            style={{ width: '100%', height: '100%' }} 
-                            value={cadenas} 
-                            onChange={handleChangeCadenas}
-                            onPaste={handlePasteCadenas}>
-                        </textarea>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div className='creacion__parte'>
-                            <button onClick={() => { crearCadenas() }}>Crear cadenas</button>
-                        </div>
-                    </div>
-                </div>
-            </Container>
-        </>
-    );
+  return (
+    <Container style={{ paddingTop: '80px', height: '95%' }}>
+      <div className="creacion">
+        <div className="creacion__textarea">
+          <textarea
+            style={{ width: '100%', height: '100%' }}
+            value={cadenas}
+            onChange={handleChangeCadenas}
+            onPaste={handlePasteCadenas}></textarea>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className="creacion__parte">
+            <button
+              onClick={() => {
+                handleCreateMultipleUrl(cadenas, setCadenas, setToastAppProperties)
+              }}>
+              Crear cadenas
+            </button>
+          </div>
+        </div>
+      </div>
+    </Container>
+  )
 }
 
-export default CreacionUrlsMasivaPage;
+export default CreacionUrlsMasivaPage
