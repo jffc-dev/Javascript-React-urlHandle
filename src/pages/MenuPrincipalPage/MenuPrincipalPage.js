@@ -28,6 +28,12 @@ const MenuPrincipalPage = () => {
           <FontAwesomeIcon className="faIcon" icon={faHand} size="5x" inverse />
           <span>Manual</span>
         </Link>
+        <Link
+          className="menu_principal__item menu_principal__item__manual"
+          to={`/mantenimiento/list/dbv2`}>
+          <FontAwesomeIcon className="faIcon" icon={faHand} size="5x" inverse />
+          <span>List v2</span>
+        </Link>
       </div>
     </Container>
   )
