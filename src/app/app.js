@@ -11,6 +11,7 @@ import LoaderFullScreenComponent from '../components/General/LoaderFullScreenCom
 
 import { AppContext } from '../utils/AppContext'
 import ToastContainerComponent from '../components/General/ToastContainerComponent/ToastContainerComponent'
+import ListaUrlsBdPaginationPage from '../pages/ListaUrlsBdPaginationPage/ListaUrlsBdPaginationPage'
 
 const App = () => {
   const [toastAppProperties, setToastAppProperties] = useState({
@@ -44,6 +45,7 @@ const App = () => {
             </Route>
             <Route path="list">
               <Route path="db" element={<ListaUrlsBdPage />} />
+              <Route path="dbv2" element={<ListaUrlsBdPaginationPage />} />
             </Route>
           </Route>
         </Routes>
