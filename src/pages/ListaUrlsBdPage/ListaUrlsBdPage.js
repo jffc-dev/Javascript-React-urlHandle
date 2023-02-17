@@ -6,7 +6,7 @@ import axios from 'axios'
 
 import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
 import { abrirUrlEspecifica, hanldeDeleteUrl, updateArrayObject } from '../../utils/url.js'
-import './ListaUrlsBdPage.css'
+// import './ListaUrlsBdPage.css'
 import GeneralTableButton from '../../components/General/TableButton/TableButton'
 import { AppContext } from '../../utils/AppContext'
 import { getUrls } from '../../services/urls/getUrls'
