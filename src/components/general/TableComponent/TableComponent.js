@@ -1,56 +1,47 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import GeneralTableButton from '../../../components/General/TableButton/TableButton'
 
-const TableComponent = ({ data, heads }) => {
-  Object.entries(heads).map((head, index) => {
-    console.log(head, index)
-    return null
-  })
-
-  data.map((item, index) => {
-    const d2 = []
-    const d3 = Object.entries(item).forEach(([key, value]) => {
-      console.log(key)
-      if (Object.keys(heads).includes(key)) {
-        d2.push(value)
-      }
-    })
-    console.log(d2)
-    return d3
-  })
-
+const TableComponent = ({ data, heads, actions }) => {
+  // const action1Handle = (item) => {
+  //   action1Function(item)
+  // }
   return (
-    <Table striped bordered responsive>
+    <Table striped responsive>
       <thead className="table-dark">
         <tr>
           {Object.entries(heads).map(([key, value]) => (
-            <th key={key}>{value}</th>
+            <th key={key} style={{ width: value.width + '%' }}>
+              {value.name}
+            </th>
           ))}
+          {actions && <th>Acciones</th>}
         </tr>
       </thead>
       <tbody>
         {data.map((item, index) => {
-          const d2 = []
-          Object.entries(item).forEach(([key, value]) => {
-            if (Object.keys(heads).includes(key)) {
-              d2.push(value)
-            }
-          })
-          console.log(d2)
           return (
             <tr key={index}>
-              {d2.map((item, index1) => (
-                <td key={index1}>{item}</td>
+              {Object.entries(heads).map(([key, value]) => (
+                <th key={key} style={{ width: value.width + '%' }}>
+                  {item[key]}
+                </th>
               ))}
+
+              <th>
+                {actions &&
+                  actions.map((action, indexAct) => (
+                    <GeneralTableButton
+                      key={'action_' + index + '_' + indexAct}
+                      faIcon={action.actionIcon}
+                      msgTooltip={action.actionText}
+                      action={(_) => action.actionFunction(item)}></GeneralTableButton>
+                  ))}
+              </th>
             </tr>
           )
         })}
-        {/* <tr>
-          {Array.from({ length: 12 }).map((_, index) => (
-            <td key={index}>Table cell {index}</td>
-          ))}
-        </tr> */}
       </tbody>
     </Table>
   )
