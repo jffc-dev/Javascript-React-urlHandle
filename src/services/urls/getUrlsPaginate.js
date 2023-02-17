@@ -6,9 +6,14 @@ import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
 import { ServiceResponse } from '../../models/Response'
 import { Url } from '../../models/Url'
 
-export const getUrlsPaginate = async () => {
+export const getUrlsPaginate = async ({ page, size }) => {
+  const mainRoute = API_URL_BASE + API_URL_URLS + 'v2'
+  const url = new URL(mainRoute)
+  url.searchParams.set('page', page)
+  url.searchParams.set('size', size)
+
   const cadenasClase = await axios
-    .get(API_URL_BASE + API_URL_URLS + '/v2?page=3&size=10')
+    .get(url.href)
     .then((response) => {
       const {
         data: { items, totalItems, totalPages, currentPage },
