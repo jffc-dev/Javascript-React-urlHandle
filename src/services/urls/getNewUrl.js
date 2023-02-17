@@ -20,7 +20,7 @@ export const getNewUrlService = async (urls, size, indexOld) => {
         const cadenasClase = data.map((cadena) => {
           const urlClass = new Url(
             cadena._id,
-            index + 1,
+            index,
             cadena.url,
             cadena.titles,
             cadena.audi_createdDate,
