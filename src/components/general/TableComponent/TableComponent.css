@@ -1,0 +1,14 @@
+.sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0px;
+}
+
+.sticky-col-tbody{
+    background-color: white !important;
+}
+
+.table-head-center{
+    text-align: center; 
+    vertical-align: middle;
+}
