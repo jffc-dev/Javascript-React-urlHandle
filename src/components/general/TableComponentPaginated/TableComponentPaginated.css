@@ -1,0 +1,16 @@
+.pagination__paginator{
+    flex: 1;
+}
+
+.pagination__sizer{
+    flex: 1;
+    min-width: 300px;
+}
+
+@media (max-width: 576px)
+{
+    .pagination__paginator{
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+}
