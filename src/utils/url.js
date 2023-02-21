@@ -5,7 +5,7 @@ import { addMultipleUrlService } from '../services/urls/addMultipleUrl.js'
 export const abrirUrlEspecifica = (cadena) => {
   Object.assign(document.createElement('a'), {
     target: '_blank',
-    href: cadena.url
+    href: cadena
   }).click()
 }
 
