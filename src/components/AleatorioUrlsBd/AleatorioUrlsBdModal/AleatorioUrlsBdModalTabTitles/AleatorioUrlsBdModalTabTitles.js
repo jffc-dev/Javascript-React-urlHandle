@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { faClipboard, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
+import { faClipboard, faSquarePlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from '../../../../hooks/useForm'
 import { addTitleToUrl } from '../../../../services/urls/addTitleToUrl'
 import GeneralTableButton from '../../../General/TableButton/TableButton'
@@ -7,25 +7,54 @@ import FormButtonComponent from '../../../General/FormButtonComponent/FormButton
 import { AppContext } from '../../../../utils/AppContext'
 import { OK_STATUS } from '../../../../constants'
 import { updateArrayObject } from '../../../../utils/url'
+import { deleteTitleFromUrl } from '../../../../services/urls/deleteTitleFromUrl'
 
-const AleatorioUrlsBdModalTabTitle = ({ cadena, setCadena, cadenas, setCadenas, cadenaIndex }) => {
+const AleatorioUrlsBdModalTabTitle = ({
+  modalLink,
+  setModalLink,
+  links,
+  setLinks,
+  modalLinkIndex
+}) => {
   // Title form
   const [{ tFormTitle }, tFormHandleInputChange, tFormReset] = useForm({
     tFormTitle: '',
     initial: true
   })
 
-  const { setToastAppProperties } = useContext(AppContext)
+  const { setToastAppProperties, setShowLoaderApp } = useContext(AppContext)
+
+  const handleDelete = async (title) => {
+    setShowLoaderApp(true)
+    const { data, message, status } = await deleteTitleFromUrl(
+      modalLink._id,
+      title._id,
+      modalLink.index
+    )
+    if (status === OK_STATUS) {
+      const urlOld = modalLink
+      updateArrayObject(links, setLinks, urlOld, data)
+      setModalLink(data)
+    } else {
+      setToastAppProperties({
+        title: 'ERROR',
+        message,
+        type: 'danger',
+        date: new Date()
+      })
+    }
+    setShowLoaderApp(false)
+  }
 
   const handleTitleFormSubmit = async (e) => {
     e.preventDefault()
-    const { data, message, status } = await addTitleToUrl(cadena._id, tFormTitle, cadenaIndex)
+    const { data, message, status } = await addTitleToUrl(modalLink._id, tFormTitle, modalLinkIndex)
 
     if (status === OK_STATUS) {
-      const urlOld = cadena
-      updateArrayObject(cadenas, setCadenas, urlOld, data)
+      const urlOld = modalLink
+      updateArrayObject(links, setLinks, urlOld, data)
       tFormReset()
-      setCadena(data)
+      setModalLink(data)
     } else {
       setToastAppProperties({
         title: 'ERROR',
@@ -62,7 +91,7 @@ const AleatorioUrlsBdModalTabTitle = ({ cadena, setCadena, cadenas, setCadenas, 
       </form>
 
       <div className="col-12">
-        <table>
+        <table className="random__content__table">
           <thead>
             <tr>
               <th>Título</th>
@@ -70,10 +99,10 @@ const AleatorioUrlsBdModalTabTitle = ({ cadena, setCadena, cadenas, setCadenas, 
             </tr>
           </thead>
           <tbody>
-            {cadena &&
-              cadena.titles &&
-              (cadena.titles.length ? (
-                cadena.titles.map((title, index) => (
+            {modalLink &&
+              modalLink.titles &&
+              (modalLink.titles.length ? (
+                modalLink.titles.map((title, index) => (
                   <tr key={index}>
                     <td className="url">{title.title}</td>
                     <td style={{ width: '10%' }}>
@@ -82,6 +111,13 @@ const AleatorioUrlsBdModalTabTitle = ({ cadena, setCadena, cadenas, setCadenas, 
                         msgTooltip={'Ver'}
                         action={() => {
                           navigator.clipboard.writeText(title.title)
+                        }}></GeneralTableButton>
+                      <GeneralTableButton
+                        faIcon={faTrash}
+                        msgTooltip={'Delete'}
+                        color="red"
+                        action={() => {
+                          handleDelete(title)
                         }}></GeneralTableButton>
                     </td>
                   </tr>
