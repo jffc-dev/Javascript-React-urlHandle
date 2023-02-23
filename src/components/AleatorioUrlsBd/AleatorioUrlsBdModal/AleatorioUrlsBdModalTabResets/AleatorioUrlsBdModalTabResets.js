@@ -5,7 +5,7 @@ import GeneralTableButton from '../../../General/TableButton/TableButton'
 const AleatorioUrlsBdModalTabTitles = ({ cadena }) => {
   return (
     <div className="col-12">
-      <table>
+      <table className="random__content__table">
         <thead>
           <tr>
             <th>URL</th>
