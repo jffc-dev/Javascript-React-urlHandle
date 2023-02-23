@@ -55,7 +55,7 @@ const AleatorioUrlsBdModalTabGeneral = ({ cadena }) => {
             <button
               className="inputModal__button"
               onClick={() => {
-                abrirUrlEspecifica({ url: currentUrl })
+                abrirUrlEspecifica(cadena.currentUrl)
               }}>
               <FontAwesomeIcon className="faIcon" icon={faGlobe} inverse />
             </button>
