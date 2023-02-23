@@ -6,14 +6,7 @@ import AleatorioUrlsBdModalTabTitles from './AleatorioUrlsBdModalTabTitles/Aleat
 import AleatorioUrlsBdModalTabGeneral from './AleatorioUrlsBdModalTabGeneral/AleatorioUrlsBdModalTabGeneral'
 import AleatorioUrlsBdModalTabResets from './AleatorioUrlsBdModalTabResets/AleatorioUrlsBdModalTabResets'
 
-const AleatorioUrlsBdModal = ({
-  modalShow,
-  setModalShow,
-  cadenas,
-  setCadenas,
-  cadena,
-  setCadena
-}) => {
+const DetailUrlModal = ({ modalShow, setModalShow, cadenas, setCadenas, cadena, setCadena }) => {
   return (
     cadena && (
       <Modal
@@ -31,11 +24,11 @@ const AleatorioUrlsBdModal = ({
             </Tab>
             <Tab eventKey="titles" title="Títulos">
               <AleatorioUrlsBdModalTabTitles
-                cadena={cadena}
-                setCadena={setCadena}
-                cadenas={cadenas}
-                setCadenas={setCadenas}
-                cadenaIndex={cadena.index}></AleatorioUrlsBdModalTabTitles>
+                modalLink={cadena}
+                setModalLink={setCadena}
+                links={cadenas}
+                setLinks={setCadenas}
+                modalLinkIndex={cadena.index}></AleatorioUrlsBdModalTabTitles>
             </Tab>
             <Tab eventKey="resets" title="Urls">
               <AleatorioUrlsBdModalTabResets cadena={cadena}></AleatorioUrlsBdModalTabResets>
@@ -48,4 +41,4 @@ const AleatorioUrlsBdModal = ({
   )
 }
 
-export default AleatorioUrlsBdModal
+export default DetailUrlModal
