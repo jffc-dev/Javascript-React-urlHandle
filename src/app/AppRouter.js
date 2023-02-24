@@ -16,6 +16,22 @@ import { AppContext } from '../utils/AppContext'
 const AppRouter = ({ darkMode, toastAppProperties, showLoaderApp }) => {
   const { setDarkMode } = useContext(AppContext)
 
+  React.useEffect(() => {
+    const root = document.querySelector(':root')
+    const rootStyles = getComputedStyle(root)
+
+    const blackColor = rootStyles.getPropertyValue('--black_color')
+    const whiteColor = rootStyles.getPropertyValue('--white_color')
+
+    if (darkMode) {
+      root.style.setProperty('--background_color', blackColor)
+      root.style.setProperty('--color', whiteColor)
+    } else {
+      root.style.setProperty('--background_color', whiteColor)
+      root.style.setProperty('--color', blackColor)
+    }
+  }, [darkMode])
+
   return (
     <BrowserRouter>
       <ToastContainerComponent toastAppProperties={toastAppProperties}></ToastContainerComponent>
