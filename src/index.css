@@ -2,6 +2,24 @@
   --green_btn_1: 0, 179, 89;
   --green_btn_disabled_1: 142, 178, 131;
   --green_background_1: 238, 255, 233;
+
+  --palette_n1: 183, 239, 197;
+  --palette_n2: 146, 230, 167;
+  --palette_n3: 110, 222, 138;
+  --palette_n4: 74, 214, 109;
+  --palette_n5: 45, 198, 83;
+  --palette_n6: 37, 162, 68;
+  --palette_n7: 32, 139, 58;
+  --palette_n8: 26, 116, 49;
+  --palette_n9: 21, 93, 39;
+  --palette_n10: 16, 69, 29;
+
+
+  --white_color: 255, 255, 255;
+  --black_color: 0, 0, 0;
+
+  --background_color: var(--white_color);
+  --color: var(--black_color);
 }
 
 body {
@@ -11,6 +29,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(var(--background_color));
 }
 
 code {
@@ -29,4 +48,22 @@ textarea {
 
 .form-group{
   margin-bottom: 1rem;
+}
+
+
+.form-control {
+  border: 1px solid rgb(var(--palette_n5));
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  background-color: rgb(var(--background_color));;
+}
+
+.form-control:focus {
+  /* color: #212529;
+  background-color: #fff; */
+  border-color: rgb(var(--palette_n5));
+  box-shadow: 0 0 0 0.25rem rgba(var(--palette_n3), 0.25);
+}
+
+.table__head{
+  background-color: rgb(var(--palette_n8));
 }
