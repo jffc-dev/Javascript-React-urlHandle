@@ -2,10 +2,11 @@ import React from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link } from 'react-router-dom'
+import './NavbarComponent.css'
 
-const NavbarComponent = () => {
+const NavbarComponent = ({ darkMode, setDarkMode }) => {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="success" variant="dark" fixed="top">
+    <Navbar collapseOnSelect expand="lg" variant="dark" fixed="top">
       <Container>
         <Navbar.Brand as={Link} to="/">
           ManejoCadenas
@@ -28,8 +29,12 @@ const NavbarComponent = () => {
           </Nav>
           <Nav>
             {/* <ToggleDarkModeComponent></ToggleDarkModeComponent> */}
-            <Nav.Link eventKey={2} href="#memes">
-              Dank memes
+            <Nav.Link
+              eventKey={2}
+              onClick={() => {
+                setDarkMode(!darkMode)
+              }}>
+              Dark mode
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
