@@ -10,7 +10,7 @@
     width: 3rem;
     cursor: pointer;
     color: white;
-    background-color: rgb(var(--green_btn_1));
+    background-color: rgb(var(--palette_n9));
     transform: translateX(2px);
 }
 
