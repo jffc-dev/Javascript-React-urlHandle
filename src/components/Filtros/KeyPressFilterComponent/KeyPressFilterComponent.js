@@ -24,7 +24,11 @@ export const KeyPressFilterComponent = ({ cadenas, setCadenasFiltro }) => {
 
   return (
     <div className="inputKeyPress__container">
-      <input value={busqueda} onChange={onChangeSearch} className="inputKeyPress__filter" />
+      <input
+        value={busqueda}
+        onChange={onChangeSearch}
+        className="inputKeyPress__filter form-control"
+      />
       <button className="inputKeyPress__button" onClick={clearSearch}>
         <FontAwesomeIcon className="faIcon" icon={faX} inverse />
       </button>
