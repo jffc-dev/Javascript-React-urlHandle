@@ -1,19 +1,32 @@
 .sticky-col {
-    position: -webkit-sticky;
-    position: sticky;
-    left: 0px;
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0px;
 }
 
-.sticky-col-tbody{
-    background-color: white !important;
+.sticky-col-tbody {
+  background-color: rgb(var(--background_color)) !important;
 }
 
-.table-head-center{
-    text-align: center; 
-    vertical-align: middle;
+.table-head-center {
+  text-align: center;
+  vertical-align: middle;
 }
 
-.table__actions{
-    width: 150px;
-    text-align: center;
+.table__actions {
+  width: 180px;
+  text-align: center;
+}
+
+.table__head th{
+  color: rgb(var(--white_color)) !important;
+}
+
+.table__tbody td{
+  color: rgb(var(--color)) !important;
+  border: 1px solid rgb(var(--white_color));
+}
+
+.table__tbody__text{
+  margin: 0;
 }
