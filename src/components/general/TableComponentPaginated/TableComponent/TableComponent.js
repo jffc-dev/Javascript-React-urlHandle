@@ -8,7 +8,7 @@ import './TableComponent.css'
 const TableComponent = ({ data, setData, heads, actions }) => {
   return (
     <Table striped responsive>
-      <thead className="table-dark">
+      <thead className="table__head">
         <tr>
           {actions && <th className="sticky-col table-head-center">Actions</th>}
           {Object.entries(heads).map(([key, value]) => (
@@ -18,7 +18,7 @@ const TableComponent = ({ data, setData, heads, actions }) => {
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody className="table__tbody">
         {data.map((item, index) => {
           return (
             <tr key={index}>
@@ -40,7 +40,9 @@ const TableComponent = ({ data, setData, heads, actions }) => {
 
               {Object.entries(heads).map(([key, value]) => (
                 <td key={key}>
-                  <p style={{ width: value.width + 'px', overflowX: value.width && 'hidden' }}>
+                  <p
+                    style={{ width: value.width + 'px', overflowX: value.width && 'hidden' }}
+                    className="table__tbody__text">
                     {TemplateParser(item[key], value.type)}
                   </p>
                 </td>
