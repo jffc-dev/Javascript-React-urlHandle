@@ -1,109 +1,97 @@
 .App {
-    text-align: center;
-  }
-  
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    height: 40vmin;
-    pointer-events: none;
+    animation: App-logo-spin infinite 20s linear;
   }
-  
-  @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-      animation: App-logo-spin infinite 20s linear;
-    }
-  }
-  
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-  }
-  
-  .App-link {
-    color: #61dafb;
-  }
-  
-  .random__contenedor{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .random__contenedor__contador{
-    width: 20%;
-    display: flex;
-  }
+}
 
-  .random__contenedor__botones{
-    width: 70%;
-    display: flex;
-    justify-content: space-between;
-  }
+.random__contenedor {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
 
-  .random__contenedor__botones_btn{
-    width: 48%;
-    display: flex;
-    border: 1px solid rgb(var(--green_btn_1));
-  }
+.random__contenedor__contador {
+  width: 20%;
+  display: flex;
+}
 
-  .random__contenedor__botones_btn button{
-    display: inline-block;
-    background-color: rgb(var(--green_btn_1));
-    border: none;
-    color: white;
-    width: 100%;
-  }
+.random__contenedor__botones {
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+}
 
-  .random__contenedor__botones_div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20%;
-  }
-  
-  .random__tabla{
-    margin-top: 2rem;
-  }
+.random__contenedor__botones_btn {
+  width: 48%;
+  display: flex;
+  border: 1px solid rgb(var(--palette_n9));
+}
 
-  .random__contenedor__contador button{
-    width: 25%;
-    height: 4rem;
-    border: 1px solid rgb(var(--green_btn_1));
-    background-color: rgb(var(--green_btn_1));
-    color: white;
-    font-size: 1.5rem;
-  }
-  
-  .random__contenedor__contador input{
-    width: 70%;
-    text-align: center;
-    border: none;
-    font-size: 1.5rem;
-    border-bottom: 1px solid rgb(var(--green_btn_1));
-    border-top: 1px solid rgb(var(--green_btn_1));
-    background-color: rgb(var(--green_background_1));
-  }
+.random__contenedor__botones_btn button {
+  display: inline-block;
+  background-color: rgb(var(--palette_n9));
+  border: none;
+  color: rgb(var(--white_color));
+  font-weight: bold;
+  width: 100%;
+}
 
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+.random__contenedor__botones_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  color: rgb(var(--color));
+}
 
-  button:disabled, button[disabled]{
-    border: none;
-    background-color: rgb(var(--green_btn_disabled_1));
-    color: white;
+.random__tabla {
+  margin-top: 2rem;
+}
+
+.random__contenedor__contador button {
+  width: 25%;
+  height: 4rem;
+  border: 1px solid rgb(var(--palette_n9));
+  background-color: rgb(var(--palette_n9));
+  color: white;
+  font-size: 1.5rem;
+}
+
+.random__contenedor__contador input {
+  width: 70%;
+  text-align: center;
+  border: none;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgb(var(--palette_n9));
+  border-top: 1px solid rgb(var(--palette_n9));
+  background-color: rgb(var(--green_background_1));
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
   }
-  
-  table tbody tr.active_row{
-    background-color: greenyellow;
+  to {
+    transform: rotate(360deg);
   }
+}
+
+button:disabled,
+button[disabled] {
+  border: none;
+  background-color: rgb(var(--palette_n2));
+  color: white;
+}
+
+table tbody tr.active_row {
+  background-color: greenyellow;
+}
