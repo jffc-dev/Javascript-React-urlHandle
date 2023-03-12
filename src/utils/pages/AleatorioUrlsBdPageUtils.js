@@ -1,24 +1,18 @@
 import { OK_STATUS } from '../../constants'
 import { addTitleToUrl } from '../../services/urls/addTitleToUrl'
 import { getUrlsRandom } from '../../services/urls/getUrlsRandom'
-import { updateArrayObject } from '../url'
+import { abrirUrlEspecifica, updateArrayObject } from '../url'
 
 export const OpenAdvancedGoogleSearch = (cadena) => {
   const urlSearch = cadena.currentTitle || cadena.currentUrl
   const urlGoogle = `https://www.google.com.pe/search?tbm=vid&hl=es-419&as_q=${encodeURI(
     urlSearch.replace('&', '')
   )}&as_epq=&as_oq=&as_eq=&lr=&as_qdr=all&as_sitesearch=&safe=images&tbs=dur%3Al`
-  Object.assign(document.createElement('a'), {
-    target: '_blank',
-    href: urlGoogle
-  }).click()
+  abrirUrlEspecifica(urlGoogle)
 }
 
 export const openCurrentLink = (cadenas, currentLink, setCurrentLink) => {
-  Object.assign(document.createElement('a'), {
-    target: '_blank',
-    href: cadenas.at(currentLink).url
-  }).click()
+  abrirUrlEspecifica(cadenas.at(currentLink).currentUrl)
   setCurrentLink(currentLink + 1)
 }
 
