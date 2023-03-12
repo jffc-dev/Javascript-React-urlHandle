@@ -21,7 +21,7 @@ import { KeyPressFilterComponent } from '../../components/Filtros/KeyPressFilter
 
 import GeneralTableButton from '../../components/General/TableButton/TableButton'
 
-import AleatorioUrlsBdModal from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModal'
+import DetailUrlModal from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModal'
 import { getNewUrlService } from '../../services/urls/getNewUrl'
 import ConfirmationModalComponent from '../../components/General/ConfirmationModal/ConfirmationModalComponent.js'
 import AleatorioUrlsBdModalReset from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModalReset/AleatorioUrlsBdModalReset.js'
@@ -240,13 +240,13 @@ const AleatorioUrlsBdPage = ({ props }) => {
 
   return (
     <Container style={{ paddingTop: '80px' }}>
-      <AleatorioUrlsBdModal
+      <DetailUrlModal
         modalShow={modalDetailShow}
         setModalShow={setmodalDetailShow}
         cadenas={cadenas}
         setCadenas={setCadenas}
         cadena={modalCadena}
-        setCadena={setmodalCadena}></AleatorioUrlsBdModal>
+        setCadena={setmodalCadena}></DetailUrlModal>
 
       {/* Replace URL Confirmation model */}
       <ConfirmationModalComponent
@@ -366,7 +366,7 @@ const AleatorioUrlsBdPage = ({ props }) => {
         </div>
         <div className="random__tabla">
           <KeyPressFilterComponent cadenas={cadenas} setCadenasFiltro={setCadenasFiltro} />
-          <table>
+          <table className="random__content__table">
             <thead>
               <tr>
                 <th style={{ width: '4%' }}></th>
@@ -390,7 +390,7 @@ const AleatorioUrlsBdPage = ({ props }) => {
                         msgTooltip={'Ver'}
                         action={() => {
                           setSelectedLink(cadena.index)
-                          abrirUrlEspecifica(cadena)
+                          abrirUrlEspecifica(cadena.currentUrl)
                         }}></GeneralTableButton>
                       <GeneralTableButton
                         faIcon={faRotate}
@@ -441,7 +441,7 @@ const AleatorioUrlsBdPage = ({ props }) => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} style={{ textAlign: 'center' }}>
+                  <td colSpan={5} style={{ textAlign: 'center' }}>
                     No se cargaron registros
                   </td>
                 </tr>
