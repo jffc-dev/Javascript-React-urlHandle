@@ -1,36 +1,37 @@
-table{
-    border: 1px solid #ddd;
-    border-collapse: collapse;
-    table-layout: fixed;
+.random__content__table {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  table-layout: fixed;
   width: 100%;
 }
 
-table th {
-    border: 1px solid #ddd;
-    padding: 8px;
+.random__content__table td {
+  border: 1px solid rgb(var(--color));
+  padding: 8px;
+  color: rgb(var(--color));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-table td {
-    padding: 8px;
-    overflow: hidden;
- text-overflow: ellipsis;
- white-space: nowrap;
+.random__content__table td.url {
+  max-width: 10%;
 }
 
-table td.url {
-    max-width: 10%;
+.random__content__table td.date {
+  max-width: 20%;
 }
 
-table td.date {
-    max-width: 20%;
+.random__content__table th {
+  background-color: rgb(var(--palette_n8));
+  padding: 12px 12px 12px 8px;
+  text-align: left;
+  color: white;
+  border: 1px solid #ddd;
 }
 
-table tr:nth-child(even){background-color: #f2f2f2;}
-
-th{
-    background-color: rgb(116, 189, 94);
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    color: white;
+.random__contenedor input {
+  display: 'inline-block';
+  width: 100%;
+  margin-bottom: 1rem;
 }
