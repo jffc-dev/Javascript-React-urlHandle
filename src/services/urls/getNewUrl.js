@@ -14,7 +14,7 @@ export const getNewUrlService = async (urls, size, indexOld) => {
     })
     .then((response) => {
       const { data, message, status } = response.data
-      let index = indexOld
+      let index = indexOld + 1
 
       if (status === OK_STATUS) {
         const cadenasClase = data.map((cadena) => {
