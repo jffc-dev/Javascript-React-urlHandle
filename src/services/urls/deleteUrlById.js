@@ -2,12 +2,12 @@
 import axios from 'axios'
 
 // Owns
-import { API_URL_BASE, OK_STATUS } from '../../constants'
+import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
 import { ServiceResponse } from '../../models/Response'
 
 export const deleteUrlById = async (idUrl) => {
   const urlResult = await axios
-    .delete(API_URL_BASE + '/api/url/' + idUrl)
+    .delete(API_URL_BASE + API_URL_URLS + idUrl)
     .then((response) => {
       const { data, message, status } = response.data
 
