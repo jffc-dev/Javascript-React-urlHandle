@@ -73,7 +73,7 @@
   font-size: 1.5rem;
   border-bottom: 1px solid rgb(var(--palette_n9));
   border-top: 1px solid rgb(var(--palette_n9));
-  background-color: rgb(var(--green_background_1));
+  background-color: rgb(var(--palette_n1));
 }
 
 @keyframes App-logo-spin {
@@ -93,5 +93,9 @@ button[disabled] {
 }
 
 table tbody tr.active_row {
-  background-color: greenyellow;
+  background-color: rgb(var(--palette_n2));
+}
+
+table tbody tr.active_row td {
+  color: rgb(var(--background_color));
 }
