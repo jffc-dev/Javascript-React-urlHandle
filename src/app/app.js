@@ -4,7 +4,7 @@ import { AppContext } from '../utils/AppContext'
 import AppRouter from './AppRouter'
 
 const App = () => {
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(true)
   const [toastAppProperties, setToastAppProperties] = useState({
     title: '',
     message: '',
