@@ -5,10 +5,10 @@ import axios from 'axios'
 import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
 import { ServiceResponse } from '../../models/Response'
 
-export const loadTitleOfUrlService = async (idUrl) => {
+export const loadTitleOfUrlService = async (currentUrl) => {
   const resp = await axios
     .post(API_URL_BASE + API_URL_URLS + 'load/', {
-      id: idUrl
+      url: currentUrl
     })
     .then((response) => {
       const { data, message, status } = response.data
