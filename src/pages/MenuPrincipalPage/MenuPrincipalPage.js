@@ -10,27 +10,31 @@ const MenuPrincipalPage = () => {
   return (
     <Container style={{ paddingTop: '80px', height: '100%' }}>
       <div className="menu_principal__contenedor">
-        <Link className="menu_principal__item" to={`/mantenimiento/random/db`}>
+        <Link className="menu_principal__item" to={'/mantenimiento/random/db'}>
           <FontAwesomeIcon className="faIcon" icon={faDatabase} size="5x" inverse />
           <span>Random DB</span>
         </Link>
-        <Link className="menu_principal__item" to={`/mantenimiento/list/db`}>
+        <Link className="menu_principal__item" to={'/mantenimiento/list/db'}>
           <FontAwesomeIcon className="faIcon" icon={faList} size="5x" inverse />
           <span>List DB</span>
         </Link>
-        <Link className="menu_principal__item" to={`/mantenimiento/creacion/masiva`}>
+        <Link className="menu_principal__item" to={'/mantenimiento/creacion/masiva'}>
           <FontAwesomeIcon className="faIcon" icon={faAdd} size="5x" inverse />
           <span>Add URL</span>
         </Link>
+        <Link className="menu_principal__item" to={'/mantenimiento/creacion/masiva_v2'}>
+          <FontAwesomeIcon className="faIcon" icon={faAdd} size="5x" inverse />
+          <span>Add URL V2</span>
+        </Link>
         <Link
           className="menu_principal__item menu_principal__item__manual"
-          to={`/mantenimiento/random/manual`}>
+          to={'/mantenimiento/random/manual'}>
           <FontAwesomeIcon className="faIcon" icon={faHand} size="5x" inverse />
           <span>Manual</span>
         </Link>
         <Link
           className="menu_principal__item menu_principal__item__manual"
-          to={`/mantenimiento/list/dbv2`}>
+          to={'/mantenimiento/list/dbv2'}>
           <FontAwesomeIcon className="faIcon" icon={faHand} size="5x" inverse />
           <span>List v2</span>
         </Link>
