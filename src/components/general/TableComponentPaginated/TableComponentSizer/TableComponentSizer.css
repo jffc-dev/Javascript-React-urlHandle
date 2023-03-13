@@ -1,0 +1,31 @@
+.pagination__sizer div label {
+  width: 100%;
+  text-align: end;
+  padding-right: 1rem;
+}
+
+.pagination__sizer div label span {
+  font-style: italic;
+}
+
+.pagination__sizer div select {
+  width: 100%;
+}
+
+.pagination__sizer div:nth-child(1) {
+  flex: 3;
+}
+
+.pagination__sizer div:nth-child(2) {
+  flex: 1;
+}
+
+@media (max-width: 576px) {
+  .pagination__sizer div label {
+    text-align: start;
+  }
+
+  .pagination__sizer div:nth-child(1) {
+    flex: 1;
+  }
+}
