@@ -34,7 +34,7 @@ const NavbarComponent = ({ darkMode, setDarkMode }) => {
               onClick={() => {
                 setDarkMode(!darkMode)
               }}>
-              Dark mode
+              {darkMode ? 'Light mode' : 'Dark mode'}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
