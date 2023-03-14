@@ -30,6 +30,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: rgb(var(--background_color));
+  color: rgb(var(--color));
 }
 
 code {
@@ -54,7 +55,7 @@ textarea {
 .form-control {
   border: 1px solid rgb(var(--palette_n5));
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  background-color: rgb(var(--background_color));;
+  background-color: rgb(var(--background_color));
 }
 
 .form-control:focus {
@@ -66,4 +67,17 @@ textarea {
 
 .table__head{
   background-color: rgb(var(--palette_n8));
+}
+
+.modal-backdrop{
+  background-color: rgb(var(--color));
+}
+
+.modal-content {
+  background-color: rgb(var(--background_color));
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+  background-color: rgb(var(--background_color));
+  border-color: rgb(var(--color)) rgb(var(--color)) rgb(var(--background_color));
 }
