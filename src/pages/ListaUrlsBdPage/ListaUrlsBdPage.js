@@ -6,12 +6,13 @@ import axios from 'axios'
 
 import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
 import { abrirUrlEspecifica, hanldeDeleteUrl, updateArrayObject } from '../../utils/url.js'
-// import './ListaUrlsBdPage.css'
 import GeneralTableButton from '../../components/General/TableButton/TableButton'
 import { AppContext } from '../../utils/AppContext'
 import { getUrls } from '../../services/urls/getUrls'
 import AleatorioUrlsBdModalReset from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModalReset/AleatorioUrlsBdModalReset'
 import { addResetToUrl } from '../../services/urls/addResetToUrl'
+
+import './ListaUrlsBdPage.css'
 
 const ListaUrlsBdPage = () => {
   const [cadenas, setCadenas] = useState([])
@@ -73,11 +74,11 @@ const ListaUrlsBdPage = () => {
     }
   }
 
-  const cargarUrl = async (idCadena) => {
+  const cargarUrl = async (link) => {
     setShowLoaderApp(true)
     await axios
       .post(API_URL_BASE + API_URL_URLS + 'load/', {
-        id: idCadena
+        url: link.currentUrl
       })
       .then(async (response) => {
         const { data, message, status } = response.data
@@ -94,7 +95,7 @@ const ListaUrlsBdPage = () => {
               const titulo = document.getElementById('swal-input1').value
 
               const data = await axios
-                .patch(API_URL_BASE + '/api/url/add-title/' + idCadena, {
+                .patch(API_URL_BASE + '/api/url/add-title/' + link._id, {
                   title: titulo
                 })
                 .then((response) => {
@@ -144,12 +145,8 @@ const ListaUrlsBdPage = () => {
 
       <div className="random__contenedor">
         <div>
-          <input
-            value={busqueda}
-            onChange={onChangeSearch}
-            style={{ display: 'inline-block', width: '100%', marginBottom: '1rem' }}
-          />
-          <table className="mb-5">
+          <input value={busqueda} onChange={onChangeSearch} className="form-control" />
+          <table className="mb-5 random__content__table">
             <thead>
               <tr>
                 <th>URL</th>
@@ -166,11 +163,11 @@ const ListaUrlsBdPage = () => {
                     <GeneralTableButton
                       faIcon={faGlobe}
                       msgTooltip={'Go'}
-                      action={(_) => abrirUrlEspecifica(url)}></GeneralTableButton>
+                      action={(_) => abrirUrlEspecifica(url.currentUrl)}></GeneralTableButton>
                     <GeneralTableButton
                       faIcon={faSpinner}
                       msgTooltip={'Load'}
-                      action={(_) => cargarUrl(url._id)}></GeneralTableButton>
+                      action={(_) => cargarUrl(url)}></GeneralTableButton>
                     <GeneralTableButton
                       faIcon={faRotate}
                       msgTooltip={'Reset'}
