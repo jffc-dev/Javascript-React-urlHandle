@@ -12,6 +12,7 @@ import LoaderFullScreenComponent from '../components/General/LoaderFullScreenCom
 import ToastContainerComponent from '../components/General/ToastContainerComponent/ToastContainerComponent'
 import ListaUrlsBdPaginationPage from '../pages/ListaUrlsBdPaginationPage/ListaUrlsBdPaginationPage'
 import { AppContext } from '../utils/AppContext'
+import CreacionUrlsMasivaPageV2 from '../pages/CreacionUrlsMasivaPageV2/CreacionUrlsMasivaPageV2'
 
 const AppRouter = ({ darkMode, toastAppProperties, showLoaderApp }) => {
   const { setDarkMode } = useContext(AppContext)
@@ -50,6 +51,9 @@ const AppRouter = ({ darkMode, toastAppProperties, showLoaderApp }) => {
           <Route path="list">
             <Route path="db" element={<ListaUrlsBdPage />} />
             <Route path="dbv2" element={<ListaUrlsBdPaginationPage />} />
+          </Route>
+          <Route path="creacion">
+            <Route path="masiva_v2" element={<CreacionUrlsMasivaPageV2 />} />
           </Route>
         </Route>
       </Routes>
