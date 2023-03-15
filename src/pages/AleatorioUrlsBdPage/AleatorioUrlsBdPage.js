@@ -1,25 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Container } from 'react-bootstrap'
-import {
-  faClipboard,
-  faEye,
-  faGlobe,
-  faRotate,
-  faSearch,
-  faSpinner,
-  faTrashRestore
-} from '@fortawesome/free-solid-svg-icons'
 
-import { abrirUrlEspecifica, updateArrayObject } from '../../utils/url.js'
+import { updateArrayObject } from '../../utils/url.js'
 import {
   openCurrentLink,
-  OpenAdvancedGoogleSearch,
   handleGetUrlsRandom,
   PressOkModalLoadTitle
 } from '../../utils/pages/AleatorioUrlsBdPageUtils.js'
-import { KeyPressFilterComponent } from '../../components/Filtros/KeyPressFilterComponent/KeyPressFilterComponent'
-
-import GeneralTableButton from '../../components/General/TableButton/TableButton'
 
 import DetailUrlModal from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModal'
 import { getNewUrlService } from '../../services/urls/getNewUrl'
@@ -32,6 +19,8 @@ import './AleatorioUrlsBdPage.css'
 import AleatorioUrlsBdModalLoad from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModalLoad/AleatorioUrlsBdModalLoad.js'
 import { loadTitleOfUrlService } from '../../services/urls/loadTitleOfUrl.js'
 import { useForm } from '../../hooks/useForm.js'
+import AleatorioUrlsBdPageHead from './AleatorioUrlsBdPageHead/AleatorioUrlsBdPageHead.js'
+import AleatorioUrlsBdPageBody from './AleatorioUrlsBdPageBody/AleatorioUrlsBdPageBody.js'
 
 const AleatorioUrlsBdPage = ({ props }) => {
   const [cadenas, setCadenas] = useState([])
@@ -183,7 +172,7 @@ const AleatorioUrlsBdPage = ({ props }) => {
 
   const OpenConfirmModalLoadTitle = async (cadena) => {
     setShowLoaderApp(true)
-    const { data, status, message } = await loadTitleOfUrlService(cadena._id)
+    const { data, status, message } = await loadTitleOfUrlService(cadena.currentUrl)
     if (status === OK_STATUS) {
       const { title } = data
       setmodalCadenaLoadTitle(cadena)
@@ -312,143 +301,33 @@ const AleatorioUrlsBdPage = ({ props }) => {
         newTitle={newTitle}
         handleInputChange={handleInputChange}
         modalCancelBtnAction={() => {
-          setmodalCadenaReset(false)
+          setmodalLoadTitleShow(false)
         }}></AleatorioUrlsBdModalLoad>
       <div>
-        <div className="random__contenedor">
-          <div className="random__contenedor__contador">
-            <button
-              onClick={() => {
-                handleContador('-')
-              }}
-              onMouseDown={() => {
-                startCounter('-')
-              }}
-              onMouseUp={stopCounter}
-              onMouseLeave={stopCounter}>
-              -
-            </button>
-            <input value={nroResultados} onChange={handleChangeResultados}></input>
-            <button
-              onClick={() => {
-                handleContador('+')
-              }}
-              onMouseDown={() => {
-                startCounter('+')
-              }}
-              onMouseUp={stopCounter}
-              onMouseLeave={stopCounter}>
-              +
-            </button>
-          </div>
-          <div className="random__contenedor__botones">
-            <div className="random__contenedor__botones_btn">
-              <button
-                onClick={() => {
-                  OpenConfirmModalRandom()
-                }}>
-                Obtener cadenas
-              </button>
-            </div>
-            <div className="random__contenedor__botones_btn">
-              <button
-                disabled={linkCount === currentLink}
-                onClick={() => {
-                  openCurrentLink(cadenas, currentLink, setCurrentLink)
-                }}>
-                Open URL
-              </button>
-              <div className="random__contenedor__botones_div">
-                {currentLink === -1 ? '' : currentLink}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="random__tabla">
-          <KeyPressFilterComponent cadenas={cadenas} setCadenasFiltro={setCadenasFiltro} />
-          <table className="random__content__table">
-            <thead>
-              <tr>
-                <th style={{ width: '4%' }}></th>
-                <th style={{ width: '6%' }}>NRO</th>
-                <th>URL</th>
-                <th style={{ width: '4%' }}>R</th>
-                <th style={{ width: '26%' }}>OPCIONES</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cadenasFiltro.length ? (
-                cadenasFiltro.map((cadena, index) => (
-                  <tr key={index} className={selectedLink === cadena.index ? 'active_row' : ''}>
-                    <td className="url">{currentLink === cadena.index && '->'}</td>
-                    <td style={{ width: '10%' }}>{cadena.index}</td>
-                    <td className="url">{cadena.currentTitle || cadena.currentUrl}</td>
-                    <td>{cadena.resets ? cadena.resets.length : 0}</td>
-                    <td>
-                      <GeneralTableButton
-                        faIcon={faGlobe}
-                        msgTooltip={'Ver'}
-                        action={() => {
-                          setSelectedLink(cadena.index)
-                          abrirUrlEspecifica(cadena.currentUrl)
-                        }}></GeneralTableButton>
-                      <GeneralTableButton
-                        faIcon={faRotate}
-                        msgTooltip={'Reestablecer'}
-                        action={() => {
-                          setSelectedLink(cadena.index)
-                          OpenConfirmModalReset(cadena, cadenas, setCadenas)
-                        }}></GeneralTableButton>
-                      <GeneralTableButton
-                        faIcon={faEye}
-                        msgTooltip={'Detalle'}
-                        action={() => {
-                          setSelectedLink(cadena.index)
-                          verDetalleUrl(cadena)
-                        }}></GeneralTableButton>
-                      <GeneralTableButton
-                        faIcon={faSpinner}
-                        msgTooltip={'Load'}
-                        action={(_) => {
-                          setSelectedLink(cadena.index)
-                          OpenConfirmModalLoadTitle(cadena)
-                        }}></GeneralTableButton>
-                      <GeneralTableButton
-                        faIcon={faClipboard}
-                        msgTooltip={'Copiar URL'}
-                        action={() => {
-                          setSelectedLink(cadena.index)
-                          navigator.clipboard.writeText(cadena.url)
-                        }}></GeneralTableButton>
-                      <GeneralTableButton
-                        faIcon={faTrashRestore}
-                        msgTooltip={'Reemplazar'}
-                        color="red"
-                        action={() => {
-                          setSelectedLink(cadena.index)
-                          OpenConfirmModalReplace(cadena)
-                        }}></GeneralTableButton>
-                      <GeneralTableButton
-                        faIcon={faSearch}
-                        msgTooltip={'Search'}
-                        color="blue"
-                        action={() => {
-                          setSelectedLink(cadena.index)
-                          OpenAdvancedGoogleSearch(cadena)
-                        }}></GeneralTableButton>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={5} style={{ textAlign: 'center' }}>
-                    No se cargaron registros
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <AleatorioUrlsBdPageHead
+          handleContador={handleContador}
+          startCounter={startCounter}
+          stopCounter={stopCounter}
+          nroResultados={nroResultados}
+          handleChangeResultados={handleChangeResultados}
+          OpenConfirmModalRandom={OpenConfirmModalRandom}
+          linkCount={linkCount}
+          currentLink={currentLink}
+          cadenas={cadenas}
+          setCurrentLink={setCurrentLink}
+          openCurrentLink={openCurrentLink}></AleatorioUrlsBdPageHead>
+        <AleatorioUrlsBdPageBody
+          cadenas={cadenas}
+          setCadenasFiltro={setCadenasFiltro}
+          cadenasFiltro={cadenasFiltro}
+          selectedLink={selectedLink}
+          currentLink={currentLink}
+          setCadenas={setCadenas}
+          setSelectedLink={setSelectedLink}
+          OpenConfirmModalReset={OpenConfirmModalReset}
+          verDetalleUrl={verDetalleUrl}
+          OpenConfirmModalLoadTitle={OpenConfirmModalLoadTitle}
+          OpenConfirmModalReplace={OpenConfirmModalReplace}></AleatorioUrlsBdPageBody>
       </div>
     </Container>
   )
