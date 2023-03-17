@@ -49,7 +49,7 @@ const AleatorioUrlsManualPage = () => {
     })
     return cadena
   }
-  const obtenerCadenas = () => {
+  const getLinks = () => {
     const arrayCadenas = cadenas.split('\n')
     const cadenasResultado = []
     while (cadenasResultado.length < nroResultados) {
@@ -107,9 +107,9 @@ const AleatorioUrlsManualPage = () => {
             </div>
             <button
               onClick={() => {
-                obtenerCadenas()
+                getLinks()
               }}>
-              Obtener cadenas
+              Get Links
             </button>
             <button
               disabled={linkCount === -1}

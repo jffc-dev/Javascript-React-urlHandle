@@ -44,7 +44,7 @@ const AleatorioUrlsBdPageHead = ({
             onClick={() => {
               OpenConfirmModalRandom()
             }}>
-            Obtener cadenas
+            Get links
           </button>
         </div>
         <div className="random__contenedor__botones_btn">

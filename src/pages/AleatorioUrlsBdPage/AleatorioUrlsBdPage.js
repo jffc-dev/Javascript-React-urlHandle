@@ -243,7 +243,7 @@ const AleatorioUrlsBdPage = ({ props }) => {
           modalCadenaReplaceOld &&
           modalCadenaReplaceNew && (
             <div>
-              You are goin to replace{' '}
+              You are going to replace{' '}
               <a target="_blank" href={modalCadenaReplaceOld.url} rel="noreferrer">
                 {modalCadenaReplaceOld.title || 'Current URL'}
               </a>
