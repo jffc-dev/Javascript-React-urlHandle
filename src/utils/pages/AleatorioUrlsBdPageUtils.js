@@ -19,7 +19,6 @@ export const openCurrentLink = (cadenas, currentLink, setCurrentLink) => {
 export const handleGetUrlsRandom = async (
   nroResultados,
   setCadenas,
-  setCadenasFiltro,
   setLinkCount,
   setCurrentLink,
   setmodalConfirmationRandomShow,
@@ -29,7 +28,6 @@ export const handleGetUrlsRandom = async (
 
   if (status === OK_STATUS) {
     setCadenas(data)
-    setCadenasFiltro(data)
     setLinkCount(data.length)
     setCurrentLink(0)
 

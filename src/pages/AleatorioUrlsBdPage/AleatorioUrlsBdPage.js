@@ -24,7 +24,6 @@ import AleatorioUrlsBdPageBody from './AleatorioUrlsBdPageBody/AleatorioUrlsBdPa
 
 const AleatorioUrlsBdPage = ({ props }) => {
   const [cadenas, setCadenas] = useState([])
-  const [cadenasFiltro, setCadenasFiltro] = useState([])
   const [nroResultados, setnroResultados] = useState(1)
   const [linkCount, setLinkCount] = useState(-1)
   const [currentLink, setCurrentLink] = useState(-1)
@@ -98,7 +97,6 @@ const AleatorioUrlsBdPage = ({ props }) => {
       await handleGetUrlsRandom(
         nroResultados,
         setCadenas,
-        setCadenasFiltro,
         setLinkCount,
         setCurrentLink,
         setmodalConfirmationRandomShow,
@@ -114,7 +112,6 @@ const AleatorioUrlsBdPage = ({ props }) => {
       await handleGetUrlsRandom(
         nroResultados,
         setCadenas,
-        setCadenasFiltro,
         setLinkCount,
         setCurrentLink,
         setmodalConfirmationRandomShow,
@@ -138,7 +135,6 @@ const AleatorioUrlsBdPage = ({ props }) => {
       setCadenas([])
       setCadenas(newCadenasList)
       setLinkCount(newCadenasList.length)
-      setCadenasFiltro(newCadenasList)
     } else {
       setToastAppProperties({
         title: 'ERROR',
@@ -318,8 +314,6 @@ const AleatorioUrlsBdPage = ({ props }) => {
           openCurrentLink={openCurrentLink}></AleatorioUrlsBdPageHead>
         <AleatorioUrlsBdPageBody
           cadenas={cadenas}
-          setCadenasFiltro={setCadenasFiltro}
-          cadenasFiltro={cadenasFiltro}
           selectedLink={selectedLink}
           currentLink={currentLink}
           setCadenas={setCadenas}

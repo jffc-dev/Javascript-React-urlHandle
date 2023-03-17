@@ -7,6 +7,7 @@ import {
   faSpinner,
   faTrashRestore
 } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
 import { KeyPressFilterComponent } from '../../../components/Filtros/KeyPressFilterComponent/KeyPressFilterComponent'
 import GeneralTableButton from '../../../components/General/TableButton/TableButton'
 import { OpenAdvancedGoogleSearch } from '../../../utils/pages/AleatorioUrlsBdPageUtils'
@@ -14,20 +15,22 @@ import { abrirUrlEspecifica } from '../../../utils/url'
 
 const AleatorioUrlsBdPageBody = ({
   cadenas,
-  setCadenasFiltro,
-  cadenasFiltro,
+  setCadenas,
   selectedLink,
   currentLink,
-  setCadenas,
   setSelectedLink,
   OpenConfirmModalReset,
   verDetalleUrl,
   OpenConfirmModalLoadTitle,
   OpenConfirmModalReplace
 }) => {
+  const [busqueda, setBusqueda] = useState('')
+  const cadenasFiltered = cadenas.filter((cadena) =>
+    cadena.url.toLowerCase().includes(busqueda.toLowerCase())
+  )
   return (
     <div className="random__tabla">
-      <KeyPressFilterComponent cadenas={cadenas} setCadenasFiltro={setCadenasFiltro} />
+      <KeyPressFilterComponent busqueda={busqueda} setBusqueda={setBusqueda} />
       <table className="random__content__table">
         <thead>
           <tr>
@@ -39,8 +42,8 @@ const AleatorioUrlsBdPageBody = ({
           </tr>
         </thead>
         <tbody>
-          {cadenasFiltro.length ? (
-            cadenasFiltro.map((cadena, index) => (
+          {cadenasFiltered.length ? (
+            cadenasFiltered.map((cadena, index) => (
               <tr key={index} className={selectedLink === cadena.index ? 'active_row' : ''}>
                 <td className="url">{currentLink === cadena.index && '->'}</td>
                 <td style={{ width: '10%' }}>{cadena.index}</td>

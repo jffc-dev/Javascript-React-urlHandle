@@ -1,18 +1,11 @@
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React from 'react'
 import './KeyPressFilterComponent.css'
 
-export const KeyPressFilterComponent = ({ cadenas, setCadenasFiltro }) => {
-  const [busqueda, setBusqueda] = useState('')
-
+export const KeyPressFilterComponent = ({ busqueda, setBusqueda }) => {
   const onChangeSearch = (event) => {
     setBusqueda(event.target.value)
-    setCadenasFiltro(
-      cadenas.filter((cadena) =>
-        cadena.url.toLowerCase().includes(event.target.value.toLowerCase())
-      )
-    )
   }
 
   const clearSearch = () => {
