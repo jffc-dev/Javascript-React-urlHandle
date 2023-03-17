@@ -94,41 +94,39 @@ const AleatorioUrlsBdModalTabTitle = ({
         <table className="random__content__table">
           <thead>
             <tr>
-              <th>Título</th>
-              <th style={{ width: '20%' }}>Opciones</th>
+              <th>Title</th>
+              <th style={{ width: '20%' }}>Options</th>
             </tr>
           </thead>
           <tbody>
-            {modalLink &&
-              modalLink.titles &&
-              (modalLink.titles.length ? (
-                modalLink.titles.map((title, index) => (
-                  <tr key={index}>
-                    <td className="url">{title.title}</td>
-                    <td style={{ width: '10%' }}>
-                      <GeneralTableButton
-                        faIcon={faClipboard}
-                        msgTooltip={'Ver'}
-                        action={() => {
-                          navigator.clipboard.writeText(title.title)
-                        }}></GeneralTableButton>
-                      <GeneralTableButton
-                        faIcon={faTrash}
-                        msgTooltip={'Delete'}
-                        color="red"
-                        action={() => {
-                          handleDelete(title)
-                        }}></GeneralTableButton>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={2} style={{ textAlign: 'center' }}>
-                    No se cargaron registros
+            {modalLink?.titles?.length ? (
+              modalLink.titles.map((title, index) => (
+                <tr key={index}>
+                  <td className="url">{title.title}</td>
+                  <td style={{ width: '10%' }}>
+                    <GeneralTableButton
+                      faIcon={faClipboard}
+                      msgTooltip={'Ver'}
+                      action={() => {
+                        navigator.clipboard.writeText(title.title)
+                      }}></GeneralTableButton>
+                    <GeneralTableButton
+                      faIcon={faTrash}
+                      msgTooltip={'Delete'}
+                      color="red"
+                      action={() => {
+                        handleDelete(title)
+                      }}></GeneralTableButton>
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <tr>
+                <td colSpan={2} style={{ textAlign: 'center' }}>
+                  No records found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

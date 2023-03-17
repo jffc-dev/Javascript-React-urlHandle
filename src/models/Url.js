@@ -23,14 +23,14 @@ export const Url = class {
 
   get currentTitle() {
     let maxTitle = null
-    if (this.titles) {
+    if (this.titles?.length > 0) {
       const idReset = Math.max(...this.titles.map((reset) => reset._id))
       maxTitle = this.titles.find((reset) => {
         return reset._id === idReset
       })
     }
 
-    return this.titles && maxTitle.title
+    return this.titles?.length > 0 ? maxTitle.title : null
   }
 
   get currentTitleOrUrl() {

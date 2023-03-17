@@ -30,7 +30,7 @@ const AleatorioUrlsBdModalTabTitles = ({ cadena }) => {
           ) : (
             <tr>
               <td colSpan={2} style={{ textAlign: 'center' }}>
-                No se cargaron registros
+                No records found
               </td>
             </tr>
           )}
