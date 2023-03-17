@@ -52,21 +52,21 @@ const AleatorioUrlsBdPageBody = ({
                 <td>
                   <GeneralTableButton
                     faIcon={faGlobe}
-                    msgTooltip={'Ver'}
+                    msgTooltip={'Watch'}
                     action={() => {
                       setSelectedLink(cadena.index)
                       abrirUrlEspecifica(cadena.currentUrl)
                     }}></GeneralTableButton>
                   <GeneralTableButton
                     faIcon={faRotate}
-                    msgTooltip={'Reestablecer'}
+                    msgTooltip={'Reset'}
                     action={() => {
                       setSelectedLink(cadena.index)
                       OpenConfirmModalReset(cadena, cadenas, setCadenas)
                     }}></GeneralTableButton>
                   <GeneralTableButton
                     faIcon={faEye}
-                    msgTooltip={'Detalle'}
+                    msgTooltip={'Detail'}
                     action={() => {
                       setSelectedLink(cadena.index)
                       verDetalleUrl(cadena)
@@ -80,14 +80,14 @@ const AleatorioUrlsBdPageBody = ({
                     }}></GeneralTableButton>
                   <GeneralTableButton
                     faIcon={faClipboard}
-                    msgTooltip={'Copiar URL'}
+                    msgTooltip={'Copy URL'}
                     action={() => {
                       setSelectedLink(cadena.index)
                       navigator.clipboard.writeText(cadena.url)
                     }}></GeneralTableButton>
                   <GeneralTableButton
                     faIcon={faTrashRestore}
-                    msgTooltip={'Reemplazar'}
+                    msgTooltip={'Replace'}
                     color="red"
                     action={() => {
                       setSelectedLink(cadena.index)

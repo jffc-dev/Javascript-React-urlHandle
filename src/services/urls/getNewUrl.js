@@ -14,7 +14,12 @@ export const getNewUrlService = async (urls, size, indexOld) => {
     })
     .then((response) => {
       const { data, message, status } = response.data
-      let index = indexOld + 1
+      let index = indexOld
+
+      // For cases of adding links, the index variable is increased by 1, for cases of replacing a link, the same url is used.
+      if (size > 1) {
+        index++
+      }
 
       if (status === OK_STATUS) {
         const cadenasClase = data.map((cadena) => {

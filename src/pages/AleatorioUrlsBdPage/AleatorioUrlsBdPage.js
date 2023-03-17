@@ -267,7 +267,7 @@ const AleatorioUrlsBdPage = ({ props }) => {
         modalBody={
           cadenas.length > 0 && cadenas.length < nroResultados ? (
             <div>
-              Do you want to add {nroResultados - cadenas.length} new urls to the current list
+              Do you want to add {nroResultados - cadenas.length} new urls to the current list?
             </div>
           ) : (
             <div>
