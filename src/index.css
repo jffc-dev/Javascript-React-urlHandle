@@ -81,3 +81,7 @@ textarea {
   background-color: rgb(var(--background_color));
   border-color: rgb(var(--color)) rgb(var(--color)) rgb(var(--background_color));
 }
+
+.form-control {
+  color: rgb(var(--color));
+}
