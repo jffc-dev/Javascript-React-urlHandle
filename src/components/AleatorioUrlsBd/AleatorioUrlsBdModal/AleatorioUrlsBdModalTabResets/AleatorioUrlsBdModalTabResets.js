@@ -1,6 +1,6 @@
 import React from 'react'
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'
-import GeneralTableButton from '../../../General/TableButton/TableButton'
+import { GeneralTableButton } from '../../../General/TableButton/TableButton'
 
 const AleatorioUrlsBdModalTabTitles = ({ cadena }) => {
   return (

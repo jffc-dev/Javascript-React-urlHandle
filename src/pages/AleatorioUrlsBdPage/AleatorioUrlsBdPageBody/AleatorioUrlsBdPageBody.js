@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import { KeyPressFilterComponent } from '../../../components/Filtros/KeyPressFilterComponent/KeyPressFilterComponent'
-import GeneralTableButton from '../../../components/General/TableButton/TableButton'
+import { GeneralTableButton } from '../../../components/General/TableButton/TableButton'
 import { OpenAdvancedGoogleSearch } from '../../../utils/pages/AleatorioUrlsBdPageUtils'
 import { abrirUrlEspecifica } from '../../../utils/url'
 

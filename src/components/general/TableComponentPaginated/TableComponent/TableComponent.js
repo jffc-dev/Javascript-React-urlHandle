@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import GeneralTableButton from '../../TableButton/TableButton'
+import { GeneralTableButton } from '../../TableButton/TableButton'
 import { TemplateParser } from '../../../../models/TemplateParser'
 import './TableComponent.css'
 
