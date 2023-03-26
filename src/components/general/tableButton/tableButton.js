@@ -6,7 +6,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 
 import './TableButton.css'
 
-const TableButton = ({ faIcon, msgTooltip, action, color }) => {
+export const GeneralTableButton = ({ faIcon, msgTooltip, action, color }) => {
   const key = 'key'
 
   return (
@@ -20,5 +20,3 @@ const TableButton = ({ faIcon, msgTooltip, action, color }) => {
     </OverlayTrigger>
   )
 }
-
-export default TableButton
