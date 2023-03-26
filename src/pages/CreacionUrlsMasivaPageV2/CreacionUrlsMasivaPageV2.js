@@ -1,19 +1,50 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { faTrash, faFileCirclePlus, faSave } from '@fortawesome/free-solid-svg-icons'
+import { useContext, useState } from 'react'
 import { Container } from 'react-bootstrap'
+import ButtonGeneralComponent from '../../components/General/ButtonGeneralComponent/ButtonGeneralComponent'
+import { GeneralTableButton } from '../../components/General/TableButton/TableButton'
+import { useFormMultipleInput } from '../../hooks/useFormMultipleInput'
+import { AppContext } from '../../utils/AppContext'
+import { handleCreateMultipleDetailedUrl } from '../../utils/pages/CreacionUrlsMasivaPageV2'
+import './CreacionUrlsMasivaPageV2.css'
 
 const CreacionUrlsMasivaPageV2 = () => {
-  const newLink = {
-    link: '',
-    title: ''
-  }
+  const { setToastAppProperties } = useContext(AppContext)
+  const newInput = { linkText: '', titleText: '' }
   const addNewInput = () => {
-    setInputs([...inputs, newLink])
+    handleAddInput({ newIdInput: currentIdInput + 1, newInput })
+    setCurrentIdInput(currentIdInput + 1)
   }
-  const deleteInput = () => {}
+  const saveInput = () => {
+    const inputsAdd = Object.entries(inputsValues).map(([, data]) => {
+      return {
+        url: data.linkText,
+        title: data.titleText
+      }
+    })
 
-  const [inputs, setInputs] = useState([newLink])
+    handleCreateMultipleDetailedUrl(
+      inputsAdd,
+      handleReset,
+      setCurrentIdInput,
+      newInput,
+      setToastAppProperties
+    )
+  }
+  const handleChange = (e) => {
+    handleInputChange({ target: e.target })
+  }
+  const deleteInput = (idInput) => {
+    if (Object.entries(inputsValues).length > 1) {
+      handleDeleteInput({ idInput })
+    }
+  }
+  const [inputsValues, handleInputChange, handleAddInput, handleDeleteInput, handleReset] =
+    useFormMultipleInput({
+      1: { ...newInput }
+    })
+  const [currentIdInput, setCurrentIdInput] = useState(1)
+
   return (
     <Container style={{ paddingTop: '80px', height: '95%' }}>
       <div className="row">
@@ -23,31 +54,53 @@ const CreacionUrlsMasivaPageV2 = () => {
         <div className="col-sm-6">
           <p>Title</p>
         </div>
-        <div className="col-sm-1">
-          <p>A</p>
-        </div>
       </div>
-      {inputs.map((input, index) => {
+      {Object.entries(inputsValues).map(([inputId, InputData]) => {
         return (
-          <div key={index} className="row">
-            <div className="col-sm-5">
-              <input className="form-control" name={`link${index}`} />
+          <div key={inputId}>
+            <div className="row">
+              <div className="col-sm-5">
+                <input
+                  className="form-control"
+                  name={`linkText_${inputId}`}
+                  onChange={handleChange}
+                  value={InputData.linkText}
+                  autoComplete="off"
+                />
+              </div>
+              <div className="col-sm-6">
+                <input
+                  className="form-control"
+                  name={`titleText_${inputId}`}
+                  onChange={handleChange}
+                  value={InputData.titleText}
+                  autoComplete="off"
+                />
+              </div>
+              <div className="col-sm-1">
+                <GeneralTableButton
+                  faIcon={faTrash}
+                  msgTooltip={'Delete'}
+                  color="red"
+                  action={(_) => {
+                    deleteInput(inputId)
+                  }}></GeneralTableButton>
+              </div>
             </div>
-            <div className="col-sm-6">
-              <input className="form-control" name={`title${index}`} />
-            </div>
-            <div className="col-sm-1">
-              <button
-                onClick={() => {
-                  deleteInput()
-                }}>
-                <FontAwesomeIcon className="faIcon" icon={faTrash} size="1x" inverse />
-              </button>
-            </div>
+            <hr></hr>
           </div>
         )
       })}
-      <button onClick={addNewInput}>Agregar</button>
+      <div className="button__container">
+        <ButtonGeneralComponent
+          text={'New'}
+          faIcon={faFileCirclePlus}
+          action={addNewInput}></ButtonGeneralComponent>
+        <ButtonGeneralComponent
+          text={'Save'}
+          faIcon={faSave}
+          action={saveInput}></ButtonGeneralComponent>
+      </div>
     </Container>
   )
 }
