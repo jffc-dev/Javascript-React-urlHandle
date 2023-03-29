@@ -1,5 +1,5 @@
 // Thirds
-import axios from 'axios'
+import axios from '../../utils/AxiosCustom.js'
 
 // Owns
 import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
@@ -7,17 +7,9 @@ import { ServiceResponse } from '../../models/Response'
 
 export const addMultipleUrlDetailedService = async (urls) => {
   const resp = await axios
-    .post(
-      API_URL_BASE + API_URL_URLS + 'multiple-detailed/',
-      {
-        urls
-      },
-      {
-        validateStatus: function (status) {
-          return status === 500
-        }
-      }
-    )
+    .post(API_URL_BASE + API_URL_URLS + 'multiple-detailed/', {
+      urls
+    })
     .then((response) => {
       const { data, message, status } = response.data
 
