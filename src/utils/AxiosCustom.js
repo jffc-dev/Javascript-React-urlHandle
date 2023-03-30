@@ -5,7 +5,7 @@ const instance = axios.create({
 })
 
 instance.defaults.validateStatus = function (status) {
-  const valideStatus = [201, 500]
+  const valideStatus = [201, 500, 406]
   return valideStatus.includes(status)
 }
 
