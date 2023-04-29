@@ -85,3 +85,18 @@ textarea {
 .form-control {
   color: rgb(var(--color));
 }
+
+.form-control:disabled, .form-control[readonly] {
+  border: 1px solid rgb(var(--palette_n5));
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  background-color: rgb(var(--background_color));
+  color: rgb(var(--color));
+}
+
+.nav-link {
+  color: rgb(var(--palette_n5));
+}
+
+.nav-link:focus, .nav-link:hover {
+  color: rgb(var(--palette_n5));
+}
