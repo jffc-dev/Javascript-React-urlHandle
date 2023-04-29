@@ -25,8 +25,11 @@ const AleatorioUrlsBdPageBody = ({
   OpenConfirmModalReplace
 }) => {
   const [busqueda, setBusqueda] = useState('')
-  const cadenasFiltered = cadenas.filter((cadena) =>
-    cadena.url.toLowerCase().includes(busqueda.toLowerCase())
+  const cadenasFiltered = cadenas.filter(
+    (cadena) =>
+      cadena.url.toLowerCase().includes(busqueda.toLowerCase()) ||
+      cadena.currentTitle?.toLowerCase().includes(busqueda.toLowerCase()) ||
+      cadena.currentUrl?.toLowerCase().includes(busqueda.toLowerCase())
   )
   return (
     <div className="random__tabla">

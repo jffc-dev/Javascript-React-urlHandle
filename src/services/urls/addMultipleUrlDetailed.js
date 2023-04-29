@@ -11,6 +11,7 @@ export const addMultipleUrlDetailedService = async (urls) => {
       urls
     })
     .then((response) => {
+      console.log(response)
       const { data, message, status } = response.data
 
       if (status === OK_STATUS) {
