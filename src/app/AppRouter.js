@@ -13,6 +13,8 @@ import ToastContainerComponent from '../components/General/ToastContainerCompone
 import ListaUrlsBdPaginationPage from '../pages/ListaUrlsBdPaginationPage/ListaUrlsBdPaginationPage'
 import { AppContext } from '../utils/AppContext'
 import CreacionUrlsMasivaPageV2 from '../pages/CreacionUrlsMasivaPageV2/CreacionUrlsMasivaPageV2'
+import ListAllPlaylistPage from '../pages/playlist/ListAllPlaylistPage/ListAllPlaylistPage'
+import DetailPlaylistPage from '../pages/playlist/DetailPlaylistPage/DetailPlaylistPage'
 
 const AppRouter = ({ darkMode, toastAppProperties, showLoaderApp }) => {
   const { setDarkMode } = useContext(AppContext)
@@ -54,6 +56,11 @@ const AppRouter = ({ darkMode, toastAppProperties, showLoaderApp }) => {
           </Route>
           <Route path="creacion">
             <Route path="masiva_v2" element={<CreacionUrlsMasivaPageV2 />} />
+          </Route>
+
+          <Route path="playlist">
+            <Route path="list" element={<ListAllPlaylistPage />} />
+            <Route path="detail/:playlistId" element={<DetailPlaylistPage />} />
           </Route>
         </Route>
       </Routes>
