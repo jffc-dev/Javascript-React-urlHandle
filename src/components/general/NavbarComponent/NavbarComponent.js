@@ -25,7 +25,9 @@ const NavbarComponent = ({ darkMode, setDarkMode }) => {
                 Random - Manual
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#features">Features</Nav.Link>
+            <Nav.Link as={Link} to="/mantenimiento/playlist/list">
+              Playlist
+            </Nav.Link>
           </Nav>
           <Nav>
             {/* <ToggleDarkModeComponent></ToggleDarkModeComponent> */}
