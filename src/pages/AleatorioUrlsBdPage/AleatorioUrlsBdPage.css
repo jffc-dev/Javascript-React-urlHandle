@@ -55,6 +55,8 @@
 
 .random__tabla {
   margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .random__contenedor__contador button {

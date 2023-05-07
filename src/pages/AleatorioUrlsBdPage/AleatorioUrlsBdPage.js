@@ -21,6 +21,7 @@ import { loadTitleOfUrlService } from '../../services/urls/loadTitleOfUrl.js'
 import { useForm } from '../../hooks/useForm.js'
 import AleatorioUrlsBdPageHead from './AleatorioUrlsBdPageHead/AleatorioUrlsBdPageHead.js'
 import AleatorioUrlsBdPageBody from './AleatorioUrlsBdPageBody/AleatorioUrlsBdPageBody.js'
+import { saveAsPlaylist } from '../../services/playlists/saveAsPlaylist.js'
 
 const AleatorioUrlsBdPage = ({ props }) => {
   const [cadenas, setCadenas] = useState([])
@@ -208,6 +209,29 @@ const AleatorioUrlsBdPage = ({ props }) => {
     )
   }
 
+  const handleSaveAsPlaylist = async (cadenas) => {
+    setShowLoaderApp(true)
+    const { data, status, message } = await saveAsPlaylist(cadenas)
+    console.log(data)
+    if (status === OK_STATUS) {
+      const { links } = data
+      setToastAppProperties({
+        title: 'SUCCESS',
+        message: `${message} ${links.length} urls were added to it.`,
+        type: 'success',
+        date: new Date()
+      })
+    } else {
+      setToastAppProperties({
+        title: 'ERROR',
+        message,
+        type: 'danger',
+        date: new Date()
+      })
+    }
+    setShowLoaderApp(false)
+  }
+
   const PressOkModalReset = async (idUrl, newUrl, index) => {
     const { data, status, message } = await addResetToUrl(idUrl, newUrl, index)
     if (status === OK_STATUS) {
@@ -311,7 +335,8 @@ const AleatorioUrlsBdPage = ({ props }) => {
           currentLink={currentLink}
           cadenas={cadenas}
           setCurrentLink={setCurrentLink}
-          openCurrentLink={openCurrentLink}></AleatorioUrlsBdPageHead>
+          openCurrentLink={openCurrentLink}
+          randomPage={true}></AleatorioUrlsBdPageHead>
         <AleatorioUrlsBdPageBody
           cadenas={cadenas}
           selectedLink={selectedLink}
@@ -321,7 +346,9 @@ const AleatorioUrlsBdPage = ({ props }) => {
           OpenConfirmModalReset={OpenConfirmModalReset}
           verDetalleUrl={verDetalleUrl}
           OpenConfirmModalLoadTitle={OpenConfirmModalLoadTitle}
-          OpenConfirmModalReplace={OpenConfirmModalReplace}></AleatorioUrlsBdPageBody>
+          OpenConfirmModalReplace={OpenConfirmModalReplace}
+          handleSaveAsPlaylist={handleSaveAsPlaylist}
+          randomPage={true}></AleatorioUrlsBdPageBody>
       </div>
     </Container>
   )
