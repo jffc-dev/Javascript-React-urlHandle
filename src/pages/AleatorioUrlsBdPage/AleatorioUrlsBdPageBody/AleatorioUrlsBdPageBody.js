@@ -22,7 +22,9 @@ const AleatorioUrlsBdPageBody = ({
   OpenConfirmModalReset,
   verDetalleUrl,
   OpenConfirmModalLoadTitle,
-  OpenConfirmModalReplace
+  OpenConfirmModalReplace,
+  handleSaveAsPlaylist,
+  randomPage
 }) => {
   const [busqueda, setBusqueda] = useState('')
   const cadenasFiltered = cadenas.filter(
@@ -110,12 +112,23 @@ const AleatorioUrlsBdPageBody = ({
           ) : (
             <tr>
               <td colSpan={5} style={{ textAlign: 'center' }}>
-                No se cargaron registros
+                No records found
               </td>
             </tr>
           )}
         </tbody>
       </table>
+      <div className="d-flex justify-content-center mt-3">
+        {randomPage && (
+          <button
+            className=""
+            onClick={() => {
+              handleSaveAsPlaylist(cadenas)
+            }}>
+            Save as playlist
+          </button>
+        )}
+      </div>
     </div>
   )
 }
