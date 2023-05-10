@@ -9,44 +9,51 @@ const AleatorioUrlsBdPageHead = ({
   currentLink,
   cadenas,
   setCurrentLink,
-  openCurrentLink
+  openCurrentLink,
+  randomPage
 }) => {
   return (
     <div className="random__contenedor">
       <div className="random__contenedor__contador">
-        <button
-          onClick={() => {
-            handleContador('-')
-          }}
-          onMouseDown={() => {
-            startCounter('-')
-          }}
-          onMouseUp={stopCounter}
-          onMouseLeave={stopCounter}>
-          -
-        </button>
-        <input value={nroResultados} onChange={handleChangeResultados}></input>
-        <button
-          onClick={() => {
-            handleContador('+')
-          }}
-          onMouseDown={() => {
-            startCounter('+')
-          }}
-          onMouseUp={stopCounter}
-          onMouseLeave={stopCounter}>
-          +
-        </button>
+        {randomPage && (
+          <>
+            <button
+              onClick={() => {
+                handleContador('-')
+              }}
+              onMouseDown={() => {
+                startCounter('-')
+              }}
+              onMouseUp={stopCounter}
+              onMouseLeave={stopCounter}>
+              -
+            </button>
+            <input value={nroResultados} onChange={handleChangeResultados}></input>
+            <button
+              onClick={() => {
+                handleContador('+')
+              }}
+              onMouseDown={() => {
+                startCounter('+')
+              }}
+              onMouseUp={stopCounter}
+              onMouseLeave={stopCounter}>
+              +
+            </button>
+          </>
+        )}
       </div>
       <div className="random__contenedor__botones">
-        <div className="random__contenedor__botones_btn">
-          <button
-            onClick={() => {
-              OpenConfirmModalRandom()
-            }}>
-            Get links
-          </button>
-        </div>
+        {randomPage && (
+          <div className="random__contenedor__botones_btn">
+            <button
+              onClick={() => {
+                OpenConfirmModalRandom()
+              }}>
+              Get links
+            </button>
+          </div>
+        )}
         <div className="random__contenedor__botones_btn">
           <button
             disabled={linkCount === currentLink}

@@ -38,6 +38,10 @@ const MenuPrincipalPage = () => {
           <FontAwesomeIcon className="faIcon" icon={faHand} size="5x" inverse />
           <span>List v2</span>
         </Link>
+        <Link className="menu_principal__item" to={'/mantenimiento/playlist/list'}>
+          <FontAwesomeIcon className="faIcon" icon={faList} size="5x" inverse />
+          <span>Playlist</span>
+        </Link>
       </div>
     </Container>
   )
