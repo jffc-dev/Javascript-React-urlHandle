@@ -47,13 +47,14 @@ export const Url = class {
 
     let maxTitle = null
     if (this.titles) {
-      const idReset = Math.max(...this.titles.map((reset) => reset._id))
-      maxTitle = this.titles.find((reset) => {
-        return reset._id === idReset
-      })
+      if (this.titles.length > 0) {
+        const idReset = Math.max(...this.titles.map((reset) => reset._id))
+        maxTitle = this.titles.find((reset) => {
+          return reset._id === idReset
+        })
+      }
     }
-
-    const title = this.titles && maxTitle.title
+    const title = this.titles && this.titles?.length > 0 && maxTitle.title
 
     return title || url
   }
