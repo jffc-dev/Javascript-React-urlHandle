@@ -15,7 +15,7 @@ const CreacionUrlsMasivaPageV2 = () => {
     handleAddInput({ newIdInput: currentIdInput + 1, newInput })
     setCurrentIdInput(currentIdInput + 1)
   }
-  const saveInput = () => {
+  const saveInput = async () => {
     const inputsAdd = Object.entries(inputsValues).map(([, data]) => {
       return {
         url: data.linkText,
@@ -23,7 +23,7 @@ const CreacionUrlsMasivaPageV2 = () => {
       }
     })
 
-    handleCreateMultipleDetailedUrl(
+    await handleCreateMultipleDetailedUrl(
       inputsAdd,
       handleReset,
       setCurrentIdInput,

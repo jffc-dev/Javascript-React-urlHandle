@@ -8,7 +8,9 @@ export const handleCreateMultipleDetailedUrl = async (
   initialData,
   setToastAppProperties
 ) => {
-  const { data, message, status } = await addMultipleUrlDetailedService(urls)
+  const rpta = await addMultipleUrlDetailedService(urls)
+  const { data, message, status } = rpta
+
   if (status === OK_STATUS) {
     setCurrentIdInput(1)
     handleReset({ newIdInput: 1, newInput: initialData })

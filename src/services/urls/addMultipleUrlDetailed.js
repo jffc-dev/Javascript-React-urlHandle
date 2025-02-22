@@ -2,7 +2,7 @@
 import axios from '../../utils/AxiosCustom.js'
 
 // Owns
-import { API_URL_BASE, API_URL_URLS, OK_STATUS } from '../../constants'
+import { API_URL_BASE, API_URL_URLS, OK_STATUS, WARNING_STATUS } from '../../constants'
 import { ServiceResponse } from '../../models/Response'
 
 export const addMultipleUrlDetailedService = async (urls) => {
@@ -11,10 +11,9 @@ export const addMultipleUrlDetailedService = async (urls) => {
       urls
     })
     .then((response) => {
-      console.log(response)
       const { data, message, status } = response.data
 
-      if (status === OK_STATUS) {
+      if (status === OK_STATUS || status === WARNING_STATUS) {
         return new ServiceResponse({
           status,
           message,
@@ -24,7 +23,7 @@ export const addMultipleUrlDetailedService = async (urls) => {
         return new ServiceResponse({
           status,
           message: 'Service error. ' + message,
-          data: null
+          data
         })
       }
     })
