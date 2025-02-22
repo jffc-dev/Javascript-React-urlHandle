@@ -15,6 +15,9 @@ import ListaUrlsBdPaginationModals from './ListaUrlsBdPaginationModals/ListaUrls
 import TableComponentPaginated from '../../components/General/TableComponentPaginated/TableComponentPaginated'
 import DetailUrlModal from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModal'
 import ListaUrlsBdPaginationFilter from './ListaUrlsBdPaginationFilter/ListaUrlsBdPaginationFilter'
+import AleatorioUrlsBdModalReset from '../../components/AleatorioUrlsBd/AleatorioUrlsBdModal/AleatorioUrlsBdModalReset/AleatorioUrlsBdModalReset'
+import { addResetToUrl } from '../../services/urls/addResetToUrl'
+import { updateArrayObject } from '../../utils/url'
 
 const ListaUrlsBdPaginationPage = () => {
   const [links, setLinks] = useState([])
@@ -24,8 +27,6 @@ const ListaUrlsBdPaginationPage = () => {
   const [totalItems, setTotalItems] = useState(0)
   const [filterTable, setFilterTable] = useState(null)
   const { setShowLoaderApp, setToastAppProperties } = useContext(AppContext)
-  // States confirmation modal - reset
-  const [modalResetShow, setModalResetShow] = useState(false)
 
   // States confirmation modal - delete
   const [modalConfirmationDeleteShow, setmodalConfirmationDeleteShow] = useState(false)
@@ -34,6 +35,10 @@ const ListaUrlsBdPaginationPage = () => {
   // States modal - detail
   const [modalDetailShow, setmodalDetailShow] = useState(false)
   const [modalDetailLink, setmodalDetailLink] = useState(null)
+
+  // States confirmation modal - reset
+  const [modalResetShow, setModalResetShow] = useState(false)
+  const [modalCadenaReset, setModalCadenaReset] = useState(null)
 
   React.useEffect(() => {
     getData(currentPage, paginatedSize)
@@ -74,6 +79,26 @@ const ListaUrlsBdPaginationPage = () => {
     setmodalDetailShow(true)
   }
 
+  const OpenConfirmModalReset = async (link) => {
+    setModalCadenaReset(link)
+    setModalResetShow(true)
+  }
+
+  const PressOkModalReset = async (idUrl, newUrl, index) => {
+    const { data, status, message } = await addResetToUrl(idUrl, newUrl, index)
+    if (status === OK_STATUS) {
+      updateArrayObject(links, setLinks, modalCadenaReset, data)
+      setModalResetShow(false)
+    } else {
+      setToastAppProperties({
+        title: 'ERROR',
+        message,
+        type: 'danger',
+        date: new Date()
+      })
+    }
+  }
+
   return (
     <Container style={{ paddingTop: '80px' }}>
       <ListaUrlsBdPaginationModals
@@ -98,6 +123,17 @@ const ListaUrlsBdPaginationPage = () => {
         setCadenas={setLinks}
         cadena={modalDetailLink}
         setCadena={setmodalDetailLink}></DetailUrlModal>
+
+      {/* Reset model */}
+      <AleatorioUrlsBdModalReset
+        modalShow={modalResetShow}
+        setModalShow={setModalResetShow}
+        url={modalCadenaReset}
+        modalOkBtnAction={PressOkModalReset}
+        formData={{ newUrl: '' }}
+        modalCancelBtnAction={() => {
+          setModalCadenaReset(false)
+        }}></AleatorioUrlsBdModalReset>
 
       <ListaUrlsBdPaginationFilter
         filterTable={filterTable}
@@ -134,7 +170,7 @@ const ListaUrlsBdPaginationPage = () => {
             actionShow: true,
             actionIcon: faRotate,
             actionText: 'Reset',
-            actionFunction: handleLoadAction
+            actionFunction: OpenConfirmModalReset
           },
           {
             actionShow: true,

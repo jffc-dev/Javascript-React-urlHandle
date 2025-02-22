@@ -7,7 +7,7 @@ import {
   faSpinner,
   faTrashRestore
 } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { KeyPressFilterComponent } from '../../../components/Filtros/KeyPressFilterComponent/KeyPressFilterComponent'
 import { GeneralTableButton } from '../../../components/General/TableButton/TableButton'
 import { OpenAdvancedGoogleSearch } from '../../../utils/pages/AleatorioUrlsBdPageUtils'
@@ -27,12 +27,15 @@ const AleatorioUrlsBdPageBody = ({
   randomPage
 }) => {
   const [busqueda, setBusqueda] = useState('')
+  const currentRef = useRef(null)
+  const selectedRef = useRef(null)
   const cadenasFiltered = cadenas.filter(
     (cadena) =>
       cadena.url.toLowerCase().includes(busqueda.toLowerCase()) ||
       cadena.currentTitle?.toLowerCase().includes(busqueda.toLowerCase()) ||
       cadena.currentUrl?.toLowerCase().includes(busqueda.toLowerCase())
   )
+
   return (
     <div className="random__tabla">
       <KeyPressFilterComponent busqueda={busqueda} setBusqueda={setBusqueda} />
@@ -49,7 +52,17 @@ const AleatorioUrlsBdPageBody = ({
         <tbody>
           {cadenasFiltered.length ? (
             cadenasFiltered.map((cadena, index) => (
-              <tr key={index} className={selectedLink === cadena.index ? 'active_row' : ''}>
+              <tr
+                key={index}
+                className={selectedLink === cadena.index ? 'active_row' : ''}
+                ref={
+                  selectedLink === cadena.index
+                    ? selectedRef
+                    : currentLink === cadena.index
+                    ? currentRef
+                    : null
+                }
+                onClick={() => setSelectedLink(cadena.index)}>
                 <td className="url">{currentLink === cadena.index && '->'}</td>
                 <td style={{ width: '10%' }}>{cadena.index}</td>
                 <td className="url">{cadena.currentTitle || cadena.currentUrl}</td>
@@ -129,7 +142,90 @@ const AleatorioUrlsBdPageBody = ({
           </button>
         )}
       </div>
+      <ScrollToTopButton />
+      <ScrollToActive
+        currentRef={currentRef}
+        selectedRef={selectedRef}
+        selectedLink={selectedLink}
+        currentLink={currentLink}
+      />
     </div>
+  )
+}
+
+const ScrollToTopButton = () => {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsVisible(window.scrollY > 100)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  return (
+    isVisible && (
+      <button
+        onClick={scrollToTop}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          backgroundColor: 'rgb(var(--palette_n9))',
+          color: 'white',
+          border: 'none',
+          borderRadius: '50%',
+          width: '50px',
+          height: '50px',
+          fontSize: '20px',
+          cursor: 'pointer',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+        }}>
+        Up
+      </button>
+    )
+  )
+}
+
+const ScrollToActive = ({ currentRef, selectedRef, selectedLink, currentLink }) => {
+  const [type, setType] = useState('C')
+  const scrollToTarget = () => {
+    if (type === 'C' && currentRef.current) {
+      currentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      setType('S')
+    } else if (type === 'S' && selectedRef.current) {
+      selectedRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      setType('C')
+    }
+  }
+
+  return (
+    (selectedLink > 0 || currentLink > 0) && (
+      <button
+        onClick={scrollToTarget}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          left: '20px',
+          backgroundColor: '#007BFF',
+          color: 'white',
+          border: 'none',
+          borderRadius: '50%',
+          width: '50px',
+          height: '50px',
+          fontSize: '20px',
+          cursor: 'pointer',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+        }}>
+        Go
+      </button>
+    )
   )
 }
 
