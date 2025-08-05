@@ -2,15 +2,23 @@
 
 import { useState } from 'react';
 import { Table, Checkbox, ScrollArea, Container, Button } from '@mantine/core';
-import { useListResources } from '@/hooks/useListResources';
 import { IconEdit, IconWorldWww } from '@tabler/icons-react';
 
+interface DataProps {
+  id: number;
+  title?: string;
+  url?: string;
+}
 
-export const String = () => {
+interface StringTableProps {
+  data: DataProps[]
+  loading: boolean;
+}
+
+export const StringTable = ({data, loading}: StringTableProps) => {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  const { data, loading, error } = useListResources({limit: 100});
 
-  const rows = data?.listResources.map((element) => (
+  const rows = data.map((element) => (
     <Table.Tr
       key={element.id}
       bg={selectedRows.includes(element.id) ? 'var(--mantine-color-blue-light)' : undefined}
@@ -41,12 +49,8 @@ export const String = () => {
   ));
 
   return (
-    
-    <Container size="xl" py="md">
-      <h2 style={{ marginBottom: '1rem' }}>Mantine Table with Sticky Headers</h2>
       
-      <ScrollArea h={'80vh'} style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}>
-        <Table>
+    <Table>
       <Table.Thead>
         <Table.Tr>
           <Table.Th />
@@ -56,7 +60,5 @@ export const String = () => {
       </Table.Thead>
       <Table.Tbody>{rows}</Table.Tbody>
     </Table>
-      </ScrollArea>
-    </Container>
   );
 }

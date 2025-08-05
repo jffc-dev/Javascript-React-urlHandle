@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import type { GlobalStoreType, ThemeModeType } from "./types"
+
 export const useGlobalStore = create<GlobalStoreType>()(
   persist(
     (set) => ({

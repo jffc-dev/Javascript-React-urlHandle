@@ -1,1 +1,1 @@
-export { String } from "./String";
+export { StringTable } from "./StringTable";

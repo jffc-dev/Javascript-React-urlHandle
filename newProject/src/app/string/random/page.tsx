@@ -1,8 +1,8 @@
-import { String as StringComponent } from "@/components/String";
+import { Random as RandomComponent } from "@/components/String/Random";
 
 const Random = () => {
   return (
-    <StringComponent />
+    <RandomComponent />
   );
 }
 
