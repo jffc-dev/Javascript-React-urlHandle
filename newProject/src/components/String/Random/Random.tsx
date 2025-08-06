@@ -9,10 +9,10 @@ import { useShallow } from 'zustand/shallow';
 import { openBlankURL } from '@/lib/utils/functions';
 
 export const Random = () => {
-  const [inputSize, setInputSize] = useState(100);
-  const [size, setSize] = useState(100);
+  const [inputSize, setInputSize] = useState(0);
 
-  const { data, loading } = useGetRandomResources({ size });
+  const { data, loading, fetchResources } = useGetRandomResources({ size: inputSize });
+  console.log(data)
   const { updateResources, incrementCurrentIndex, currentIndex, resources, resetCurrentIndex } = useRandomStore(useShallow((state) => ({
     updateResources: state.updateResources,
     resources: state.resources,
@@ -21,19 +21,18 @@ export const Random = () => {
     resetCurrentIndex: state.resetCurrentIndex,
   })));
 
-  const handleFetch = () => {
-    setSize(inputSize);
+  const handleFetch = async() => {
+    console.log(1)
+    await fetchResources();
     resetCurrentIndex();
+    updateResources(data);
   };
 
   const handleNextLink = () => {
+    console.log(2)
     openBlankURL(data[currentIndex]?.url || '');
     incrementCurrentIndex()
   };
-
-  if(!loading && data) {
-    updateResources(data);
-  }
 
   return (
     <Container size="xl" py="md">

@@ -1,5 +1,5 @@
 import { GET_RANDOM_RESOURCES } from '@/lib/graphql/queries/listResources';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import type { Resource } from '@graphql/generated/graphql';
 
 interface ListResourcesQueryResult {
@@ -11,11 +11,17 @@ interface ListResourcesInputDto {
 }
 
 export const useGetRandomResources = (input: ListResourcesInputDto) => {
-  const {data, loading} = useQuery<ListResourcesQueryResult, { input: ListResourcesInputDto }>(
-    GET_RANDOM_RESOURCES,
-    {
-      variables: { input },
-    }
+  const [fetchResources, { data, loading }] = useLazyQuery<ListResourcesQueryResult, { input: ListResourcesInputDto }>(
+    GET_RANDOM_RESOURCES
   );
-  return {data: data?.getRandomResources || [], loading};
+  
+  const handleFetchResources = () => {
+    return fetchResources({ variables: { input } });
+  };
+  
+  return {
+    data: data?.getRandomResources || [], 
+    loading,
+    fetchResources: handleFetchResources
+  };
 }
