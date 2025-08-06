@@ -1,0 +1,1 @@
+export { ModalResource } from "./ModalResource";

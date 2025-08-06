@@ -7,9 +7,12 @@ import { useGetRandomResources } from '@/hooks/useGetRandomResources';
 import { useRandomStore } from '@/stores/random/random.store';
 import { useShallow } from 'zustand/shallow';
 import { openBlankURL } from '@/lib/utils/functions';
+import { useDisclosure } from '@mantine/hooks';
+import { ModalResource } from '@/components/Common/Resource/Modal';
 
 export const Random = () => {
-  const [inputSize, setInputSize] = useState(0);
+  const [inputSize, setInputSize] = useState<string>('');
+  const [opened, { open, close }] = useDisclosure(false);
   
   const { updateResources, incrementCurrentIndex, currentIndex, resources, resetCurrentIndex, resourceIds, updateResourceIds } = useRandomStore(useShallow((state) => ({
     updateResources: state.updateResources,
@@ -24,10 +27,8 @@ export const Random = () => {
   const { fetchResources } = useGetRandomResources();
 
   const handleFetch = async() => {
-    const {data, loading} = await fetchResources({ size: inputSize, initialIds: resourceIds });
+    const {data} = await fetchResources({ size: Number(inputSize) || 0, initialIds: resourceIds });
     const {resources: apiResources, ids: apiIds} = data
-    console.log(apiIds)
-    console.log(data)
     resetCurrentIndex();
     updateResources(apiResources);
     updateResourceIds(apiIds);
@@ -46,7 +47,7 @@ export const Random = () => {
         <TextInput
           type="number"
           value={inputSize}
-          onChange={(e) => setInputSize(Number(e.currentTarget.value))}
+          onChange={(e) => setInputSize(e.currentTarget.value)}
           placeholder="Enter size"
         />
         <Button onClick={handleFetch}>Fetch</Button>
@@ -55,8 +56,10 @@ export const Random = () => {
       <Button onClick={handleNextLink} disabled={currentIndex >= resources.length}>Get next link</Button>
 
       <ScrollArea h="80vh" style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}>
-        <StringTable data={resources} currentIndex={currentIndex} />
+        <StringTable data={resources} currentIndex={currentIndex} open={open} />
       </ScrollArea>
+
+      <ModalResource close={close} opened={opened}/>
     </Container>
   );
 };

@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Table, Checkbox, Button } from '@mantine/core';
 import { IconEdit, IconWorldWww } from '@tabler/icons-react';
+import { useRandomStore } from '@/stores/random/random.store';
+import { useShallow } from 'zustand/shallow';
 
 interface DataProps {
   id: number;
@@ -13,9 +15,13 @@ interface DataProps {
 interface StringTableProps {
   data: DataProps[]
   currentIndex: number;
+  open: () => void;
 }
 
-export const StringTable = ({data, currentIndex}: StringTableProps) => {
+export const StringTable = ({data, currentIndex, open}: StringTableProps) => {
+  const { setSelectedResourceId } = useRandomStore(useShallow((state) => ({
+      setSelectedResourceId: state.setSelectedResourceId,
+    })));
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   useEffect(() => {
     const currentResource = data[currentIndex - 1];
@@ -40,7 +46,10 @@ export const StringTable = ({data, currentIndex}: StringTableProps) => {
         <Button size="xs" onClick={() => alert(`Clicked ${element.id}`)} p={0} mr={2}>
           <IconWorldWww/>
         </Button>
-        <Button size="xs" onClick={() => alert(`Clicked ${element.id}`)} p={0}>
+        <Button size="xs" onClick={() => {
+            setSelectedResourceId(element.id);
+            open()
+          }} p={0}>
           <IconEdit/>
         </Button>
       </Table.Td>

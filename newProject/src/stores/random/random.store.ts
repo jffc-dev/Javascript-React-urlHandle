@@ -9,6 +9,7 @@ export const useRandomStore = create<RandomStoreType>()(
       resources: [],
       currentIndex: 0,
       resourceIds: [],
+      selectedResourceId: null,
       updateResources: (resources: Resource[]) => {
         set({ resources })
       },
@@ -21,6 +22,9 @@ export const useRandomStore = create<RandomStoreType>()(
       updateResourceIds: (ids: number[]) => {
         set(() => ({ resourceIds: ids }));
       },
+      setSelectedResourceId: (id: number | null) => {
+        set(() => ({ selectedResourceId: id }));
+      }
     }),
     {
       name: "random-store",

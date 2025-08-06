@@ -31,3 +31,28 @@ export const GET_RANDOM_RESOURCES = gql`
     }
 }
 `;
+
+export const GET_RESOURCE = gql`
+  query GetRandomResources($input: GetResourceInputDto!) {
+    getResource(input: $input) {
+        id
+        title
+        url
+        status
+        createdAt
+        updatedAt
+        participants {
+            id
+            name
+            createdAt
+            updatedAt
+        }
+        flags {
+            id
+            name
+            createdAt
+            updatedAt
+        }
+    }
+  }
+`;
