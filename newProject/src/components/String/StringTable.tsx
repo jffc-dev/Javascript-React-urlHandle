@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Table, Checkbox, ScrollArea, Container, Button } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { Table, Checkbox, Button } from '@mantine/core';
 import { IconEdit, IconWorldWww } from '@tabler/icons-react';
 
 interface DataProps {
@@ -12,11 +12,16 @@ interface DataProps {
 
 interface StringTableProps {
   data: DataProps[]
-  loading: boolean;
+  currentIndex: number;
 }
 
-export const StringTable = ({data, loading}: StringTableProps) => {
+export const StringTable = ({data, currentIndex}: StringTableProps) => {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  useEffect(() => {
+    const currentResource = data[currentIndex - 1];
+    setSelectedRows(currentResource ? [currentResource.id] : [])
+  }, [currentIndex, data])
+  
 
   const rows = data.map((element) => (
     <Table.Tr
@@ -27,13 +32,7 @@ export const StringTable = ({data, loading}: StringTableProps) => {
         <Checkbox
           aria-label="Select row"
           checked={selectedRows.includes(element.id)}
-          onChange={(event) =>
-            setSelectedRows(
-              event.currentTarget.checked
-                ? [...selectedRows, element.id]
-                : selectedRows.filter((position) => position !== element.id)
-            )
-          }
+          disabled
         />
       </Table.Td>
       <Table.Td>{element.title || element.url}</Table.Td>

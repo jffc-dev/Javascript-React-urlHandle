@@ -8,6 +8,7 @@ export const useRandomStore = create<RandomStoreType>()(
     (set) => ({
       resources: [],
       currentIndex: 0,
+      resourceIds: [],
       updateResources: (resources: Resource[]) => {
         set({ resources })
       },
@@ -16,6 +17,9 @@ export const useRandomStore = create<RandomStoreType>()(
       },
       resetCurrentIndex: () => {
         set(() => ({ currentIndex: 0 }));
+      },
+      updateResourceIds: (ids: number[]) => {
+        set(() => ({ resourceIds: ids }));
       },
     }),
     {

@@ -19,12 +19,15 @@ export const LIST_RESOURCES = gql`
 export const GET_RANDOM_RESOURCES = gql`
   query GetRandomResources($input: GetRandomResourceInputDto!) {
     getRandomResources(input: $input) {
-        id
-        title
-        url
-        status
-        createdAt
-        updatedAt
+        resources {
+            id
+            title
+            url
+            status
+            createdAt
+            updatedAt
+        }
+        ids
     }
 }
 `;

@@ -10,27 +10,31 @@ import { openBlankURL } from '@/lib/utils/functions';
 
 export const Random = () => {
   const [inputSize, setInputSize] = useState(0);
-
-  const { data, loading, fetchResources } = useGetRandomResources({ size: inputSize });
-  console.log(data)
-  const { updateResources, incrementCurrentIndex, currentIndex, resources, resetCurrentIndex } = useRandomStore(useShallow((state) => ({
+  
+  const { updateResources, incrementCurrentIndex, currentIndex, resources, resetCurrentIndex, resourceIds, updateResourceIds } = useRandomStore(useShallow((state) => ({
     updateResources: state.updateResources,
     resources: state.resources,
     currentIndex: state.currentIndex,
     incrementCurrentIndex: state.incrementCurrentIndex,
     resetCurrentIndex: state.resetCurrentIndex,
+    resourceIds: state.resourceIds,
+    updateResourceIds: state.updateResourceIds,
   })));
 
+  const { fetchResources } = useGetRandomResources();
+
   const handleFetch = async() => {
-    console.log(1)
-    await fetchResources();
+    const {data, loading} = await fetchResources({ size: inputSize, initialIds: resourceIds });
+    const {resources: apiResources, ids: apiIds} = data
+    console.log(apiIds)
+    console.log(data)
     resetCurrentIndex();
-    updateResources(data);
+    updateResources(apiResources);
+    updateResourceIds(apiIds);
   };
 
   const handleNextLink = () => {
-    console.log(2)
-    openBlankURL(data[currentIndex]?.url || '');
+    openBlankURL(resources[currentIndex]?.url || '');
     incrementCurrentIndex()
   };
 
@@ -51,7 +55,7 @@ export const Random = () => {
       <Button onClick={handleNextLink} disabled={currentIndex >= resources.length}>Get next link</Button>
 
       <ScrollArea h="80vh" style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}>
-        <StringTable data={data} loading={loading} />
+        <StringTable data={resources} currentIndex={currentIndex} />
       </ScrollArea>
     </Container>
   );

@@ -3,25 +3,34 @@ import { useLazyQuery } from '@apollo/client';
 import type { Resource } from '@graphql/generated/graphql';
 
 interface ListResourcesQueryResult {
-  getRandomResources: Resource[];
+  getRandomResources: {
+    resources: Resource[];
+    ids: number[];
+  };
 };
 
 interface ListResourcesInputDto {
   size: number
+  initialIds?: number[]
 }
 
-export const useGetRandomResources = (input: ListResourcesInputDto) => {
-  const [fetchResources, { data, loading }] = useLazyQuery<ListResourcesQueryResult, { input: ListResourcesInputDto }>(
+export const useGetRandomResources = () => {
+  const [fetchResources] = useLazyQuery<ListResourcesQueryResult, { input: ListResourcesInputDto }>(
     GET_RANDOM_RESOURCES
   );
   
-  const handleFetchResources = () => {
-    return fetchResources({ variables: { input } });
+  const handleFetchResources = async(input: ListResourcesInputDto) => {
+    const { data, loading } = await fetchResources({ variables: { input } });
+    return {
+      data: {
+        resources: data?.getRandomResources.resources || [],
+        ids: data?.getRandomResources.ids || [],
+      }, 
+      loading,
+    }
   };
   
   return {
-    data: data?.getRandomResources || [], 
-    loading,
     fetchResources: handleFetchResources
   };
 }
