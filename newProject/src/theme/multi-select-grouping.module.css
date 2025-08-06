@@ -1,7 +1,7 @@
-.groupLabel::after{
-    display: none;
+.groupLabel::after {
+  display: none;
 }
 
-.option{
-    padding: 0;
+.option {
+  padding: 0;
 }

@@ -13,20 +13,24 @@ const elements = [
 function Demo() {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
-  const rows = elements.map((element) => (
+  const rows = elements.map(element => (
     <Table.Tr
       key={element.name}
-      bg={selectedRows.includes(element.position) ? 'var(--mantine-color-blue-light)' : undefined}
+      bg={
+        selectedRows.includes(element.position)
+          ? 'var(--mantine-color-blue-light)'
+          : undefined
+      }
     >
       <Table.Td>
         <Checkbox
           aria-label="Select row"
           checked={selectedRows.includes(element.position)}
-          onChange={(event) =>
+          onChange={event =>
             setSelectedRows(
               event.currentTarget.checked
                 ? [...selectedRows, element.position]
-                : selectedRows.filter((position) => position !== element.position)
+                : selectedRows.filter(position => position !== element.position)
             )
           }
         />
@@ -40,19 +44,19 @@ function Demo() {
 
   return (
     <div>
-        <h1>All</h1>
-        <Table>
-            <Table.Thead>
-                <Table.Tr>
-                <Table.Th />
-                <Table.Th>Element position</Table.Th>
-                <Table.Th>Element name</Table.Th>
-                <Table.Th>Symbol</Table.Th>
-                <Table.Th>Atomic mass</Table.Th>
-                </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
+      <h1>All</h1>
+      <Table>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th />
+            <Table.Th>Element position</Table.Th>
+            <Table.Th>Element name</Table.Th>
+            <Table.Th>Symbol</Table.Th>
+            <Table.Th>Atomic mass</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>{rows}</Table.Tbody>
+      </Table>
     </div>
   );
 }

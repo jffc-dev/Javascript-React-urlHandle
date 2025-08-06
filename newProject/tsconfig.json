@@ -22,7 +22,7 @@
       "@/*": ["./src/*"],
       "@theme/*": ["./src/theme/*"],
       "@stores/*": ["./src/stores/*"],
-      "@graphql/*": ["./src/lib/graphql/*"],
+      "@graphql/*": ["./src/lib/graphql/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   IconAdjustments,
@@ -50,7 +50,7 @@ const mockdata = [
 ];
 
 export function NavbarNested() {
-  const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
+  const links = mockdata.map(item => <LinksGroup {...item} key={item.label} />);
 
   return (
     <nav className={classes.navbar}>

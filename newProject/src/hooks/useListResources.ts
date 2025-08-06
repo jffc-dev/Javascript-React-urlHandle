@@ -4,12 +4,12 @@ import type { Resource } from '@graphql/generated/graphql';
 
 interface ListResourcesQueryResult {
   listResources: Resource[];
-};
+}
 
 interface ListResourcesInputDto {
-  page?: number
-  limit?: number
-  participantId?: number
+  page?: number;
+  limit?: number;
+  participantId?: number;
 }
 
 export const useListResources = (input: ListResourcesInputDto) => {
@@ -19,4 +19,4 @@ export const useListResources = (input: ListResourcesInputDto) => {
       variables: { input },
     }
   );
-}
+};

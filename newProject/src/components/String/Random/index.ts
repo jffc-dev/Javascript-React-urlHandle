@@ -1,1 +1,1 @@
-export { Random } from "./Random";
+export { Random } from './Random';

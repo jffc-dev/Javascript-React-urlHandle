@@ -1,17 +1,17 @@
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
-import type { GlobalStoreType, ThemeModeType } from "./types"
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import type { GlobalStoreType, ThemeModeType } from './types';
 
 export const useGlobalStore = create<GlobalStoreType>()(
   persist(
-    (set) => ({
-      theme: "light",
+    set => ({
+      theme: 'light',
       updateTheme: (theme: ThemeModeType) => {
-        set({ theme })
-      }
+        set({ theme });
+      },
     }),
     {
-      name: "global-store",
-    },
-  ),
-)
+      name: 'global-store',
+    }
+  )
+);

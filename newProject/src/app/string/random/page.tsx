@@ -1,9 +1,7 @@
-import { Random as RandomComponent } from "@/components/String/Random";
+import { Random as RandomComponent } from '@/components/String/Random';
 
 const Random = () => {
-  return (
-    <RandomComponent />
-  );
-}
+  return <RandomComponent />;
+};
 
 export default Random;

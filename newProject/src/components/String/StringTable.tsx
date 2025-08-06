@@ -13,26 +13,31 @@ interface DataProps {
 }
 
 interface StringTableProps {
-  data: DataProps[]
+  data: DataProps[];
   currentIndex: number;
   open: () => void;
 }
 
-export const StringTable = ({data, currentIndex, open}: StringTableProps) => {
-  const { setSelectedResourceId } = useRandomStore(useShallow((state) => ({
+export const StringTable = ({ data, currentIndex, open }: StringTableProps) => {
+  const { setSelectedResourceId } = useRandomStore(
+    useShallow(state => ({
       setSelectedResourceId: state.setSelectedResourceId,
-    })));
+    }))
+  );
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   useEffect(() => {
     const currentResource = data[currentIndex - 1];
-    setSelectedRows(currentResource ? [currentResource.id] : [])
-  }, [currentIndex, data])
-  
+    setSelectedRows(currentResource ? [currentResource.id] : []);
+  }, [currentIndex, data]);
 
-  const rows = data.map((element) => (
+  const rows = data.map(element => (
     <Table.Tr
       key={element.id}
-      bg={selectedRows.includes(element.id) ? 'var(--mantine-color-blue-light)' : undefined}
+      bg={
+        selectedRows.includes(element.id)
+          ? 'var(--mantine-color-blue-light)'
+          : undefined
+      }
     >
       <Table.Td>
         <Checkbox
@@ -43,21 +48,29 @@ export const StringTable = ({data, currentIndex, open}: StringTableProps) => {
       </Table.Td>
       <Table.Td>{element.title || element.url}</Table.Td>
       <Table.Td>
-        <Button size="xs" onClick={() => alert(`Clicked ${element.id}`)} p={0} mr={2}>
-          <IconWorldWww/>
+        <Button
+          size="xs"
+          onClick={() => alert(`Clicked ${element.id}`)}
+          p={0}
+          mr={2}
+        >
+          <IconWorldWww />
         </Button>
-        <Button size="xs" onClick={() => {
+        <Button
+          size="xs"
+          onClick={() => {
             setSelectedResourceId(element.id);
-            open()
-          }} p={0}>
-          <IconEdit/>
+            open();
+          }}
+          p={0}
+        >
+          <IconEdit />
         </Button>
       </Table.Td>
     </Table.Tr>
   ));
 
   return (
-      
     <Table>
       <Table.Thead>
         <Table.Tr>
@@ -69,4 +82,4 @@ export const StringTable = ({data, currentIndex, open}: StringTableProps) => {
       <Table.Tbody>{rows}</Table.Tbody>
     </Table>
   );
-}
+};

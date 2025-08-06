@@ -1,1 +1,1 @@
-export { ModalResource } from "./ModalResource";
+export { ModalResource } from './ModalResource';

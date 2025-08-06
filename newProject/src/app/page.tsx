@@ -1,10 +1,7 @@
-import { Home as HomeComponent } from "@/components/Home"
-
+import { Home as HomeComponent } from '@/components/Home';
 
 const Home = () => {
-  return (
-    <HomeComponent/>
-  )
-}
+  return <HomeComponent />;
+};
 
-export default Home
+export default Home;

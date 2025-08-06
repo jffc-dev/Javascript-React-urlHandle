@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { HttpLink } from "@apollo/client";
+import { HttpLink } from '@apollo/client';
 import {
   ApolloNextAppProvider,
   ApolloClient,
   InMemoryCache,
-} from "@apollo/client-integration-nextjs";
+} from '@apollo/client-integration-nextjs';
 
 // have a function to create a client for you
 function makeClient() {
   const httpLink = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
-    uri: "http://localhost:3001/graphql",
+    uri: 'http://localhost:3001/graphql',
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
     fetchOptions: {
