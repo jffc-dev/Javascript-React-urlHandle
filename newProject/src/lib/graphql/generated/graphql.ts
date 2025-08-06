@@ -51,6 +51,15 @@ export type Participant = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
+export type Tag = {
+  __typename?: 'Tag';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  resources: Array<Resource>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   listParticipants: Array<Participant>;
@@ -62,6 +71,7 @@ export type Resource = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['Int']['output'];
   participants: Array<Participant>;
+  tags: Array<Tag>;
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   url: Scalars['String']['output'];
