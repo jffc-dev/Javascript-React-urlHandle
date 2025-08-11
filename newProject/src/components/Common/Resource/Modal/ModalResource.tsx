@@ -9,6 +9,7 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import { UpdateResourceFormInterface } from '../types/resource';
 import { PillsInputWithCombobox } from '../../Form/PillsInputWithCombobox';
 import { stopPropagationOnKeyDown } from '@/lib/utils/eventHelpers';
+import { useUpdateResource } from '@/hooks/useUpdateResource';
 
 interface ModalResourceProps {
   opened: boolean;
@@ -30,9 +31,12 @@ export const ModalResource = ({ opened, close }: ModalResourceProps) => {
     }))
   );
 
-  const { data: resource } = useGetResource({
+  const { data: resource, loading: getLoading } = useGetResource({
     id: selectedResourceId,
   });
+  console.log(getLoading);
+  const { updateResource, loading, error, data } = useUpdateResource();
+
   const resourceTags = resource?.tags?.map(tag => tag.name) || [];
   const resourceParticipants =
     resource?.participants?.map(participant => participant.name) || [];
@@ -51,15 +55,26 @@ export const ModalResource = ({ opened, close }: ModalResourceProps) => {
     mode: 'all',
     resolver: UpdateResourceResolver,
     values: {
+      id: selectedResourceId,
       title: resource?.title || '',
       url: resource?.url || '',
       tags: resourceTags || [],
       participants: resourceParticipants || [],
+      status: resource?.status || '',
     },
   });
 
   const onSubmitUpdateResource = async (input: UpdateResourceFormInterface) => {
     console.log(input);
+    try {
+      const updated = await updateResource(input);
+      if (updated) {
+        console.log('Resource updated:', updated);
+        reset(); // clear the form
+      }
+    } catch (err) {
+      console.error('Error creating resource:', err);
+    }
   };
 
   const debugHandleSubmit = handleSubmit(
@@ -147,7 +162,7 @@ export const ModalResource = ({ opened, close }: ModalResourceProps) => {
             onKeyDown={stopPropagationOnKeyDown}
             disabled={!isDirty || !isValid}
             leftSection={<IconDeviceFloppy size={16} />}
-            loading={false}
+            loading={getLoading}
             type="submit"
           >
             Update
