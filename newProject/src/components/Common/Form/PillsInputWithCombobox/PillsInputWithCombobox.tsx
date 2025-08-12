@@ -1,10 +1,15 @@
 import { PillsInput, Pill, Combobox, Group, useCombobox } from '@mantine/core';
 import { useState } from 'react';
 
+interface OptionProps {
+  id: number;
+  name: string;
+}
+
 interface PillsInputWithComboboxProps {
-  value: string[];
-  onChange: (value: string[]) => void;
-  options: string[];
+  value: number[];
+  onChange: (value: number[]) => void;
+  options: OptionProps[];
   label?: string;
   placeholder?: string;
   error?: string;
@@ -23,6 +28,9 @@ export const PillsInputWithCombobox = ({
   allowCustomValues = false,
 }: PillsInputWithComboboxProps) => {
   const [search, setSearch] = useState('');
+  const stringValues = options
+    .filter(option => value.includes(option.id))
+    .map(option => option.name);
 
   const combobox = useCombobox({
     onDropdownClose: () => {
@@ -33,14 +41,16 @@ export const PillsInputWithCombobox = ({
   });
 
   const handleValueSelect = (val: string) => {
-    if (!value.includes(val)) {
-      onChange([...value, val]);
+    const { id = 0 } = options.find(option => option.name === val) || {};
+    if (!value.includes(id)) {
+      onChange([...value, id]);
     }
     setSearch('');
   };
 
   const handleValueRemove = (val: string) => {
-    onChange(value.filter(v => v !== val));
+    const { id = 0 } = options.find(option => option.name === val) || {};
+    onChange(value.filter(v => v !== id));
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -48,14 +58,15 @@ export const PillsInputWithCombobox = ({
       event.preventDefault();
 
       // Si allowCustomValues está habilitado, agregar el valor personalizado
-      if (allowCustomValues && !value.includes(search.trim())) {
+
+      if (allowCustomValues && !stringValues.includes(search.trim())) {
         handleValueSelect(search.trim());
       }
       // Si no, solo agregar si existe en las opciones
       else if (
         !allowCustomValues &&
-        options.includes(search.trim()) &&
-        !value.includes(search.trim())
+        options.some(option => option.name === search.trim()) &&
+        !stringValues.includes(search.trim())
       ) {
         handleValueSelect(search.trim());
       }
@@ -66,7 +77,7 @@ export const PillsInputWithCombobox = ({
     }
   };
 
-  const pills = value.map(item => (
+  const pills = stringValues.map(item => (
     <Pill key={item} withRemoveButton onRemove={() => handleValueRemove(item)}>
       {item}
     </Pill>
@@ -75,13 +86,14 @@ export const PillsInputWithCombobox = ({
   // Filtrar opciones basado en el texto de búsqueda
   const filteredOptions = options.filter(
     item =>
-      !value.includes(item) && item.toLowerCase().includes(search.toLowerCase())
+      !stringValues.includes(item.name) &&
+      item.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const comboboxOptions = filteredOptions.map(item => (
-    <Combobox.Option value={item} key={item}>
+    <Combobox.Option value={item.name} key={item.id}>
       <Group gap="sm">
-        <span>{item}</span>
+        <span>{item.name}</span>
       </Group>
     </Combobox.Option>
   ));
@@ -90,8 +102,8 @@ export const PillsInputWithCombobox = ({
   const shouldShowCreateOption =
     allowCustomValues &&
     search.trim() &&
-    !options.includes(search.trim()) &&
-    !value.includes(search.trim());
+    !options.some(option => option.name === search.trim()) &&
+    !stringValues.includes(search.trim());
 
   return (
     <Combobox

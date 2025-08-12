@@ -3,10 +3,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 export const UpdateResourceSchema = z.object({
   id: z.number(),
-  title: z.string().min(1).max(100),
+  title: z.string().min(1).max(200),
   url: z.url(),
-  tags: z.array(z.string()),
-  participants: z.array(z.string()),
+  flagIds: z.array(z.number()),
+  participantIds: z.array(z.number()),
   status: z.string(),
 });
 

@@ -10,6 +10,10 @@ export const useRandomStore = create<RandomStoreType>()(
       currentIndex: 0,
       resourceIds: [],
       selectedResourceId: null,
+      size: 0,
+      updateSize: (size: number) => {
+        set({ size });
+      },
       updateResources: (resources: Resource[]) => {
         set({ resources });
       },

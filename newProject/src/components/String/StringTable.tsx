@@ -1,19 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Table, Checkbox, Button } from '@mantine/core';
+import { Table, Checkbox, Button, Badge } from '@mantine/core';
 import { IconEdit, IconWorldWww } from '@tabler/icons-react';
 import { useRandomStore } from '@/stores/random/random.store';
 import { useShallow } from 'zustand/shallow';
-
-interface DataProps {
-  id: number;
-  title?: string;
-  url?: string;
-}
+import { statusColors, statusMapping } from '@/helpers/status-mapping';
+import { Resource } from '@/lib/graphql/generated/graphql';
+import { openBlankURL } from '@/lib/utils/functions';
 
 interface StringTableProps {
-  data: DataProps[];
+  data: Resource[];
   currentIndex: number;
   open: () => void;
 }
@@ -48,9 +45,14 @@ export const StringTable = ({ data, currentIndex, open }: StringTableProps) => {
       </Table.Td>
       <Table.Td>{element.title || element.url}</Table.Td>
       <Table.Td>
+        <Badge color={statusColors[element.status]}>
+          {statusMapping[element.status]}
+        </Badge>
+      </Table.Td>
+      <Table.Td>
         <Button
           size="xs"
-          onClick={() => alert(`Clicked ${element.id}`)}
+          onClick={() => openBlankURL(element.url)}
           p={0}
           mr={2}
         >
@@ -75,7 +77,8 @@ export const StringTable = ({ data, currentIndex, open }: StringTableProps) => {
       <Table.Thead>
         <Table.Tr>
           <Table.Th />
-          <Table.Th>Element position</Table.Th>
+          <Table.Th>Title / URL</Table.Th>
+          <Table.Th>Status</Table.Th>
           <Table.Th>Element name</Table.Th>
         </Table.Tr>
       </Table.Thead>

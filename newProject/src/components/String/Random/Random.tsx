@@ -18,7 +18,6 @@ import { useDisclosure } from '@mantine/hooks';
 import { ModalResource } from '@/components/Common/Resource/Modal';
 
 export const Random = () => {
-  const [inputSize, setInputSize] = useState<string>('');
   const [opened, { open, close }] = useDisclosure(false);
 
   const {
@@ -29,6 +28,8 @@ export const Random = () => {
     resetCurrentIndex,
     resourceIds,
     updateResourceIds,
+    size,
+    updateSize,
   } = useRandomStore(
     useShallow(state => ({
       updateResources: state.updateResources,
@@ -38,18 +39,42 @@ export const Random = () => {
       resetCurrentIndex: state.resetCurrentIndex,
       resourceIds: state.resourceIds,
       updateResourceIds: state.updateResourceIds,
+      size: state.size,
+      updateSize: state.updateSize,
     }))
   );
 
   const { fetchResources } = useGetRandomResources();
+  const [inputSize, setInputSize] = useState<string>(
+    size === 0 ? '' : String(size)
+  );
 
   const handleFetch = async () => {
+    let ids: number[] = resourceIds;
+    if (Number(inputSize) || 0 === size) {
+      ids = [];
+      resetCurrentIndex();
+    }
+    updateSize(Number(inputSize) || 0);
+    const { data } = await fetchResources({
+      size: Number(inputSize) || 0,
+      initialIds: ids,
+    });
+    const { resources: apiResources, ids: apiIds } = data;
+    if (resourceIds.length === 0) {
+      resetCurrentIndex();
+    }
+    updateResources(apiResources);
+    updateResourceIds(apiIds);
+  };
+
+  const clodeModal = async () => {
+    close();
     const { data } = await fetchResources({
       size: Number(inputSize) || 0,
       initialIds: resourceIds,
     });
     const { resources: apiResources, ids: apiIds } = data;
-    resetCurrentIndex();
     updateResources(apiResources);
     updateResourceIds(apiIds);
   };
@@ -89,7 +114,7 @@ export const Random = () => {
         <StringTable data={resources} currentIndex={currentIndex} open={open} />
       </ScrollArea>
 
-      <ModalResource close={close} opened={opened} />
+      <ModalResource close={clodeModal} opened={opened} />
     </Container>
   );
 };

@@ -18,7 +18,9 @@ export const useGetRandomResources = () => {
   const [fetchResources] = useLazyQuery<
     ListResourcesQueryResult,
     { input: ListResourcesInputDto }
-  >(GET_RANDOM_RESOURCES);
+  >(GET_RANDOM_RESOURCES, {
+    fetchPolicy: 'no-cache',
+  });
 
   const handleFetchResources = async (input: ListResourcesInputDto) => {
     const { data, loading } = await fetchResources({ variables: { input } });
