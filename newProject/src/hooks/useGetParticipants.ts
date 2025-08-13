@@ -9,7 +9,7 @@ interface ListParticipantsQueryResult {
 export const useGetParticipants = () => {
   const { data, loading } = useQuery<ListParticipantsQueryResult>(
     LIST_PARTCIPANTS,
-    { variables: { input: { page: 1, limit: 200 } } }
+    { variables: { input: { page: 1, limit: 400 } } }
   );
 
   return {

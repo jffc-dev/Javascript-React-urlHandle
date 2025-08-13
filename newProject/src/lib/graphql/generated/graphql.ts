@@ -158,6 +158,7 @@ export enum ResourceStatusGql {
   Pending = 'PENDING',
   Not_Found = 'NOT_FOUND',
   Deleted = 'DELETED',
+  Observed = 'OBSERVED',
 }
 
 export type UpdateFlagInput = {

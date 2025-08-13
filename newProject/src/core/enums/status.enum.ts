@@ -3,4 +3,5 @@ export enum Status {
   PENDING = 'PENDING',
   NOT_FOUND = 'NOT_FOUND',
   DELETED = 'DELETED',
+  OBSERVED = 'OBSERVED',
 }
