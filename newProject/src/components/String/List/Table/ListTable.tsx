@@ -9,13 +9,13 @@ import { statusColors, statusMapping } from '@/helpers/status-mapping';
 import { Resource } from '@/lib/graphql/generated/graphql';
 import { openBlankURL } from '@/lib/utils/functions';
 
-interface StringTableProps {
+interface ListTableProps {
   data: Resource[];
   currentIndex: number;
   open: () => void;
 }
 
-export const StringTable = ({ data, currentIndex, open }: StringTableProps) => {
+export const ListTable = ({ data, currentIndex, open }: ListTableProps) => {
   const { setSelectedResourceId } = useRandomStore(
     useShallow(state => ({
       setSelectedResourceId: state.setSelectedResourceId,
@@ -79,7 +79,7 @@ export const StringTable = ({ data, currentIndex, open }: StringTableProps) => {
           <Table.Th />
           <Table.Th>Title / URL</Table.Th>
           <Table.Th>Status</Table.Th>
-          <Table.Th>Element name</Table.Th>
+          <Table.Th>Actions</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>{rows}</Table.Tbody>

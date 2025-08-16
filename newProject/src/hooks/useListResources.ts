@@ -13,10 +13,15 @@ interface ListResourcesInputDto {
 }
 
 export const useListResources = (input: ListResourcesInputDto) => {
-  return useQuery<ListResourcesQueryResult, { input: ListResourcesInputDto }>(
-    LIST_RESOURCES,
-    {
-      variables: { input },
-    }
-  );
+  const { data, loading } = useQuery<
+    ListResourcesQueryResult,
+    { input: ListResourcesInputDto }
+  >(LIST_RESOURCES, {
+    variables: { input },
+  });
+
+  return {
+    data: data?.listResources || [],
+    loading,
+  };
 };

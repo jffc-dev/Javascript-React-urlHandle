@@ -9,13 +9,13 @@ import {
   Group,
   Text,
 } from '@mantine/core';
-import { StringTable } from '../StringTable';
 import { useGetRandomResources } from '@/hooks/useGetRandomResources';
 import { useRandomStore } from '@/stores/random/random.store';
 import { useShallow } from 'zustand/shallow';
 import { openBlankURL } from '@/lib/utils/functions';
 import { useDisclosure } from '@mantine/hooks';
 import { ModalResource } from '@/components/Common/Resource/Modal';
+import { RandomTable } from './Table/RandomTable';
 
 export const Random = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -85,33 +85,33 @@ export const Random = () => {
   };
 
   return (
-    <Container size="xl" py="md">
-      <h2 style={{ marginBottom: '1rem' }}>
-        Mantine Table with Sticky Headers
-      </h2>
-
-      <Group mb="md">
-        <TextInput
-          type="number"
-          value={inputSize}
-          onChange={e => setInputSize(e.currentTarget.value)}
-          placeholder="Enter size"
-        />
-        <Button onClick={handleFetch}>Fetch</Button>
-        <Text>{currentIndex}</Text>
+    <Container size="xl">
+      <Group mb="md" justify="space-between">
+        <Group mb="md">
+          <TextInput
+            type="number"
+            value={inputSize}
+            onChange={e => setInputSize(e.currentTarget.value)}
+            placeholder="Enter size"
+          />
+          <Button onClick={handleFetch}>Fetch</Button>
+        </Group>
+        <Group mb="md">
+          <Text>{currentIndex}</Text>
+          <Button
+            onClick={handleNextLink}
+            disabled={currentIndex >= resources.length}
+          >
+            Get next link
+          </Button>
+        </Group>
       </Group>
-      <Button
-        onClick={handleNextLink}
-        disabled={currentIndex >= resources.length}
-      >
-        Get next link
-      </Button>
 
       <ScrollArea
         h="80vh"
         style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}
       >
-        <StringTable data={resources} currentIndex={currentIndex} open={open} />
+        <RandomTable data={resources} currentIndex={currentIndex} open={open} />
       </ScrollArea>
 
       <ModalResource close={clodeModal} opened={opened} />

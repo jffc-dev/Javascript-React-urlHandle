@@ -20,8 +20,8 @@ const mockdata = [
     icon: IconNotes,
     initiallyOpened: true,
     links: [
+      { label: 'List', link: '/string' },
       { label: 'Random', link: '/string/random' },
-      { label: 'Forecasts', link: '/' },
       { label: 'Outlook', link: '/' },
       { label: 'Real time', link: '/' },
     ],

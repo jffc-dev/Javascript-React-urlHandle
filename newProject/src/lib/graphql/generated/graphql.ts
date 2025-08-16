@@ -73,7 +73,7 @@ export type GetResourceInputDto = {
 export type ListResourcesInputDto = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
-  participantId?: InputMaybe<Scalars['Int']['input']>;
+  participantIds?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<Array<ResourceStatusGql>>;
 };
 

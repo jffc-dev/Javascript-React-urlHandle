@@ -1,1 +1,0 @@
-export { StringTable } from './StringTable';
