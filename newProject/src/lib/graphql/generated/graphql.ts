@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -70,11 +69,21 @@ export type GetResourceInputDto = {
   id: Scalars['Int']['input'];
 };
 
-export type ListResourcesInputDto = {
+export type ListParticipantInputDto = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
-  participantIds?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type ListResourcesInputDto = {
+  flagIds?: InputMaybe<Array<Scalars['Int']['input']>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  participantIds?: InputMaybe<Array<Scalars['Int']['input']>>;
   status?: InputMaybe<Array<ResourceStatusGql>>;
+};
+
+export type LoadTitleInputDto = {
+  url: Scalars['String']['input'];
 };
 
 export type Mutation = {
@@ -127,6 +136,7 @@ export type Query = {
   listFlags: Array<Flag>;
   listParticipants: Array<Participant>;
   listResources: Array<Resource>;
+  loadTitle: Scalars['String']['output'];
 };
 
 export type QueryGetRandomResourcesArgs = {
@@ -137,8 +147,16 @@ export type QueryGetResourceArgs = {
   input: GetResourceInputDto;
 };
 
+export type QueryListParticipantsArgs = {
+  input: ListParticipantInputDto;
+};
+
 export type QueryListResourcesArgs = {
   input: ListResourcesInputDto;
+};
+
+export type QueryLoadTitleArgs = {
+  input: LoadTitleInputDto;
 };
 
 export type Resource = {
@@ -155,10 +173,10 @@ export type Resource = {
 
 export enum ResourceStatusGql {
   Approved = 'APPROVED',
-  Pending = 'PENDING',
-  Not_Found = 'NOT_FOUND',
   Deleted = 'DELETED',
+  NotFound = 'NOT_FOUND',
   Observed = 'OBSERVED',
+  Pending = 'PENDING',
 }
 
 export type UpdateFlagInput = {

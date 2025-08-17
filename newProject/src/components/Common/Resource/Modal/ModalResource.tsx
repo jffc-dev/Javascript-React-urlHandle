@@ -1,5 +1,4 @@
 import { useGetResource } from '@/hooks/useGetResource';
-import { useRandomStore } from '@/stores/random/random.store';
 import {
   ActionIcon,
   Button,
@@ -12,7 +11,6 @@ import {
 } from '@mantine/core';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useShallow } from 'zustand/shallow';
 import { UpdateResourceResolver } from '../resolver/update-resource.zod';
 import { IconDeviceFloppy, IconReload, IconSearch } from '@tabler/icons-react';
 import { UpdateResourceFormInterface } from '../types/resource';
@@ -28,15 +26,14 @@ import { useLoadTitle } from '@/hooks/useLoadTitle';
 interface ModalResourceProps {
   opened: boolean;
   close: () => Promise<void>;
+  selectedResourceId: number | null;
 }
 
-export const ModalResource = ({ opened, close }: ModalResourceProps) => {
-  const { selectedResourceId } = useRandomStore(
-    useShallow(state => ({
-      selectedResourceId: state.selectedResourceId,
-    }))
-  );
-
+export const ModalResource = ({
+  opened,
+  close,
+  selectedResourceId,
+}: ModalResourceProps) => {
   const { data: resource, loading: getLoading } = useGetResource({
     id: selectedResourceId,
   });
@@ -61,7 +58,7 @@ export const ModalResource = ({ opened, close }: ModalResourceProps) => {
     handleSubmit,
     reset,
     watch,
-    formState: { isDirty, isValid, errors, isSubmitSuccessful },
+    formState: { isDirty, isValid, errors },
   } = useForm({
     mode: 'all',
     resolver: UpdateResourceResolver,
@@ -78,7 +75,6 @@ export const ModalResource = ({ opened, close }: ModalResourceProps) => {
   const urlValue = watch('url');
 
   const onSubmitUpdateResource = async (input: UpdateResourceFormInterface) => {
-    console.log(input);
     try {
       const updated = await updateResource(input);
       if (updated) {
@@ -91,26 +87,6 @@ export const ModalResource = ({ opened, close }: ModalResourceProps) => {
     }
   };
 
-  const debugHandleSubmit = handleSubmit(
-    data => {
-      console.log('✅ VALIDATION PASSED');
-      console.log('📋 Data:', data);
-      onSubmitUpdateResource(data);
-    },
-    errors => {
-      console.log('❌ VALIDATION FAILED');
-      console.log('🚨 Errors:', errors);
-    }
-  );
-
-  console.log('Current form state:', {
-    isDirty,
-    isValid,
-    errors,
-    isSubmitSuccessful,
-    resource: !!resource,
-  });
-
   return (
     <Modal opened={opened} onClose={close} title="Update Resource">
       <LoadingOverlay
@@ -118,7 +94,7 @@ export const ModalResource = ({ opened, close }: ModalResourceProps) => {
         zIndex={1000}
         overlayProps={{ radius: 'sm', blur: 2 }}
       />
-      <form onSubmit={debugHandleSubmit}>
+      <form onSubmit={handleSubmit(onSubmitUpdateResource)}>
         <Controller
           control={control}
           name="title"

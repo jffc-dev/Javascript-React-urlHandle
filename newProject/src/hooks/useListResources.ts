@@ -9,7 +9,9 @@ interface ListResourcesQueryResult {
 interface ListResourcesInputDto {
   page?: number;
   limit?: number;
-  participantId?: number;
+  participantIds?: number[];
+  statuses?: string[];
+  urlTitle?: string;
 }
 
 export const useListResources = (input: ListResourcesInputDto) => {

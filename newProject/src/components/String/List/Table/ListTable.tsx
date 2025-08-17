@@ -1,37 +1,31 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { Table, Checkbox, Button, Badge } from '@mantine/core';
 import { IconEdit, IconWorldWww } from '@tabler/icons-react';
-import { useRandomStore } from '@/stores/random/random.store';
 import { useShallow } from 'zustand/shallow';
 import { statusColors, statusMapping } from '@/helpers/status-mapping';
 import { Resource } from '@/lib/graphql/generated/graphql';
 import { openBlankURL } from '@/lib/utils/functions';
+import { useListResourcesStore } from '@/stores/resource/list/list.store';
 
 interface ListTableProps {
   data: Resource[];
-  currentIndex: number;
   open: () => void;
 }
 
-export const ListTable = ({ data, currentIndex, open }: ListTableProps) => {
-  const { setSelectedResourceId } = useRandomStore(
+export const ListTable = ({ data, open }: ListTableProps) => {
+  const { selectedId, updateSelectedId } = useListResourcesStore(
     useShallow(state => ({
-      setSelectedResourceId: state.setSelectedResourceId,
+      selectedId: state.selectedId,
+      updateSelectedId: state.updateSelectedId,
     }))
   );
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  useEffect(() => {
-    const currentResource = data[currentIndex - 1];
-    setSelectedRows(currentResource ? [currentResource.id] : []);
-  }, [currentIndex, data]);
 
   const rows = data.map(element => (
     <Table.Tr
       key={element.id}
       bg={
-        selectedRows.includes(element.id)
+        selectedId === element.id
           ? 'var(--mantine-color-blue-light)'
           : undefined
       }
@@ -39,7 +33,7 @@ export const ListTable = ({ data, currentIndex, open }: ListTableProps) => {
       <Table.Td>
         <Checkbox
           aria-label="Select row"
-          checked={selectedRows.includes(element.id)}
+          checked={selectedId === element.id}
           disabled
         />
       </Table.Td>
@@ -50,9 +44,19 @@ export const ListTable = ({ data, currentIndex, open }: ListTableProps) => {
         </Badge>
       </Table.Td>
       <Table.Td>
+        {element.flags?.map(flag => (
+          <Badge key={flag.name} color="gray" variant="light">
+            {flag.name}
+          </Badge>
+        ))}
+      </Table.Td>
+      <Table.Td>
         <Button
           size="xs"
-          onClick={() => openBlankURL(element.url)}
+          onClick={() => {
+            openBlankURL(element.url);
+            updateSelectedId(element.id);
+          }}
           p={0}
           mr={2}
         >
@@ -61,7 +65,7 @@ export const ListTable = ({ data, currentIndex, open }: ListTableProps) => {
         <Button
           size="xs"
           onClick={() => {
-            setSelectedResourceId(element.id);
+            updateSelectedId(element.id);
             open();
           }}
           p={0}
@@ -79,6 +83,7 @@ export const ListTable = ({ data, currentIndex, open }: ListTableProps) => {
           <Table.Th />
           <Table.Th>Title / URL</Table.Th>
           <Table.Th>Status</Table.Th>
+          <Table.Th>Flags</Table.Th>
           <Table.Th>Actions</Table.Th>
         </Table.Tr>
       </Table.Thead>

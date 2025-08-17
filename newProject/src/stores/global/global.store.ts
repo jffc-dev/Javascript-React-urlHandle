@@ -5,7 +5,7 @@ import type { GlobalStoreType, ThemeModeType } from './types';
 export const useGlobalStore = create<GlobalStoreType>()(
   persist(
     set => ({
-      theme: 'light',
+      theme: 'dark',
       updateTheme: (theme: ThemeModeType) => {
         set({ theme });
       },

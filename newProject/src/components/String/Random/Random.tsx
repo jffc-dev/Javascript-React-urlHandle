@@ -10,7 +10,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useGetRandomResources } from '@/hooks/useGetRandomResources';
-import { useRandomStore } from '@/stores/random/random.store';
+import { useRandomStore } from '@/stores/resource/random/random.store';
 import { useShallow } from 'zustand/shallow';
 import { openBlankURL } from '@/lib/utils/functions';
 import { useDisclosure } from '@mantine/hooks';
@@ -30,6 +30,7 @@ export const Random = () => {
     updateResourceIds,
     size,
     updateSize,
+    selectedResourceId,
   } = useRandomStore(
     useShallow(state => ({
       updateResources: state.updateResources,
@@ -41,6 +42,7 @@ export const Random = () => {
       updateResourceIds: state.updateResourceIds,
       size: state.size,
       updateSize: state.updateSize,
+      selectedResourceId: state.selectedResourceId,
     }))
   );
 
@@ -114,7 +116,11 @@ export const Random = () => {
         <RandomTable data={resources} currentIndex={currentIndex} open={open} />
       </ScrollArea>
 
-      <ModalResource close={clodeModal} opened={opened} />
+      <ModalResource
+        close={clodeModal}
+        opened={opened}
+        selectedResourceId={selectedResourceId}
+      />
     </Container>
   );
 };

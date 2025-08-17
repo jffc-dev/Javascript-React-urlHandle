@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Table, Checkbox, Button, Badge } from '@mantine/core';
 import { IconEdit, IconWorldWww } from '@tabler/icons-react';
-import { useRandomStore } from '@/stores/random/random.store';
+import { useRandomStore } from '@/stores/resource/random/random.store';
 import { useShallow } from 'zustand/shallow';
 import { statusColors, statusMapping } from '@/helpers/status-mapping';
 import { Resource } from '@/lib/graphql/generated/graphql';

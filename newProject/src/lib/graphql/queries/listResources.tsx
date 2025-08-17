@@ -6,10 +6,14 @@ export const LIST_RESOURCES = gql`
       id
       title
       url
+      status
       createdAt
       updatedAt
       participants {
         id
+        name
+      }
+      flags {
         name
       }
     }
