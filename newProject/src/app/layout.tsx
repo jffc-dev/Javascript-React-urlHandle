@@ -1,9 +1,11 @@
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import { MantineProvider } from '@/shared/context/mantine-provider';
 import { ApolloWrapper } from '@/lib/apollo/wrapper';
 import Layout from '@/components/Common/Layout/Layout';
+import { Notifications } from '@mantine/notifications';
 
 export const metadata = {
   title: 'My Mantine app',
@@ -23,6 +25,7 @@ export default function RootLayout({
       <body>
         <ApolloWrapper>
           <MantineProvider>
+            <Notifications />
             <Layout>{children}</Layout>
           </MantineProvider>
         </ApolloWrapper>

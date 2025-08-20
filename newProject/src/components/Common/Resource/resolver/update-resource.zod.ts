@@ -10,4 +10,6 @@ export const UpdateResourceSchema = z.object({
   status: z.string(),
 });
 
+export type UpdateResourceDto = z.infer<typeof UpdateResourceSchema>;
+
 export const UpdateResourceResolver = zodResolver(UpdateResourceSchema);

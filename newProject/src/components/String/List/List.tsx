@@ -9,19 +9,28 @@ import { ListFilter } from './Filter';
 import { useListResourcesStore } from '@/stores/resource/list/list.store';
 import { useShallow } from 'zustand/shallow';
 import { useState } from 'react';
+import ListActions from './Actions/ListActions';
 
 export const List = () => {
   const [page, setPage] = useState(1);
   const [opened, { open, close }] = useDisclosure(false);
-  const { participantIds, statuses, urlTitle, selectedId } =
-    useListResourcesStore(
-      useShallow(state => ({
-        participantIds: state.participantIds,
-        statuses: state.statuses,
-        urlTitle: state.urlTitle,
-        selectedId: state.selectedId,
-      }))
-    );
+  const {
+    participantIds,
+    statuses,
+    urlTitle,
+    selectedId,
+    updateSelectedId,
+    flagIds,
+  } = useListResourcesStore(
+    useShallow(state => ({
+      participantIds: state.participantIds,
+      statuses: state.statuses,
+      urlTitle: state.urlTitle,
+      selectedId: state.selectedId,
+      updateSelectedId: state.updateSelectedId,
+      flagIds: state.flagIds,
+    }))
+  );
 
   const clodeModal = async () => {
     close();
@@ -31,16 +40,26 @@ export const List = () => {
     limit: 50,
     page: 1,
     participantIds,
+    flagIds,
     statuses,
     urlTitle,
   });
 
+  const openNewResourceModal = () => {
+    updateSelectedId(null);
+    open();
+  };
+
   return (
     <Container size="xl">
       <ListFilter />
+      <ListActions openNewResource={openNewResourceModal} />
       <ScrollArea
-        h="80vh"
-        style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}
+        h="50vh"
+        style={{
+          border: '1px solid var(--mantine-color-dark-4)',
+          borderRadius: '8px',
+        }}
       >
         <ListTable data={resources} open={open} />
       </ScrollArea>

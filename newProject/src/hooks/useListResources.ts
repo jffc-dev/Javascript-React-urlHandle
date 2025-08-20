@@ -10,6 +10,7 @@ interface ListResourcesInputDto {
   page?: number;
   limit?: number;
   participantIds?: number[];
+  flagIds?: number[];
   statuses?: string[];
   urlTitle?: string;
 }

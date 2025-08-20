@@ -1,0 +1,1 @@
+export { QuickAddingModal } from './QuickAddingModal';

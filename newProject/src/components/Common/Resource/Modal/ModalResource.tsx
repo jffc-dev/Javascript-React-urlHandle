@@ -11,9 +11,11 @@ import {
 } from '@mantine/core';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { UpdateResourceResolver } from '../resolver/update-resource.zod';
+import {
+  UpdateResourceDto,
+  UpdateResourceResolver,
+} from '../resolver/update-resource.zod';
 import { IconDeviceFloppy, IconReload, IconSearch } from '@tabler/icons-react';
-import { UpdateResourceFormInterface } from '../types/resource';
 import { PillsInputWithCombobox } from '../../Form/PillsInputWithCombobox';
 import { stopPropagationOnKeyDown } from '@/lib/utils/eventHelpers';
 import { useUpdateResource } from '@/hooks/useUpdateResource';
@@ -22,6 +24,7 @@ import { statusValues } from '@/helpers/status-mapping';
 import { openBlankURL } from '@/lib/utils/functions';
 import { useGetFlags } from '@/hooks/useGetFlags';
 import { useLoadTitle } from '@/hooks/useLoadTitle';
+import { useCreateResource } from '@/hooks/useCreateResource';
 
 interface ModalResourceProps {
   opened: boolean;
@@ -39,6 +42,7 @@ export const ModalResource = ({
   });
 
   const { updateResource, loading: updateLoading } = useUpdateResource();
+  const { createResource, loading: createLoading } = useCreateResource();
   const { data: participantsData, loading: participantsLoading } =
     useGetParticipants();
   const { data: flagsData, loading: flagsLoading } = useGetFlags();
@@ -74,21 +78,28 @@ export const ModalResource = ({
 
   const urlValue = watch('url');
 
-  const onSubmitUpdateResource = async (input: UpdateResourceFormInterface) => {
+  const onSubmitUpdateResource = async (input: UpdateResourceDto) => {
     try {
-      const updated = await updateResource(input);
-      if (updated) {
-        console.log('Resource updated:', updated);
-        reset();
-        close();
+      if (input.id === 0) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...createInput } = input;
+        await createResource(createInput);
+      } else {
+        await updateResource(input);
       }
+      reset();
+      close();
     } catch (err) {
       console.error('Error creating resource:', err);
     }
   };
 
   return (
-    <Modal opened={opened} onClose={close} title="Update Resource">
+    <Modal
+      opened={opened}
+      onClose={close}
+      title={`${selectedResourceId ? 'Update' : 'Create'} Resource`}
+    >
       <LoadingOverlay
         visible={participantsLoading || flagsLoading || loadingTitle}
         zIndex={1000}
@@ -140,6 +151,7 @@ export const ModalResource = ({
                 <ActionIcon
                   size={32}
                   variant="filled"
+                  disabled={!urlValue}
                   onClick={() => openBlankURL(field.value)}
                 >
                   <IconSearch size={18} stroke={1.5} />
@@ -213,10 +225,10 @@ export const ModalResource = ({
             onKeyDown={stopPropagationOnKeyDown}
             disabled={!isDirty || !isValid}
             leftSection={<IconDeviceFloppy size={16} />}
-            loading={getLoading || updateLoading}
+            loading={getLoading || updateLoading || createLoading}
             type="submit"
           >
-            Update
+            {selectedResourceId ? 'Update' : 'Create'}
           </Button>
         </Group>
       </form>

@@ -38,7 +38,6 @@ export type CreateParticipantInput = {
 
 export type CreateResourceInput = {
   flagIds?: InputMaybe<Array<Scalars['Int']['input']>>;
-  parentId?: InputMaybe<Scalars['Float']['input']>;
   participantIds?: InputMaybe<Array<Scalars['Int']['input']>>;
   status?: InputMaybe<ResourceStatusGql>;
   title: Scalars['String']['input'];
@@ -79,7 +78,8 @@ export type ListResourcesInputDto = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   participantIds?: InputMaybe<Array<Scalars['Int']['input']>>;
-  status?: InputMaybe<Array<ResourceStatusGql>>;
+  statuses?: InputMaybe<Array<ResourceStatusGql>>;
+  urlTitle?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type LoadTitleInputDto = {
@@ -91,6 +91,7 @@ export type Mutation = {
   createFlag: Flag;
   createParticipant: Participant;
   createResource: Resource;
+  quickCreateResources: Scalars['Float']['output'];
   updateFlag: Flag;
   updateParticipant: Participant;
   updateResource: Resource;
@@ -106,6 +107,10 @@ export type MutationCreateParticipantArgs = {
 
 export type MutationCreateResourceArgs = {
   data: CreateResourceInput;
+};
+
+export type MutationQuickCreateResourcesArgs = {
+  data: QuickCreateResourcesInput;
 };
 
 export type MutationUpdateFlagArgs = {
@@ -157,6 +162,10 @@ export type QueryListResourcesArgs = {
 
 export type QueryLoadTitleArgs = {
   input: LoadTitleInputDto;
+};
+
+export type QuickCreateResourcesInput = {
+  urls: Array<Scalars['String']['input']>;
 };
 
 export type Resource = {
