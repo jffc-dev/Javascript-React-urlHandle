@@ -8,6 +8,7 @@ import {
   Button,
   Group,
   Text,
+  CloseButton,
 } from '@mantine/core';
 import { useGetRandomResources } from '@/hooks/useGetRandomResources';
 import { useRandomStore } from '@/stores/resource/random/random.store';
@@ -50,10 +51,11 @@ export const Random = () => {
   const [inputSize, setInputSize] = useState<string>(
     size === 0 ? '' : String(size)
   );
+  const [urlTitle, setUrlTitle] = useState<string>('');
 
   const handleFetch = async () => {
     let ids: number[] = resourceIds;
-    if (Number(inputSize) || 0 === size) {
+    if ((Number(inputSize) || 0) <= size) {
       ids = [];
       resetCurrentIndex();
     }
@@ -88,8 +90,8 @@ export const Random = () => {
 
   return (
     <Container size="xl">
-      <Group mb="md" justify="space-between">
-        <Group mb="md">
+      <Group justify="space-between">
+        <Group>
           <TextInput
             type="number"
             value={inputSize}
@@ -98,7 +100,7 @@ export const Random = () => {
           />
           <Button onClick={handleFetch}>Fetch</Button>
         </Group>
-        <Group mb="md">
+        <Group>
           <Text>{currentIndex}</Text>
           <Button
             onClick={handleNextLink}
@@ -108,12 +110,40 @@ export const Random = () => {
           </Button>
         </Group>
       </Group>
+      <Group mb="md">
+        <TextInput
+          error={undefined}
+          label={
+            <Text fw={600} fz="sm">
+              Title / URL
+            </Text>
+          }
+          placeholder="Title"
+          value={urlTitle}
+          mt={16}
+          onChange={e => setUrlTitle(e.currentTarget.value)}
+          w={'100%'}
+          rightSectionPointerEvents="all"
+          rightSection={
+            <CloseButton
+              aria-label="Clear input"
+              onClick={() => setUrlTitle('')}
+              style={{ display: urlTitle ? undefined : 'none' }}
+            />
+          }
+        />
+      </Group>
 
       <ScrollArea
         h="80vh"
         style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}
       >
-        <RandomTable data={resources} currentIndex={currentIndex} open={open} />
+        <RandomTable
+          data={resources}
+          currentIndex={currentIndex}
+          open={open}
+          filterUrlTitle={urlTitle}
+        />
       </ScrollArea>
 
       <ModalResource
